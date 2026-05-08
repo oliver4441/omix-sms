@@ -170,3 +170,29 @@ Route::group(['namespace' => 'MyParent','middleware' => 'my_parent',], function(
     Route::get('/my_children', 'MyController@children')->name('my_children');
 
 });
+
+
+/*************** Omix Features *****************/
+Route::group(['namespace' => 'Omix', 'middleware' => 'auth'], function() {
+    
+    /*************** Attendance *****************/
+    Route::group(['prefix' => 'attendance'], function(){
+        Route::get('mark', 'AttendanceController@mark')->name('attendance.mark');
+        Route::post('store', 'AttendanceController@store')->name('attendance.store');
+        Route::get('report', 'AttendanceController@report')->name('attendance.report');
+    });
+    
+    /*************** Reports *****************/
+    Route::group(['prefix' => 'reports'], function(){
+        Route::get('student', 'ReportController@studentReport')->name('reports.student');
+        Route::get('attendance', 'ReportController@attendanceReport')->name('reports.attendance');
+        Route::post('pdf', 'ReportController@generatePDF')->name('reports.pdf');
+    });
+});
+
+            
+/*************** Notifications *****************/
+Route::group(['prefix' => 'notifications', 'namespace' => 'Omix', 'middleware' => 'auth'], function(){
+    Route::post('attendance-alert/{student_id}', 'NotificationController@attendanceAlert')->name('notifications.attendance_alert');
+    Route::post('fee-reminder/{student_id}', 'NotificationController@feeReminder')->name('notifications.fee_reminder');
+});
