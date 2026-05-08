@@ -5,21 +5,9 @@
     {
       "src": "index.php",
       "use": "vercel-php@0.6.0"
-    },
-    {
-      "src": "public/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/favicon.ico",
-      "dest": "/public/favicon.ico"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "/public/robots.txt"
-    },
     {
       "src": "/(.*)",
       "dest": "/index.php"
