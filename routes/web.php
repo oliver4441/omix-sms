@@ -1,11 +1,7 @@
 <?php
 
 Auth::routes();
-
-// Health check for Fly.io
-Route::get('/healthz', function() {
-    return response('OK', 200)->header('Content-Type', 'text/plain');
-})->name('healthz');
+->name('healthz');
 
 //Route::get('/test', 'TestController@index')->name('test');
 Route::get('/privacy-policy', 'HomeController@privacy_policy')->name('privacy_policy');
