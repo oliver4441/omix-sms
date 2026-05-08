@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "public": true,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.php"
+    }
+  ],
+  "env": {
+    "APP_ENV": "production",
+    "APP_DEBUG": "false",
+    "DB_CONNECTION": "supabase",
+    "LOG_CHANNEL": "stderr"
+  },
+  "build": {
+    "env": {
+      "COMPOSER_NO_INTERACTION": "1",
+      "COMPOSER_FLAGS": "--no-dev --prefer-dist"
+    }
+  },
+  "functions": {
+    "index.php": {
+      "runtime": "vercel-php@0.6.0"
+    }
+  }
+}
