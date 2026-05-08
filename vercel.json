@@ -3,7 +3,7 @@
   "public": true,
   "builds": [
     {
-      "src": "public/index.php",
+      "src": "index.php",
       "use": "vercel-php@0.6.0"
     },
     {
@@ -22,7 +22,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/public/index.php"
+      "dest": "/index.php"
     }
   ],
   "env": {
