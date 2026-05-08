@@ -189,3 +189,10 @@ Route::group(['namespace' => 'Omix', 'middleware' => 'auth'], function() {
         Route::post('pdf', 'ReportController@generatePDF')->name('reports.pdf');
     });
 });
+
+            
+/*************** Notifications *****************/
+Route::group(['prefix' => 'notifications', 'namespace' => 'Omix', 'middleware' => 'auth'], function(){
+    Route::post('attendance-alert/{student_id}', 'NotificationController@attendanceAlert')->name('notifications.attendance_alert');
+    Route::post('fee-reminder/{student_id}', 'NotificationController@feeReminder')->name('notifications.fee_reminder');
+});
