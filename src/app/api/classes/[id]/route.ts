@@ -136,7 +136,11 @@ export async function PATCH(
         ...(data.code !== undefined && { code: data.code }),
         ...(data.academicYear !== undefined && { academicYear: data.academicYear }),
         ...(data.capacity !== undefined && { capacity: data.capacity }),
-        ...(data.teacherId !== undefined ? { teacher: { connect: { id: data.teacherId } } } : {}),
+        ...(data.teacherId === undefined
+          ? {}
+          : data.teacherId
+          ? { teacher: { connect: { id: data.teacherId } } }
+          : { teacher: { disconnect: true } }),
       },
       include: {
         teacher: {
