@@ -1,14 +1,13 @@
 "use client";
 import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, LogIn, GraduationCap, Sparkles } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,21 +20,14 @@ function LoginForm() {
     setLoading(true);
     setError("");
 
+    const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+
     const result = await signIn("credentials", {
       email,
       password,
-      redirect: false,
+      redirect: true,
+      callbackUrl,
     });
-
-    if (result?.error) {
-      setError("Invalid email or password");
-      setLoading(false);
-      return;
-    }
-
-    const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
-    router.push(callbackUrl);
-    router.refresh();
   }
 
   return (
