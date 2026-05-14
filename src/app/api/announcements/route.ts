@@ -104,7 +104,9 @@ export async function POST(request: NextRequest) {
         priority: data.priority,
         target: data.target,
         classId: data.classId ?? null,
-        schoolId: (session.user as any)?.schoolId || null,
+        ...(session.user as any)?.schoolId
+          ? { school: { connect: { id: (session.user as any).schoolId } } }
+          : {},
       },
       include: {
         author: {

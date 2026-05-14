@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
         guardianPhone: data.guardianPhone,
         guardianEmail: data.guardianEmail || null,
         status: data.status,
-        ...(schoolId ? { schoolId } : {}),
+        ...(schoolId ? { school: { connect: { id: schoolId } } } : {}),
       },
     });
 
@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
           classId: data.classId,
           academicYear: data.academicYear,
           status: "active",
-          ...(schoolId ? { schoolId } : {}),
+          ...(schoolId ? { school: { connect: { id: schoolId } } } : {}),
         },
       });
     }

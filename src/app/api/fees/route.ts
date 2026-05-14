@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
         term: data.term,
         academicYear: data.academicYear,
         notes: data.notes ?? null,
-        ...(schoolId ? { schoolId } : {}),
+        ...(schoolId ? { school: { connect: { id: schoolId } } } : {}),
       },
       include: {
         feeStructure: {

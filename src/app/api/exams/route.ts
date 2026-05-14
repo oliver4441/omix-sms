@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
         startDate: new Date(data.startDate),
         endDate: new Date(data.endDate),
         description: data.description,
-        ...(schoolId ? { schoolId } : {}),
+        ...(schoolId ? { school: { connect: { id: schoolId } } } : {}),
       },
     });
 
