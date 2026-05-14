@@ -1,0 +1,225 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      String   @default("admin") // admin, teacher, staff
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  announcements Announcement[]
+  feePayments   FeePayment[]
+}
+
+model Student {
+  id            String   @id @default(cuid())
+  admissionNo   String   @unique
+  firstName     String
+  lastName      String
+  gender        String   // male, female
+  dateOfBirth   DateTime?
+  address       String?
+  phone         String?
+  email         String?
+  guardianName  String?
+  guardianPhone String?
+  guardianEmail String?
+  status        String   @default("active") // active, graduated, transferred
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  enrollments  Enrollment[]
+  attendance   Attendance[]
+  grades       Grade[]
+  feePayments  FeePayment[]
+}
+
+model Teacher {
+  id            String   @id @default(cuid())
+  employeeNo    String   @unique
+  firstName     String
+  lastName      String
+  gender        String?
+  phone         String?
+  email         String?
+  qualification String?
+  specialization String?
+  dateOfBirth   DateTime?
+  address       String?
+  status        String   @default("active")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  classes        Class[]
+  subjects       Subject[]
+}
+
+model Class {
+  id             String   @id @default(cuid())
+  name           String   // e.g., "Grade 8A", "Form 1B"
+  code           String   @unique
+  academicYear   String   // e.g., "2026"
+  capacity       Int?
+  teacherId      String?
+  teacher        Teacher? @relation(fields: [teacherId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  enrollments    Enrollment[]
+  attendance     Attendance[]
+  timetable      Timetable[]
+  subjects       Subject[]
+}
+
+model Subject {
+  id        String   @id @default(cuid())
+  name      String   // e.g., "Mathematics"
+  code      String   @unique
+  category  String?  // core, elective, extracurricular
+  teacherId String?
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  classId   String?
+  class     Class?   @relation(fields: [classId], references: [id])
+  createdAt DateTime @default(now())
+
+  grades    Grade[]
+  timetable Timetable[]
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  studentId String
+  classId   String
+  academicYear String
+  date      DateTime @default(now())
+  status    String   @default("active") // active, completed, withdrawn
+
+  student Student @relation(fields: [studentId], references: [id])
+  class   Class   @relation(fields: [classId], references: [id])
+
+  @@unique([studentId, classId, academicYear])
+}
+
+model Attendance {
+  id        String   @id @default(cuid())
+  studentId String
+  classId   String
+  date      DateTime
+  status    String   // present, absent, late, excused
+  remarks   String?
+  createdAt DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [id])
+  class   Class   @relation(fields: [classId], references: [id])
+
+  @@unique([studentId, classId, date])
+}
+
+model Exam {
+  id          String   @id @default(cuid())
+  name        String   // e.g., "Mid-Term Examination"
+  term        String   // Term 1, 2, 3
+  academicYear String
+  startDate   DateTime
+  endDate     DateTime
+  description String?
+  createdAt   DateTime @default(now())
+
+  grades      Grade[]
+}
+
+model Grade {
+  id         String   @id @default(cuid())
+  studentId  String
+  subjectId  String
+  examId     String
+  classId    String
+  score      Float?
+  grade      String?  // A, B, C, D, E
+  remarks    String?
+  createdAt  DateTime @default(now())
+
+  student Student @relation(fields: [studentId], references: [id])
+  subject Subject @relation(fields: [subjectId], references: [id])
+  exam    Exam    @relation(fields: [examId], references: [id])
+
+  @@unique([studentId, subjectId, examId])
+}
+
+model FeeStructure {
+  id          String   @id @default(cuid())
+  name        String   // e.g., "Tuition Fee", "Transport Fee"
+  amount      Float
+  frequency   String   @default("term") // term, monthly, yearly
+  academicYear String
+  classId     String?
+  description String?
+  createdAt   DateTime @default(now())
+
+  payments    FeePayment[]
+}
+
+model FeePayment {
+  id             String   @id @default(cuid())
+  feeStructureId String
+  studentId      String
+  userId         String
+  amount         Float
+  paymentDate    DateTime @default(now())
+  method         String   @default("cash") // cash, mpesa, bank, card
+  transactionRef String?
+  term           String
+  academicYear   String
+  notes          String?
+  createdAt      DateTime @default(now())
+
+  feeStructure FeeStructure @relation(fields: [feeStructureId], references: [id])
+  student      Student      @relation(fields: [studentId], references: [id])
+  user         User         @relation(fields: [userId], references: [id])
+}
+
+model Timetable {
+  id        String   @id @default(cuid())
+  classId   String
+  subjectId String
+  dayOfWeek Int      // 0=Monday, 1=Tuesday, etc.
+  startTime String   // "08:00"
+  endTime   String   // "08:45"
+  room      String?
+  createdAt DateTime @default(now())
+
+  class   Class   @relation(fields: [classId], references: [id])
+  subject Subject @relation(fields: [subjectId], references: [id])
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  authorId  String
+  priority  String   @default("normal") // low, normal, high, urgent
+  target    String   @default("all") // all, students, teachers, class
+  classId   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author User    @relation(fields: [authorId], references: [id])
+}
+
+model AiConversation {
+  id        String   @id @default(cuid())
+  userId    String
+  role      String   // user, assistant
+  content   String
+  createdAt DateTime @default(now())
+}

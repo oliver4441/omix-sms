@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: omix-sms
+    env: node
+    buildCommand: npm install && npx prisma generate && npx prisma db push && npm run build
+    startCommand: npx prisma db push && npm start
+    healthCheckPath: /login
+    envVars:
+      - key: NODE_VERSION
+        value: 20.x
+      - key: NEXTAUTH_SECRET
+        generateValue: true
+      - key: NEXTAUTH_URL
+        value: https://omix-sms.onrender.com
+      - key: DATABASE_URL
+        value: file:/var/data/dev.db
+      - key: OPENROUTER_API_KEY
+        sync: false
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
