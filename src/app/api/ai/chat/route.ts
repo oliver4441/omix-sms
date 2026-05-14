@@ -22,26 +22,24 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { message } = chatSchema.parse(body);
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
+    const apiKey = process.env.OPENCODE_ZEN_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: "OpenRouter API key is not configured" },
+        { error: "OpenCode Zen API key is not configured" },
         { status: 500 }
       );
     }
 
     const response = await fetch(
-      "https://openrouter.ai/api/v1/chat/completions",
+      "https://opencode.ai/zen/v1/chat/completions",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${apiKey}`,
-          "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-          "X-Title": "omixsystems School Management System",
         },
         body: JSON.stringify({
-          model: "openai/gpt-4o-mini",
+          model: "nemotron-3-super-free",
           messages: [
             { role: "system", content: SYSTEM_PROMPT },
             { role: "user", content: message },

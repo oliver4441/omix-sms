@@ -14,8 +14,8 @@ services:
         value: https://omix-sms.onrender.com
       - key: DATABASE_URL
         value: file:/var/data/dev.db
-      - key: OPENROUTER_API_KEY
-        value: sk-86LR4dQ1ZK9SbY6FXIlEn4w0RFKje0pNCsoKVISGU3OckDy6wxfnCCSFZZwl4LfP
+      - key: OPENCODE_ZEN_API_KEY
+        sync: false
     disk:
       name: data
       mountPath: /var/data
