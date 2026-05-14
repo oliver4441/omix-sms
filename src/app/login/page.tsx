@@ -4,8 +4,6 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, LogIn, GraduationCap, Sparkles } from "lucide-react";
 
-export const dynamic = "force-dynamic";
-
 function LoginForm() {
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
@@ -158,5 +156,13 @@ function LoginForm() {
         </motion.div>
         </motion.div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="text-gray-400">Loading...</p></div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
