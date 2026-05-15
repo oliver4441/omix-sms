@@ -15,11 +15,16 @@ const feePaymentSchema = z.object({
   notes: z.string().optional().nullable(),
 });
 
+const ALLOWED_ROLES = ["super_admin", "school_admin", "bursar"];
+
 export async function GET(request: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (!ALLOWED_ROLES.includes((session.user as any).role)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     const schoolId = (session.user as any).schoolId;
     const { searchParams } = new URL(request.url);
@@ -100,6 +105,9 @@ export async function POST(request: NextRequest) {
     const session = await auth();
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (!ALLOWED_ROLES.includes((session.user as any).role)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     const schoolId = (session.user as any).schoolId;
     const body = await request.json();

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
+import Script from "next/script";
 import Providers from "@/components/Providers";
+import PWAInstallPrompt from "@/components/pwa/PWAInstallPrompt";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -38,6 +40,21 @@ export default function RootLayout({
             {children}
           </div>
         </Providers>
+        <PWAInstallPrompt />
+        <Script
+          src="/sw.js"
+          strategy="afterInteractive"
+          id="sw-register"
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("/sw.js").catch((err) => {
+                  console.error("SW registration failed:", err);
+                });
+              }
+            `,
+          }}
+        />
         <Toaster
           position="top-right"
           toastOptions={{

@@ -21,36 +21,103 @@ model School {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  users           User[]
-  students        Student[]
-  teachers        Teacher[]
-  classes         Class[]
-  subjects        Subject[]
-  enrollments     Enrollment[]
-  attendance      Attendance[]
-  exams           Exam[]
-  grades          Grade[]
-  feeStructures   FeeStructure[]
-  feePayments     FeePayment[]
-  timetables      Timetable[]
-  announcements   Announcement[]
-  aiConversations AiConversation[]
+  users              User[]
+  students           Student[]
+  teachers           Teacher[]
+  classes            Class[]
+  subjects           Subject[]
+  enrollments        Enrollment[]
+  attendance         Attendance[]
+  exams              Exam[]
+  grades             Grade[]
+  feeStructures      FeeStructure[]
+  feePayments        FeePayment[]
+  timetables         Timetable[]
+  announcements      Announcement[]
+  aiConversations    AiConversation[]
+  departments        Department[]
+  libraryBooks       LibraryBook[]
+  bookCheckouts      BookCheckout[]
+  scienceApparatus   ScienceApparatus[]
+  apparatusLogs      ApparatusLog[]
+  subjectPerformance SubjectPerformance[]
+  notifications      Notification[]
+  departmentLogs     DepartmentLog[]
+  boardMembers       BoardMember[]
+  boardMeetings      BoardMeeting[]
+  meetingAgendaItems MeetingAgendaItem[]
+  meetingMinutes     MeetingMinute[]
+  meetingRecordings  MeetingRecording[]
+  boardSuggestions   BoardSuggestion[]
 }
 
-model User {
+model Department {
   id        String   @id @default(cuid())
-  email     String   @unique
   name      String
-  password  String
-  role      String   @default("school_admin") // super_admin, school_admin, teacher, staff
-  image     String?
+  slug      String
+  type      String   // academic, lab, library, bursar, computer_lab
   schoolId  String?
   school    School?  @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
-  announcements Announcement[]
-  feePayments   FeePayment[]
+  users         User[]
+  notifications Notification[]
+
+  @@unique([slug, schoolId])
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String
+  password      String
+  role          String   @default("school_admin") // super_admin, school_admin, bursar, librarian, lab_technician, computer_lab, department_head, class_teacher, teacher
+  image         String?
+  schoolId      String?
+  school        School?  @relation(fields: [schoolId], references: [id])
+  departmentId  String?
+  department    Department? @relation(fields: [departmentId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  announcements     Announcement[]
+  feePayments       FeePayment[]
+  teacher           Teacher?              // one-to-one with Teacher profile
+  classTeacherOf    Class[]               // classes where this user is class teacher
+  sentNotifications Notification[]        @relation("sent_notifications")
+  notificationReads NotificationRead[]
+  apparatusLogs     ApparatusLog[]
+  performanceRecords SubjectPerformance[]
+  departmentLogs    DepartmentLog[]
+  boardMembership   BoardMember?           // one-to-one board membership
+  createdMeetings   BoardMeeting[]         // meetings created by this user
+  uploadedRecordings MeetingRecording[]
+}
+
+model Teacher {
+  id              String   @id @default(cuid())
+  employeeNo      String
+  firstName       String
+  lastName        String
+  gender          String?
+  phone           String?
+  email           String?
+  qualification   String?
+  specialization  String?
+  dateOfBirth     DateTime?
+  address         String?
+  status          String   @default("active")
+  userId          String?  @unique           // links login account to teacher profile
+  user            User?    @relation(fields: [userId], references: [id])
+  schoolId        String?
+  school          School?  @relation(fields: [schoolId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  classes  Class[]
+  subjects Subject[]
+
+  @@unique([employeeNo, schoolId])
 }
 
 model Student {
@@ -76,32 +143,9 @@ model Student {
   attendance  Attendance[]
   grades      Grade[]
   feePayments FeePayment[]
+  bookCheckouts BookCheckout[]
 
   @@unique([admissionNo, schoolId])
-}
-
-model Teacher {
-  id              String   @id @default(cuid())
-  employeeNo      String
-  firstName       String
-  lastName        String
-  gender          String?
-  phone           String?
-  email           String?
-  qualification   String?
-  specialization  String?
-  dateOfBirth     DateTime?
-  address         String?
-  status          String   @default("active")
-  schoolId        String?
-  school          School?  @relation(fields: [schoolId], references: [id])
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  classes  Class[]
-  subjects Subject[]
-
-  @@unique([employeeNo, schoolId])
 }
 
 model Class {
@@ -112,6 +156,8 @@ model Class {
   capacity       Int?
   teacherId      String?
   teacher        Teacher? @relation(fields: [teacherId], references: [id])
+  classTeacherId String?
+  classTeacher   User?    @relation(fields: [classTeacherId], references: [id])
   schoolId       String?
   school         School?  @relation(fields: [schoolId], references: [id])
   createdAt      DateTime @default(now())
@@ -121,6 +167,7 @@ model Class {
   attendance  Attendance[]
   timetable   Timetable[]
   subjects    Subject[]
+  performance SubjectPerformance[]
 
   @@unique([code, schoolId])
 }
@@ -138,8 +185,9 @@ model Subject {
   school    School?  @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
 
-  grades    Grade[]
-  timetable Timetable[]
+  grades      Grade[]
+  timetable   Timetable[]
+  performance SubjectPerformance[]
 
   @@unique([code, schoolId])
 }
@@ -189,7 +237,8 @@ model Exam {
   school      School?  @relation(fields: [schoolId], references: [id])
   createdAt   DateTime @default(now())
 
-  grades Grade[]
+  grades      Grade[]
+  performance SubjectPerformance[]
 }
 
 model Grade {
@@ -288,4 +337,238 @@ model AiConversation {
   schoolId  String?
   school    School?  @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
+}
+
+model LibraryBook {
+  id         String   @id @default(cuid())
+  title      String
+  author     String
+  isbn       String?
+  publisher  String?
+  year       Int?
+  quantity   Int      @default(1)
+  available  Int      @default(1)
+  shelf      String?
+  category   String?
+  schoolId   String?
+  school     School?  @relation(fields: [schoolId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  checkouts  BookCheckout[]
+}
+
+model BookCheckout {
+  id           String    @id @default(cuid())
+  bookId       String
+  book         LibraryBook @relation(fields: [bookId], references: [id])
+  admissionNo  String      // student admission number
+  studentName  String?
+  checkoutDate DateTime    @default(now())
+  dueDate      DateTime
+  returnDate   DateTime?
+  status       String      @default("active") // active, returned, overdue, lost
+  notes        String?
+  studentId    String?
+  student      Student?    @relation(fields: [studentId], references: [id])
+  schoolId     String?
+  school       School?     @relation(fields: [schoolId], references: [id])
+  createdAt    DateTime    @default(now())
+}
+
+model ScienceApparatus {
+  id            String   @id @default(cuid())
+  name          String
+  category      String?
+  totalQuantity Int      @default(1)
+  available     Int      @default(1)
+  broken        Int      @default(0)
+  lost          Int      @default(0)
+  description   String?
+  schoolId      String?
+  school        School?  @relation(fields: [schoolId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  logs ApparatusLog[]
+}
+
+model ApparatusLog {
+  id           String   @id @default(cuid())
+  apparatusId  String
+  apparatus    ScienceApparatus @relation(fields: [apparatusId], references: [id])
+  action       String   // broken, lost, repaired, restocked, discarded
+  quantity     Int
+  reportedById String?
+  reportedBy   User?    @relation(fields: [reportedById], references: [id])
+  notes        String?
+  date         DateTime @default(now())
+  schoolId     String?
+  school       School?  @relation(fields: [schoolId], references: [id])
+}
+
+model SubjectPerformance {
+  id           String   @id @default(cuid())
+  subjectId    String
+  subject      Subject  @relation(fields: [subjectId], references: [id])
+  classId      String
+  class        Class    @relation(fields: [classId], references: [id])
+  examId       String
+  exam         Exam     @relation(fields: [examId], references: [id])
+  term         String
+  academicYear String
+  studentCount Int?
+  meanScore    Float?
+  highestScore Float?
+  lowestScore  Float?
+  passRate     Float?
+  recordedById String?
+  recordedBy   User?    @relation(fields: [recordedById], references: [id])
+  schoolId     String?
+  school       School?  @relation(fields: [schoolId], references: [id])
+  createdAt    DateTime @default(now())
+
+  @@unique([subjectId, classId, examId])
+}
+
+model Notification {
+  id                 String   @id @default(cuid())
+  title              String
+  content            String
+  priority           String   @default("normal")
+  senderId           String
+  sender             User     @relation("sent_notifications", fields: [senderId], references: [id])
+  targetRole         String?  // null = all, or specific role
+  targetDepartmentId String?
+  targetDepartment   Department? @relation(fields: [targetDepartmentId], references: [id])
+  link               String?
+  schoolId           String?
+  school             School?  @relation(fields: [schoolId], references: [id])
+  createdAt          DateTime @default(now())
+
+  reads NotificationRead[]
+}
+
+model NotificationRead {
+  id             String   @id @default(cuid())
+  notificationId String
+  notification   Notification @relation(fields: [notificationId], references: [id])
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  readAt         DateTime @default(now())
+
+  @@unique([notificationId, userId])
+}
+
+model DepartmentLog {
+  id          String   @id @default(cuid())
+  department  String   // department slug or type
+  action      String   // what happened
+  description String   // details
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+  metadata    String?  // JSON string for extra data
+  schoolId    String?
+  school      School?  @relation(fields: [schoolId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+// ─── BOM / Board of Management ───
+
+model BoardMember {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+  role           String   // chairperson, secretary, treasurer, member
+  joinedAt       DateTime @default(now())
+  isActive       Boolean  @default(true)
+  schoolId       String?
+  school         School?  @relation(fields: [schoolId], references: [id])
+
+  suggestions    BoardSuggestion[]
+  meetingMinutes MeetingMinute[]
+}
+
+model BoardMeeting {
+  id          String   @id @default(cuid())
+  title       String
+  date        DateTime
+  startTime   String?
+  endTime     String?
+  venue       String?
+  status      String   @default("scheduled") // scheduled, ongoing, adjourned, completed
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  schoolId    String?
+  school      School?  @relation(fields: [schoolId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  agendaItems    MeetingAgendaItem[]
+  minutes        MeetingMinute[]
+  recordings     MeetingRecording[]
+  suggestions    BoardSuggestion[]
+}
+
+model MeetingAgendaItem {
+  id         String   @id @default(cuid())
+  meetingId  String
+  meeting    BoardMeeting @relation(fields: [meetingId], references: [id])
+  title      String
+  description String?
+  order      Int
+  duration   Int?     // minutes
+  schoolId   String?
+  school     School?  @relation(fields: [schoolId], references: [id])
+  createdAt  DateTime @default(now())
+
+  minutes    MeetingMinute[]
+}
+
+model MeetingMinute {
+  id              String   @id @default(cuid())
+  meetingId       String
+  meeting         BoardMeeting @relation(fields: [meetingId], references: [id])
+  agendaItemId    String?
+  agendaItem      MeetingAgendaItem? @relation(fields: [agendaItemId], references: [id])
+  content         String   @default("")
+  aiSummary       String?  // AI-generated summary
+  aiProofread     String?  // AI-proofread version
+  recordedById    String
+  recordedBy      BoardMember @relation(fields: [recordedById], references: [id])
+  schoolId        String?
+  school          School?  @relation(fields: [schoolId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model MeetingRecording {
+  id        String   @id @default(cuid())
+  meetingId String
+  meeting   BoardMeeting @relation(fields: [meetingId], references: [id])
+  type      String   // voice, photo, document
+  fileUrl   String   // path to file (stored locally with size limits)
+  fileSize  Int?     // bytes
+  duration  Int?     // seconds for voice recordings
+  uploadedById String
+  uploadedBy   User   @relation(fields: [uploadedById], references: [id])
+  schoolId String?
+  school   School?  @relation(fields: [schoolId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model BoardSuggestion {
+  id          String   @id @default(cuid())
+  boardMemberId String
+  boardMember   BoardMember @relation(fields: [boardMemberId], references: [id])
+  title       String
+  content     String
+  category    String   @default("general") // general, finance, academics, infrastructure, welfare
+  status      String   @default("submitted") // submitted, under_review, adopted, declined
+  meetingId   String?  // linked to a meeting if submitted during one
+  meeting     BoardMeeting? @relation(fields: [meetingId], references: [id])
+  schoolId    String?
+  school      School?  @relation(fields: [schoolId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

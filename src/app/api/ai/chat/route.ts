@@ -63,17 +63,98 @@ Teachers: ${school._count.teachers}
 Classes: ${school._count.classes}`;
 
   if (role === "school_admin") {
+    // Fetch department summary data for the principal dashboard
+    const [departmentCount, subjectCount, performanceCount, libraryData, labData, feeData, boardMeetings] = await Promise.all([
+      prisma.department.count({ where: { schoolId } }),
+      prisma.subject.count({ where: { schoolId } }),
+      prisma.subjectPerformance.count({ where: { schoolId } }),
+      prisma.libraryBook.aggregate({
+        where: { schoolId },
+        _sum: { quantity: true, available: true },
+      }).catch(() => ({ _sum: { quantity: 0, available: 0 } })),
+      prisma.scienceApparatus.aggregate({
+        where: { schoolId },
+        _sum: { totalQuantity: true, broken: true, lost: true },
+      }).catch(() => ({ _sum: { totalQuantity: 0, broken: 0, lost: 0 } })),
+      Promise.all([
+        prisma.feePayment.aggregate({
+          where: { schoolId },
+          _sum: { amount: true },
+        }).catch(() => ({ _sum: { amount: 0 } })),
+        prisma.feePayment.findMany({
+          where: { schoolId },
+          select: { studentId: true },
+          distinct: ["studentId"],
+        }).catch(() => []),
+      ]),
+      prisma.boardMeeting.count({
+        where: { schoolId, status: { not: "completed" } },
+      }).catch(() => 0),
+    ]);
+
+    // Count overdue book checkouts
+    const overdueBooks = await prisma.bookCheckout.count({
+      where: {
+        schoolId,
+        status: "active",
+        dueDate: { lt: new Date() },
+      },
+    }).catch(() => 0);
+
+    // Count fee defaulters
+    const activeStudentsCount = await prisma.student.count({
+      where: { schoolId, status: "active" },
+    }).catch(() => 0);
+    const paidStudents = feeData?.[1]?.length || 0;
+    const feeDefaulters = Math.max(0, activeStudentsCount - paidStudents);
+
+    const departmentContext = `
+Department Overview:
+- Total Departments: ${departmentCount}
+- Total Subjects: ${subjectCount}
+- Performance Records: ${performanceCount}
+- Upcoming/Pending Board Meetings: ${boardMeetings}
+
+Library Summary:
+- Total Books: ${libraryData._sum.quantity || 0}
+- Available Books: ${libraryData._sum.available || 0}
+- Overdue Books: ${overdueBooks}
+
+Science Lab Summary:
+- Total Apparatus: ${labData._sum.totalQuantity || 0}
+- Broken Items: ${labData._sum.broken || 0}
+- Lost Items: ${labData._sum.lost || 0}
+
+Fee Summary:
+- Total Collected: $${((feeData?.[0] as any)?._sum?.amount || 0).toFixed(2)}
+- Fee Defaulters: ${feeDefaulters} students`;
+
     return `${base}
 ${schoolContext}
-Your Role: School Administrator
+${departmentContext}
+Your Role: School Administrator (Principal)
 
-You can help with:
-- Student performance analysis and grade reports
-- Fee collection summaries and financial insights
-- Teacher workload and class distribution
-- Announcement drafting
-- Timetable management
-- Exam scheduling and results analysis`;
+As the principal, you have oversight of ALL departments in the school. You can answer questions about:
+- Academic departments: subject performance, class mean scores, pass rates, exam analytics
+- Library: book inventory, overdue books, checkout statistics
+- Science Lab: apparatus status, broken/lost equipment, lab activity logs
+- Bursar: fee collection summaries, payment trends, defaulters list
+- Board of Management: upcoming meetings, minutes, suggestions, resolutions
+
+You have access to tool-like capabilities for querying department data:
+- library_stats: Get library usage metrics, overdue books, available books
+- lab_stats: Get science lab apparatus status, broken and lost items
+- board_info: Get meeting schedules, minutes, and suggestions
+- fee_summaries: Get fee collection data and defaulter information
+- performance_data: Get subject performance by class, term, and academic year
+
+Proactive monitoring: When discussing school performance or answering general queries, proactively identify areas needing attention. For example:
+- "The library has ${overdueBooks} overdue books."
+- "The science lab has ${labData._sum.broken || 0} broken apparatus items."
+- "${feeDefaulters} students are fee defaulters."
+- Recommend actions for departments that need improvement.
+
+Be concise but comprehensive when providing department-level insights.`;
   }
 
   if (role === "teacher") {
