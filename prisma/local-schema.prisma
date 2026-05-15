@@ -1,0 +1,68 @@
+// ─── Local Secondary Database (SQLite) ───
+// Standalone cache & ephemeral data for Omix SMS.
+// No relations to the primary PostgreSQL schema — these are
+// performance/cache models that are safe to lose on redeploy.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/local-client"
+}
+
+datasource local {
+  provider = "sqlite"
+  url      = env("SQLITE_URL")
+}
+
+/// Cached API responses — avoids hitting Supabase for slow queries
+model ApiCache {
+  key       String   @id
+  value     String
+  ttl       DateTime
+  createdAt DateTime @default(now())
+}
+
+/// Full-text search cache for school-wide search
+model SearchCache {
+  id        String   @id @default(cuid())
+  entity    String   // school, user, student, class, etc.
+  entityId  String   // the PK of the entity in the primary DB
+  content   String   // searchable text blob
+  schoolId  String
+  updatedAt DateTime @updatedAt
+
+  @@index([schoolId, entity])
+}
+
+/// Bulk operation audit trail — for reconciling large data ops
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String?
+  metadata  String?  // JSON
+  schoolId  String?
+  userId    String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+/// System events & health checks
+model SystemEvent {
+  id        String   @id @default(cuid())
+  level     String   @default("info") // info, warn, error
+  source    String
+  message   String
+  metadata  String?  // JSON
+  createdAt DateTime @default(now())
+
+  @@index([level, createdAt])
+}
+
+/// Rate limiting tracker
+model RateLimit {
+  key       String   @id
+  count     Int      @default(1)
+  window    DateTime
+  createdAt DateTime @default(now())
+}

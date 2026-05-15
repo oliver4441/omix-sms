@@ -46,3 +46,6 @@ next-env.d.ts
 # SQLite
 *.db
 *.db-journal
+
+# Generated Prisma clients (regenerated during build)
+/src/generated/
