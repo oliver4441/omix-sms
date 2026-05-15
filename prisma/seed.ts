@@ -1,6 +1,6 @@
 import { execSync } from 'child_process';
 import { PrismaClient } from '@prisma/client';
-const bcrypt = require('bcryptjs');
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 const S_ID = ''; // filled after school creation

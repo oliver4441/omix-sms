@@ -16,5 +16,7 @@ services:
         value: file:./dev.db
       - key: AUTH_TRUST_HOST
         value: "true"
+      - key: NODE_OPTIONS
+        value: "--max-old-space-size=512"
       - key: OPENCODE_ZEN_API_KEY
         sync: false
