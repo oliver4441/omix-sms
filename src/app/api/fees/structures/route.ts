@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
         academicYear: data.academicYear,
         classId: data.classId,
         description: data.description,
-        ...(schoolId ? { school: { connect: { id: schoolId } } } : {}),
+        ...(schoolId ? { schoolId } : {}),
       },
     });
 

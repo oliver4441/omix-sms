@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
             date: dateValue,
             status: record.status,
             remarks: record.remarks ?? null,
-            ...(schoolId ? { school: { connect: { id: schoolId } } } : {}),
+            ...(schoolId ? { schoolId } : {}),
           },
           include: {
             student: {
