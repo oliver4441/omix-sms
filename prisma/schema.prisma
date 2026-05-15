@@ -58,7 +58,7 @@ model Student {
   admissionNo   String
   firstName     String
   lastName      String
-  gender        String   // male, female
+  gender        String // male, female
   dateOfBirth   DateTime?
   address       String?
   phone         String?
@@ -67,8 +67,8 @@ model Student {
   guardianPhone String?
   guardianEmail String?
   status        String   @default("active")
-  schoolId      String
-  school        School   @relation(fields: [schoolId], references: [id])
+  schoolId      String?
+  school        School?  @relation(fields: [schoolId], references: [id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -93,8 +93,8 @@ model Teacher {
   dateOfBirth     DateTime?
   address         String?
   status          String   @default("active")
-  schoolId        String
-  school          School   @relation(fields: [schoolId], references: [id])
+  schoolId        String?
+  school          School?  @relation(fields: [schoolId], references: [id])
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
@@ -112,8 +112,8 @@ model Class {
   capacity       Int?
   teacherId      String?
   teacher        Teacher? @relation(fields: [teacherId], references: [id])
-  schoolId       String
-  school         School   @relation(fields: [schoolId], references: [id])
+  schoolId       String?
+  school         School?  @relation(fields: [schoolId], references: [id])
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
@@ -134,8 +134,8 @@ model Subject {
   teacher   Teacher? @relation(fields: [teacherId], references: [id])
   classId   String?
   class     Class?   @relation(fields: [classId], references: [id])
-  schoolId  String
-  school    School   @relation(fields: [schoolId], references: [id])
+  schoolId  String?
+  school    School?  @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
 
   grades    Grade[]
@@ -151,8 +151,8 @@ model Enrollment {
   academicYear String
   date         DateTime @default(now())
   status       String   @default("active")
-  schoolId     String
-  school       School   @relation(fields: [schoolId], references: [id])
+  schoolId     String?
+  school       School?  @relation(fields: [schoolId], references: [id])
 
   student Student @relation(fields: [studentId], references: [id])
   class   Class   @relation(fields: [classId], references: [id])
@@ -165,10 +165,10 @@ model Attendance {
   studentId String
   classId   String
   date      DateTime
-  status    String   // present, absent, late, excused
+  status    String // present, absent, late, excused
   remarks   String?
-  schoolId  String
-  school    School   @relation(fields: [schoolId], references: [id])
+  schoolId  String?
+  school    School?  @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
 
   student Student @relation(fields: [studentId], references: [id])
@@ -185,8 +185,8 @@ model Exam {
   startDate   DateTime
   endDate     DateTime
   description String?
-  schoolId    String
-  school      School   @relation(fields: [schoolId], references: [id])
+  schoolId    String?
+  school      School?  @relation(fields: [schoolId], references: [id])
   createdAt   DateTime @default(now())
 
   grades Grade[]
@@ -201,8 +201,8 @@ model Grade {
   score     Float?
   grade     String?
   remarks   String?
-  schoolId  String
-  school    School   @relation(fields: [schoolId], references: [id])
+  schoolId  String?
+  school    School?  @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
 
   student Student @relation(fields: [studentId], references: [id])
@@ -220,8 +220,8 @@ model FeeStructure {
   academicYear String
   classId      String?
   description  String?
-  schoolId     String
-  school       School   @relation(fields: [schoolId], references: [id])
+  schoolId     String?
+  school       School?  @relation(fields: [schoolId], references: [id])
   createdAt    DateTime @default(now())
 
   payments FeePayment[]
@@ -239,8 +239,8 @@ model FeePayment {
   term           String
   academicYear   String
   notes          String?
-  schoolId       String
-  school         School   @relation(fields: [schoolId], references: [id])
+  schoolId       String?
+  school         School?  @relation(fields: [schoolId], references: [id])
   createdAt      DateTime @default(now())
 
   feeStructure FeeStructure @relation(fields: [feeStructureId], references: [id])
@@ -256,8 +256,8 @@ model Timetable {
   startTime String
   endTime   String
   room      String?
-  schoolId  String
-  school    School   @relation(fields: [schoolId], references: [id])
+  schoolId  String?
+  school    School?  @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
 
   class   Class   @relation(fields: [classId], references: [id])
@@ -272,8 +272,8 @@ model Announcement {
   priority  String   @default("normal")
   target    String   @default("all")
   classId   String?
-  schoolId  String
-  school    School   @relation(fields: [schoolId], references: [id])
+  schoolId  String?
+  school    School?  @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -285,7 +285,7 @@ model AiConversation {
   userId    String
   role      String
   content   String
-  schoolId  String
-  school    School   @relation(fields: [schoolId], references: [id])
+  schoolId  String?
+  school    School?  @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
 }

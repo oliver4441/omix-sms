@@ -93,6 +93,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const schoolId = (session.user as any)?.schoolId;
     const body = await request.json();
     const data = announcementSchema.parse(body);
 
@@ -104,9 +105,7 @@ export async function POST(request: NextRequest) {
         priority: data.priority,
         target: data.target,
         classId: data.classId ?? null,
-        ...(session.user as any)?.schoolId
-          ? { school: { connect: { id: (session.user as any).schoolId } } }
-          : {},
+        schoolId: schoolId ?? null,
       },
       include: {
         author: {
