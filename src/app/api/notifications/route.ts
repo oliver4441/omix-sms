@@ -29,13 +29,14 @@ export async function GET(request: NextRequest) {
     if (schoolId) where.schoolId = schoolId;
 
     // Notifications targeting all roles, the user's specific role, or their department
-    where.OR = [
+    const orFilters: Record<string, unknown>[] = [
       { targetRole: null },
       { targetRole: userRole },
     ];
     if (userDepartmentId) {
-      where.OR.push({ targetDepartmentId: userDepartmentId });
+      orFilters.push({ targetDepartmentId: userDepartmentId });
     }
+    where.OR = orFilters;
 
     const notifications = await prisma.notification.findMany({
       where,
