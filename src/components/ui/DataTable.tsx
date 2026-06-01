@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
-import { Search, ChevronLeft, ChevronRight, ArrowUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface Column<T> {
   key: string;
@@ -88,7 +87,7 @@ export default function DataTable<T extends Record<string, any>>({
       {searchable && searchKeys && (
         <div className="p-4 border-b border-border">
           <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <Icon name="Search" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input
               type="text"
               value={search}
@@ -117,7 +116,7 @@ export default function DataTable<T extends Record<string, any>>({
                   <div className="flex items-center gap-2">
                     {col.header}
                     {col.sortable && (
-                      <ArrowUpDown className="w-3 h-3" />
+                      <Icon name="ArrowUpDown" className="w-3 h-3" />
                     )}
                   </div>
                 </th>
@@ -133,11 +132,8 @@ export default function DataTable<T extends Record<string, any>>({
               </tr>
             ) : (
               paged.map((item, idx) => (
-                <motion.tr
+                <tr
                   key={item.id || idx}
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.03 }}
                   className={cn(
                     "transition-colors",
                     onRowClick && "cursor-pointer hover:bg-white/5"
@@ -149,7 +145,7 @@ export default function DataTable<T extends Record<string, any>>({
                       {col.render ? col.render(item) : item[col.key] ?? "-"}
                     </td>
                   ))}
-                </motion.tr>
+                </tr>
               ))
             )}
           </tbody>
@@ -167,7 +163,7 @@ export default function DataTable<T extends Record<string, any>>({
               disabled={page <= 1}
               className="w-8 h-8 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-gray-400 hover:text-gray-200 disabled:opacity-40 transition-all"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <Icon name="ChevronLeft" className="w-4 h-4" />
             </button>
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               const start = Math.max(1, Math.min(page - 2, totalPages - 4));
@@ -193,7 +189,7 @@ export default function DataTable<T extends Record<string, any>>({
               disabled={page >= totalPages}
               className="w-8 h-8 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-gray-400 hover:text-gray-200 disabled:opacity-40 transition-all"
             >
-              <ChevronRight className="w-4 h-4" />
+              <Icon name="ChevronRight" className="w-4 h-4" />
             </button>
           </div>
         </div>

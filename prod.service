@@ -1,0 +1,28 @@
+[Unit]
+Description=Omix SMS - School Management System (Production)
+Documentation=https://omixsystems.store
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+User=oliver
+WorkingDirectory=/home/oliver/omix-sms
+Environment=NODE_ENV=production
+Environment=NODE_OPTIONS=--max-old-space-size=1024
+Environment=PORT=3000
+ExecStartPre=/usr/bin/npx prisma db push --accept-data-loss
+ExecStart=/usr/bin/npx next start -p 3000 -H 0.0.0.0
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/omix-sms.log
+StandardError=append:/var/log/omix-sms-error.log
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/oliver/omix-sms
+
+[Install]
+WantedBy=multi-user.target

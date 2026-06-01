@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { Plus, BookOpen, Users, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface ClassData {
   id: string;
@@ -76,7 +75,7 @@ export default function ClassesPage() {
           onClick={() => router.push("/classes/new")}
           className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm"
         >
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Add Class
         </button>
       </div>
@@ -89,17 +88,12 @@ export default function ClassesPage() {
       )}
 
       {/* Class Cards Grid */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          visible: { transition: { staggerChildren: 0.06 } },
-        }}
+      <div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         {classes.length === 0 ? (
           <div className="col-span-full glass rounded-2xl p-12 text-center">
-            <BookOpen className="w-12 h-12 text-gray-500 mx-auto mb-4" />
+            <Icon name="BookOpen" className="w-12 h-12 text-gray-500 mx-auto mb-4" />
             <p className="text-gray-400">No classes found</p>
             <button
               onClick={() => router.push("/classes/new")}
@@ -116,18 +110,14 @@ export default function ClassesPage() {
             const isFull = cls.capacity ? cls._count.enrollments >= cls.capacity : false;
 
             return (
-              <motion.div
+              <div
                 key={cls.id}
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 },
-                }}
                 onClick={() => router.push(`/classes/${cls.id}`)}
                 className="glass rounded-2xl p-6 border-border glass-hover cursor-pointer transition-all duration-300"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="w-12 h-12 rounded-xl bg-omix-500/10 flex items-center justify-center">
-                    <BookOpen className="w-6 h-6 text-omix-400" />
+                    <Icon name="BookOpen" className="w-6 h-6 text-omix-400" />
                   </div>
                   <span className="text-xs font-mono text-omix-400 bg-omix-500/10 px-2.5 py-1 rounded-lg">
                     {cls.code}
@@ -141,7 +131,7 @@ export default function ClassesPage() {
 
                 {/* Teacher */}
                 <div className="flex items-center gap-2 mb-4">
-                  <GraduationCap className="w-4 h-4 text-gray-500" />
+                  <Icon name="GraduationCap" className="w-4 h-4 text-gray-500" />
                   <span className="text-sm text-gray-300">
                     {cls.teacher
                       ? `${cls.teacher.firstName} ${cls.teacher.lastName}`
@@ -151,7 +141,7 @@ export default function ClassesPage() {
 
                 {/* Capacity Bar */}
                 <div className="flex items-center gap-3">
-                  <Users className="w-4 h-4 text-gray-500" />
+                  <Icon name="Users" className="w-4 h-4 text-gray-500" />
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs text-gray-500">
@@ -171,10 +161,7 @@ export default function ClassesPage() {
                     </div>
                     {cls.capacity && (
                       <div className="w-full h-2 rounded-full bg-surface-3 overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${enrollmentPercent}%` }}
-                          transition={{ duration: 0.8, ease: "easeOut" }}
+                        <div
                           className={cn(
                             "h-full rounded-full",
                             isFull
@@ -188,11 +175,11 @@ export default function ClassesPage() {
                     )}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }

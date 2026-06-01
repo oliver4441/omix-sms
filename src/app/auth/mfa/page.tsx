@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { ShieldCheck, ArrowRight, AlertCircle, RefreshCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 export default function MFAPage() {
   const [code, setCode] = useState("");
@@ -48,14 +47,12 @@ export default function MFAPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-omix-500/10 rounded-full blur-[120px]" />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
+      <div
         className="w-full max-w-md relative z-10"
       >
         <div className="glass rounded-3xl p-8 border border-white/5 shadow-2xl backdrop-blur-2xl text-center">
           <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-omix-500/10 flex items-center justify-center ring-1 ring-omix-500/20">
-            <ShieldCheck className="w-8 h-8 text-omix-400" />
+            <Icon name="ShieldCheck" className="w-8 h-8 text-omix-400" />
           </div>
 
           <h1 className="text-2xl font-bold text-white mb-2">Two-Step Verification</h1>
@@ -64,14 +61,12 @@ export default function MFAPage() {
           </p>
 
           {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
+            <div
               className="mb-6 p-4 rounded-xl bg-rose-500/5 border border-rose-500/10 text-rose-400 text-xs flex items-center gap-3"
             >
-              <AlertCircle className="w-4 h-4" />
+              <Icon name="AlertCircle" className="w-4 h-4" />
               <span>{error}</span>
-            </motion.div>
+            </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -96,11 +91,11 @@ export default function MFAPage() {
               )}
             >
               {loading ? (
-                <RefreshCcw className="w-5 h-5 animate-spin" />
+                <Icon name="RefreshCcw" className="w-5 h-5 animate-spin" />
               ) : (
                 <>
                   Verify Account
-                  <ArrowRight className="w-4 h-4" />
+                  <Icon name="ArrowRight" className="w-4 h-4" />
                 </>
               )}
             </button>
@@ -113,7 +108,7 @@ export default function MFAPage() {
             Cancel and return to login
           </button>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

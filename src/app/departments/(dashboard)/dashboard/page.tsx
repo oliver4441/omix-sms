@@ -1,24 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  BookOpen,
-  Users,
-  TrendingUp,
-  CheckCircle2,
-  Plus,
-  ArrowUpRight,
-  AlertCircle,
-  School,
-  GraduationCap,
-  X,
-  Save,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
 import StatCard from "@/components/ui/StatCard";
 import DataTable from "@/components/ui/DataTable";
 import Modal from "@/components/ui/Modal";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface PerformanceRecord {
@@ -319,7 +306,7 @@ export default function DepartmentDashboardPage() {
   if (error) {
     return (
       <div className="glass rounded-2xl p-8 text-center">
-        <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <Icon name="AlertCircle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
         <p className="text-red-400 mb-4">{error}</p>
         <button
           onClick={fetchData}
@@ -343,9 +330,7 @@ export default function DepartmentDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -360,57 +345,45 @@ export default function DepartmentDashboardPage() {
           onClick={() => setShowForm(true)}
           className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm text-sm"
         >
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Record Performance
         </button>
-      </motion.div>
+      </div>
 
       {/* Stats */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          visible: { transition: { staggerChildren: 0.08 } },
-        }}
+      <div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
-        <motion.div
-          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+        <div
         >
-          <StatCard title="Total Subjects" value={totalSubjects} icon={BookOpen} color="omix" />
-        </motion.div>
-        <motion.div
-          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          <StatCard title="Total Subjects" value={totalSubjects} icon="BookOpen" color="omix" />
+        </div>
+        <div
         >
-          <StatCard title="Total Classes" value={totalClasses} icon={GraduationCap} color="blue" />
-        </motion.div>
-        <motion.div
-          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          <StatCard title="Total Classes" value={totalClasses} icon="GraduationCap" color="blue" />
+        </div>
+        <div
         >
           <StatCard
             title="Mean Score"
             value={overallMeanScore}
-            icon={TrendingUp}
+            icon="TrendingUp"
             color="green"
           />
-        </motion.div>
-        <motion.div
-          variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+        </div>
+        <div
         >
           <StatCard
             title="Pass Rate"
             value={overallPassRate}
-            icon={CheckCircle2}
+            icon="CheckCircle2"
             color="amber"
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Performance Table */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+      <div
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white">
@@ -420,12 +393,12 @@ export default function DepartmentDashboardPage() {
             href="/departments/dashboard/performance"
             className="flex items-center gap-1 text-sm text-omix-400 hover:text-omix-300 transition-colors"
           >
-            View Full Report <ArrowUpRight className="w-3 h-3" />
+            View Full Report <Icon name="ArrowUpRight" className="w-3 h-3" />
           </a>
         </div>
         {classPerformanceData.length === 0 ? (
           <div className="glass rounded-2xl p-12 text-center border-border">
-            <School className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+            <Icon name="School" className="w-12 h-12 text-gray-600 mx-auto mb-3" />
             <p className="text-gray-500 text-sm">
               No performance records yet. Click &quot;Record Performance&quot; to add data.
             </p>
@@ -438,20 +411,17 @@ export default function DepartmentDashboardPage() {
             pageSize={10}
           />
         )}
-      </motion.div>
+      </div>
 
       {/* Recent Entries */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
+      <div
       >
         <h2 className="text-lg font-semibold text-white mb-4">
           Recent Performance Entries
         </h2>
         {recentEntries.length === 0 ? (
           <div className="glass rounded-2xl p-12 text-center border-border">
-            <TrendingUp className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+            <Icon name="TrendingUp" className="w-12 h-12 text-gray-600 mx-auto mb-3" />
             <p className="text-gray-500 text-sm">
               No recent entries
             </p>
@@ -464,7 +434,7 @@ export default function DepartmentDashboardPage() {
             pageSize={5}
           />
         )}
-      </motion.div>
+      </div>
 
       {/* Record Performance Modal */}
       <Modal
@@ -649,13 +619,11 @@ export default function DepartmentDashboardPage() {
           </div>
 
           {formError && (
-            <motion.p
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
+            <p
               className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2"
             >
               {formError}
-            </motion.p>
+            </p>
           )}
 
           <div className="flex items-center gap-3 pt-2">
@@ -665,13 +633,11 @@ export default function DepartmentDashboardPage() {
               className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {formSaving ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                <div
                   className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                 />
               ) : (
-                <Save className="w-4 h-4" />
+                <Icon name="Save" className="w-4 h-4" />
               )}
               Save Record
             </button>

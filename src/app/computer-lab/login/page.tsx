@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import DepartmentLogin from "@/components/auth/DepartmentLogin";
-import { Monitor } from "lucide-react";
+import { Icon } from "@/components/ui/Icon"
 
 function ComputerLabLoginPage() {
   return (
@@ -9,7 +9,7 @@ function ComputerLabLoginPage() {
       department="Computer Laboratory"
       departmentName="Computer Lab"
       requiredRole="computer_lab"
-      icon={<Monitor className="w-10 h-10 text-white" />}
+      icon={<Icon name="Monitor" className="w-10 h-10 text-white" />}
       dashboardPath="/computer-lab/dashboard"
     />
   );

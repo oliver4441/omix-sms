@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Filter } from "lucide-react";
 import DataTable from "@/components/ui/DataTable";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface Teacher {
   id: string;
@@ -124,7 +124,7 @@ export default function TeachersPage() {
           onClick={() => router.push("/teachers/new")}
           className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm"
         >
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Add Teacher
         </button>
       </div>
@@ -143,7 +143,7 @@ export default function TeachersPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-gray-500" />
+            <Icon name="Filter" className="w-4 h-4 text-gray-500" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}

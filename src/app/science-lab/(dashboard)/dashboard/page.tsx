@@ -1,21 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  FlaskConical,
-  AlertTriangle,
-  Beaker,
-  Thermometer,
-  ShieldAlert,
-  CheckCircle2,
-  ArrowUpRight,
-  Plus,
-  Wrench,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
 import StatCard from "@/components/ui/StatCard";
 import DataTable from "@/components/ui/DataTable";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface Apparatus {
@@ -256,7 +245,7 @@ export default function ScienceLabDashboardPage() {
   if (error) {
     return (
       <div className="glass rounded-2xl p-8 text-center">
-        <AlertTriangle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <Icon name="AlertTriangle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
         <p className="text-red-400 mb-4">{error}</p>
         <button
           onClick={fetchDashboard}
@@ -273,9 +262,7 @@ export default function ScienceLabDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -287,96 +274,69 @@ export default function ScienceLabDashboardPage() {
           </p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm text-sm">
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Add Apparatus
         </button>
-      </motion.div>
+      </div>
 
       {/* Stats */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          visible: { transition: { staggerChildren: 0.08 } },
-        }}
+      <div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        <div
         >
           <StatCard
             title="Total Apparatus"
             value={stats.totalApparatus}
-            icon={FlaskConical}
+            icon="FlaskConical"
             color="omix"
             trend={{ value: 5, positive: true }}
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Currently In Use"
             value={stats.inUse}
-            icon={Beaker}
+            icon="Beaker"
             color="blue"
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Needs Repair"
             value={stats.needsRepair}
-            icon={Wrench}
+            icon="Wrench"
             color="amber"
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Low Stock Items"
             value={stats.lowStock}
-            icon={AlertTriangle}
+            icon="AlertTriangle"
             color="rose"
             trend={{ value: 2, positive: false }}
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Alerts Section */}
       {alerts.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+        <div
         >
           <div className="flex items-center gap-3 mb-4">
-            <ShieldAlert className="w-5 h-5 text-amber-400" />
+            <Icon name="ShieldAlert" className="w-5 h-5 text-amber-400" />
             <h2 className="text-lg font-semibold text-white">
               Alerts &amp; Notifications
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {alerts.map((alert, idx) => (
-              <motion.div
+              <div
                 key={alert.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: idx * 0.08 }}
                 className={cn(
                   "glass rounded-2xl p-5 border",
                   severityColors[alert.severity]
@@ -393,7 +353,7 @@ export default function ScienceLabDashboardPage() {
                         : "bg-blue-500/10"
                     )}
                   >
-                    <AlertTriangle
+                    <Icon name="AlertTriangle"
                       className={cn("w-5 h-5", severityText[alert.severity])}
                     />
                   </div>
@@ -414,24 +374,21 @@ export default function ScienceLabDashboardPage() {
                     </span>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* Apparatus Inventory */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.35 }}
+      <div
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white">
             Apparatus Inventory
           </h2>
           <button className="flex items-center gap-1 text-sm text-omix-400 hover:text-omix-300 transition-colors">
-            Manage Inventory <ArrowUpRight className="w-3 h-3" />
+            Manage Inventory <Icon name="ArrowUpRight" className="w-3 h-3" />
           </button>
         </div>
         <DataTable
@@ -442,16 +399,14 @@ export default function ScienceLabDashboardPage() {
           pageSize={5}
           emptyMessage="No apparatus in inventory"
         />
-      </motion.div>
+      </div>
 
       {/* Empty state */}
       {apparatusList.length === 0 && alerts.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <div
           className="glass rounded-2xl p-12 text-center"
         >
-          <FlaskConical className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <Icon name="FlaskConical" className="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-300 mb-2">
             Lab Inventory Empty
           </h3>
@@ -459,7 +414,7 @@ export default function ScienceLabDashboardPage() {
             Add your first apparatus or equipment to start tracking lab
             inventory and maintenance.
           </p>
-        </motion.div>
+        </div>
       )}
     </div>
   );

@@ -1,28 +1,13 @@
-@import "tailwindcss";
-
-@theme {
-  --color-omix-50: #eef2ff;
-  --color-omix-100: #e0e7ff;
-  --color-omix-200: #c7d2fe;
-  --color-omix-300: #a5b4fc;
-  --color-omix-400: #818cf8;
-  --color-omix-500: #6366f1;
-  --color-omix-600: #4f46e5;
-  --color-omix-700: #4338ca;
-  --color-omix-800: #3730a3;
-  --color-omix-900: #312e81;
-  --color-surface: #0a0a1a;
-  --color-surface-2: #12122a;
-  --color-surface-3: #1a1a3e;
-  --color-border: rgba(99, 102, 241, 0.15);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   * {
     box-sizing: border-box;
   }
   body {
-    background: var(--color-surface);
+    background: #0a0a1a;
     color: #e2e8f0;
     font-family: 'Inter', system-ui, sans-serif;
   }
@@ -58,25 +43,6 @@
   box-shadow: 0 0 15px rgba(99, 102, 241, 0.1);
 }
 
-/* Animated gradient background */
-.bg-animate {
-  background: linear-gradient(
-    135deg,
-    rgba(10, 10, 26, 1) 0%,
-    rgba(18, 18, 42, 1) 25%,
-    rgba(26, 26, 62, 1) 50%,
-    rgba(18, 18, 42, 1) 75%,
-    rgba(10, 10, 26, 1) 100%
-  );
-  background-size: 200% 200%;
-  animation: gradientShift 15s ease infinite;
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -96,4 +62,23 @@
 .input-glow:focus {
   box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.3),
               0 0 20px rgba(99, 102, 241, 0.1);
+}
+
+/* Keyframes */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.bg-animate {
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 26, 1) 0%,
+    rgba(18, 18, 42, 1) 25%,
+    rgba(26, 26, 62, 1) 50%,
+    rgba(18, 18, 42, 1) 75%,
+    rgba(10, 10, 26, 1) 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
 }

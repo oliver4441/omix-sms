@@ -1,24 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { 
-  ShieldCheck, 
-  ArrowRight, 
-  Users, 
-  GraduationCap, 
-  BookOpen, 
-  ClipboardCheck, 
-  FileSpreadsheet, 
-  DollarSign, 
-  Bot, 
-  Globe,
-  Smartphone,
-  Zap,
-  CheckCircle2,
-  ChevronRight
-} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 export default function LandingPage() {
   return (
@@ -46,7 +30,7 @@ export default function LandingPage() {
           </div>
           
           <button className="md:hidden text-gray-400">
-            <Zap className="w-6 h-6" />
+            <Icon name="Zap" className="w-6 h-6" />
           </button>
         </div>
       </nav>
@@ -60,39 +44,28 @@ export default function LandingPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+            <div
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-omix-500/10 border border-omix-500/20 text-omix-400 text-xs font-bold mb-6 tracking-wide uppercase"
             >
-              <Zap className="w-3 h-3 fill-current" />
+              <Icon name="Zap" className="w-3 h-3 fill-current" />
               The Future of Education Management
-            </motion.div>
+            </div>
             
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+            <h1
               className="text-5xl lg:text-7xl font-bold tracking-tight text-white mb-8 leading-[1.1]"
             >
               Simplifying School Operations <br />
               <span className="gradient-text">Through Advanced AI.</span>
-            </motion.h1>
+            </h1>
             
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+            <p
               className="text-lg text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed"
             >
               omixschools offers the most sophisticated ERP for Kenyan schools. 
               One powerful platform for administration, academics, and parents.
-            </motion.p>
+            </p>
             
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
+            <div
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <Link
@@ -100,7 +73,7 @@ export default function LandingPage() {
                 className="w-full sm:w-auto px-8 py-4 bg-omix-500 hover:bg-omix-400 text-white rounded-2xl font-bold shadow-lg shadow-omix-500/25 transition-all flex items-center justify-center gap-2 group"
               >
                 Get Started Now
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <Icon name="ArrowRight" className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="#demo"
@@ -108,7 +81,7 @@ export default function LandingPage() {
               >
                 Book a Demo
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -140,7 +113,7 @@ export default function LandingPage() {
               <div className="absolute -top-10 -left-10 w-64 h-64 bg-omix-500/20 rounded-full blur-[80px]" />
               <div className="glass rounded-[2rem] p-4 border border-white/5 aspect-square flex items-center justify-center relative overflow-hidden">
                 <div className="w-full h-full rounded-2xl bg-gradient-to-br from-surface to-surface-2 flex items-center justify-center border border-white/5">
-                  <Bot className="w-32 h-32 text-omix-500 opacity-20" />
+                  <Icon name="Bot" className="w-32 h-32 text-omix-500 opacity-20" />
                 </div>
               </div>
             </div>
@@ -166,7 +139,7 @@ export default function LandingPage() {
                   "Mobile-First Experience"
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 text-gray-300">
-                    <CheckCircle2 className="w-5 h-5 text-omix-500" />
+                    <Icon name="CheckCircle2" className="w-5 h-5 text-omix-500" />
                     <span>{item}</span>
                   </div>
                 ))}
@@ -188,28 +161,28 @@ export default function LandingPage() {
             {[
               {
                 title: "For Admins",
-                icon: ShieldCheck,
+                icon: "ShieldCheck",
                 features: ["HR Management", "Centralized Data", "Fee Automation", "Advanced Reporting"]
               },
               {
                 title: "For Teachers",
-                icon: GraduationCap,
+                icon: "GraduationCap",
                 features: ["Academic Tracking", "Parent Communication", "Record Management", "Attendance Logs"]
               },
               {
                 title: "For Students",
-                icon: Users,
+                icon: "Users",
                 features: ["Timetables", "Study Materials", "Exam Results", "Performance Metrics"]
               },
               {
                 title: "For Parents",
-                icon: Smartphone,
+                icon: "Smartphone",
                 features: ["Fee Payments", "Progress Tracking", "School Notifications", "Instant Messaging"]
               }
             ].map((role, i) => (
               <div key={i} className="glass rounded-[2rem] p-8 border border-white/5 hover:border-omix-500/20 transition-all group">
                 <div className="w-12 h-12 rounded-2xl bg-omix-500/10 flex items-center justify-center mb-6 ring-1 ring-white/5 group-hover:ring-omix-500/20 transition-all">
-                  <role.icon className="w-6 h-6 text-omix-400" />
+                  <Icon name={role.icon} className="w-6 h-6 text-omix-400" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-6">{role.title}</h3>
                 <ul className="space-y-3">
@@ -237,16 +210,16 @@ export default function LandingPage() {
                 <h2 className="text-4xl font-bold text-white mb-8">Comprehensive Modules for Seamless Administration</h2>
                 <div className="grid sm:grid-cols-2 gap-x-8 gap-y-10">
                   {[
-                    { title: "Bursar (Finance)", icon: DollarSign },
-                    { title: "Library", icon: BookOpen },
-                    { title: "Science Lab", icon: Zap },
-                    { title: "Computer Lab", icon: Globe },
-                    { title: "Attendance", icon: ClipboardCheck },
-                    { title: "Grades & Exams", icon: FileSpreadsheet },
+                    { title: "Bursar (Finance)", icon: "DollarSign" },
+                    { title: "Library", icon: "BookOpen" },
+                    { title: "Science Lab", icon: "Zap" },
+                    { title: "Computer Lab", icon: "Globe" },
+                    { title: "Attendance", icon: "ClipboardCheck" },
+                    { title: "Grades & Exams", icon: "FileSpreadsheet" },
                   ].map((mod, i) => (
                     <div key={i} className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                        <mod.icon className="w-5 h-5 text-omix-400" />
+                        <Icon name={mod.icon} className="w-5 h-5 text-omix-400" />
                       </div>
                       <span className="text-sm font-medium text-gray-300">{mod.title}</span>
                     </div>

@@ -3,27 +3,9 @@
 import { useState, useEffect, Suspense, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import {
-  Building2,
-  Mail,
-  Calendar,
-  Shield,
-  CheckCircle,
-  XCircle,
-  Plus,
-  RefreshCw,
-  Search,
-  ChevronLeft,
-  ChevronRight,
-  Clock,
-  AlertTriangle,
-  Sparkles,
-  Users,
-  Ban,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
 import Modal from "@/components/ui/Modal";
+import { Icon } from "@/components/ui/Icon"
 
 // --- Types ---
 interface SchoolStats {
@@ -212,9 +194,7 @@ function AdminDashboard() {
   if (status === "loading") {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        <div
           className="w-8 h-8 border-2 border-omix-500/30 border-t-omix-500 rounded-full"
         />
       </div>
@@ -236,29 +216,27 @@ function AdminDashboard() {
   };
 
   const statusIcons: Record<string, React.ReactNode> = {
-    approved: <CheckCircle className="w-3.5 h-3.5" />,
-    pending: <Clock className="w-3.5 h-3.5" />,
-    rejected: <XCircle className="w-3.5 h-3.5" />,
-    inactive: <Ban className="w-3.5 h-3.5" />,
+    approved: <Icon name="CheckCircle" className="w-3.5 h-3.5" />,
+    pending: <Icon name="Clock" className="w-3.5 h-3.5" />,
+    rejected: <Icon name="XCircle" className="w-3.5 h-3.5" />,
+    inactive: <Icon name="Ban" className="w-3.5 h-3.5" />,
   };
 
   return (
     <div className="space-y-6">
       {/* Super Admin Info */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="glass rounded-2xl p-6 border border-omix-500/10 glow-sm"
       >
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-omix-500 to-omix-700 flex items-center justify-center glow-sm flex-shrink-0">
-              <Shield className="w-7 h-7 text-white" />
+              <Icon name="Shield" className="w-7 h-7 text-white" />
             </div>
             <div>
               <h1 className="text-xl font-bold text-white flex items-center gap-2">
                 School Approvals
-                <Sparkles className="w-4 h-4 text-omix-400" />
+                <Icon name="Sparkles" className="w-4 h-4 text-omix-400" />
               </h1>
               <p className="text-sm text-gray-400">
                 Welcome back, <span className="text-omix-400 font-medium">{session?.user?.name || "Admin"}</span> — manage school registrations and approvals
@@ -280,13 +258,13 @@ function AdminDashboard() {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Actions Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3 flex-1 max-w-md">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <Icon name="Search" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input
               type="text"
               value={search}
@@ -312,13 +290,13 @@ function AdminDashboard() {
             disabled={loading}
             className="px-4 py-2.5 rounded-xl bg-surface-2 border border-border text-gray-400 hover:text-gray-200 hover:border-omix-500/30 transition-all disabled:opacity-50"
           >
-            <RefreshCw className={cn("w-4 h-4", loading && "animate-spin")} />
+            <Icon name="RefreshCw" className={cn("w-4 h-4", loading && "animate-spin")} />
           </button>
           <button
             onClick={() => setShowAddModal(true)}
             className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium text-sm transition-all duration-300 flex items-center gap-2 glow-sm"
           >
-            <Plus className="w-4 h-4" />
+            <Icon name="Plus" className="w-4 h-4" />
             <span>Add School</span>
           </button>
         </div>
@@ -340,33 +318,26 @@ function AdminDashboard() {
           ))}
         </div>
       ) : paged.length === 0 ? (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="glass rounded-2xl p-12 text-center border border-border"
         >
-          <AlertTriangle className="w-12 h-12 text-gray-500 mx-auto mb-4" />
+          <Icon name="AlertTriangle" className="w-12 h-12 text-gray-500 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-300 mb-2">No Schools Found</h3>
           <p className="text-sm text-gray-500 max-w-md mx-auto">
             {search || filterStatus !== "all"
               ? "No schools match your current filters. Try adjusting your search criteria."
               : "There are no schools registered yet. Click the button above to add the first school."}
           </p>
-        </motion.div>
+        </div>
       ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <div
           className="space-y-4"
         >
           {paged.map((school, idx) => {
             const displayStatus = getDisplayStatus(school);
             return (
-              <motion.div
+              <div
                 key={school.id}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.05 }}
                 className="glass rounded-2xl p-5 border border-border hover:border-omix-500/20 transition-all duration-300 glow-sm"
               >
                 <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
@@ -382,7 +353,7 @@ function AdminDashboard() {
                         ? "bg-gray-500/10 text-gray-400"
                         : "bg-red-500/10 text-red-400"
                     )}>
-                      <Building2 className="w-6 h-6" />
+                      <Icon name="Building2" className="w-6 h-6" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
@@ -409,17 +380,17 @@ function AdminDashboard() {
                       </div>
                       <div className="flex items-center gap-4 mt-1.5 text-xs text-gray-500 flex-wrap">
                         <span className="flex items-center gap-1">
-                          <Mail className="w-3 h-3" />
+                          <Icon name="Mail" className="w-3 h-3" />
                           {school.email || "No email"}
                         </span>
                         <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
+                          <Icon name="Calendar" className="w-3 h-3" />
                           Registered {formatDate(school.createdAt)}
                         </span>
                         {school._count && (
                           <>
                             <span className="flex items-center gap-1">
-                              <Users className="w-3 h-3" />
+                              <Icon name="Users" className="w-3 h-3" />
                               {school._count.users} users
                             </span>
                             <span className="text-xs text-gray-600">
@@ -439,14 +410,14 @@ function AdminDashboard() {
                           onClick={() => handleApprove(school.id)}
                           className="flex-1 lg:flex-none px-4 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 hover:border-emerald-500/40 text-sm font-medium transition-all flex items-center justify-center gap-1.5"
                         >
-                          <CheckCircle className="w-4 h-4" />
+                          <Icon name="CheckCircle" className="w-4 h-4" />
                           Approve
                         </button>
                         <button
                           onClick={() => handleReject(school.id)}
                           className="flex-1 lg:flex-none px-4 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 hover:border-red-500/40 text-sm font-medium transition-all flex items-center justify-center gap-1.5"
                         >
-                          <XCircle className="w-4 h-4" />
+                          <Icon name="XCircle" className="w-4 h-4" />
                           Reject
                         </button>
                       </>
@@ -462,18 +433,18 @@ function AdminDashboard() {
                         )}
                       >
                         {school.isActive ? (
-                          <><Ban className="w-4 h-4" /> Deactivate</>
+                          <><Icon name="Ban" className="w-4 h-4" /> Deactivate</>
                         ) : (
-                          <><CheckCircle className="w-4 h-4" /> Activate</>
+                          <><Icon name="CheckCircle" className="w-4 h-4" /> Activate</>
                         )}
                       </button>
                     )}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       )}
 
       {/* Pagination */}
@@ -488,7 +459,7 @@ function AdminDashboard() {
               disabled={page <= 1}
               className="w-8 h-8 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-gray-400 hover:text-gray-200 disabled:opacity-40 transition-all"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <Icon name="ChevronLeft" className="w-4 h-4" />
             </button>
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               const start = Math.max(1, Math.min(page - 2, totalPages - 4));
@@ -514,7 +485,7 @@ function AdminDashboard() {
               disabled={page >= totalPages}
               className="w-8 h-8 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-gray-400 hover:text-gray-200 disabled:opacity-40 transition-all"
             >
-              <ChevronRight className="w-4 h-4" />
+              <Icon name="ChevronRight" className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -530,7 +501,7 @@ function AdminDashboard() {
         <form onSubmit={handleAddSchool} className="space-y-5">
           {addError && (
             <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+              <Icon name="AlertTriangle" className="w-5 h-5 shrink-0 mt-0.5" />
               <span>{addError}</span>
             </div>
           )}
@@ -625,14 +596,12 @@ function AdminDashboard() {
               className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium text-sm transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 glow-sm"
             >
               {addLoading ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                <div
                   className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                 />
               ) : (
                 <>
-                  <Building2 className="w-4 h-4" />
+                  <Icon name="Building2" className="w-4 h-4" />
                   Register School
                 </>
               )}
@@ -651,9 +620,7 @@ export default function AdminPage() {
       fallback={
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            <div
               className="w-10 h-10 border-2 border-omix-500/30 border-t-omix-500 rounded-full mx-auto mb-4"
             />
             <p className="text-sm text-gray-500">Loading admin panel...</p>

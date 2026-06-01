@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import DepartmentLogin from "@/components/auth/DepartmentLogin";
-import { Banknote } from "lucide-react";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 function BursarLoginPage() {
@@ -10,7 +10,7 @@ function BursarLoginPage() {
       department="Bursar's Office"
       departmentName="Bursar's Office"
       requiredRole="bursar"
-      icon={<Banknote className="w-10 h-10 text-white" />}
+      icon={<Icon name="Banknote" className="w-10 h-10 text-white" />}
       dashboardPath="/bursar/dashboard"
     />
   );

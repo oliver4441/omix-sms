@@ -1,22 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  Banknote,
-  TrendingUp,
-  AlertTriangle,
-  Users,
-  DollarSign,
-  ArrowUpRight,
-  Calendar,
-  Search,
-  Download,
-  Filter,
-} from "lucide-react";
 import { cn, formatCurrency, formatDate } from "@/lib/utils";
 import StatCard from "@/components/ui/StatCard";
 import DataTable from "@/components/ui/DataTable";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface RecentPayment {
@@ -173,7 +161,7 @@ export default function BursarDashboardPage() {
   if (error) {
     return (
       <div className="glass rounded-2xl p-8 text-center">
-        <AlertTriangle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <Icon name="AlertTriangle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
         <p className="text-red-400 mb-4">{error}</p>
         <button
           onClick={fetchDashboard}
@@ -190,93 +178,67 @@ export default function BursarDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
       >
         <h1 className="text-2xl font-bold gradient-text">Bursar Dashboard</h1>
         <p className="text-gray-400 text-sm mt-1">
           Financial overview and fee management
         </p>
-      </motion.div>
+      </div>
 
       {/* Stats */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          visible: { transition: { staggerChildren: 0.08 } },
-        }}
+      <div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        <div
         >
           <StatCard
             title="Total Collected"
             value={formatCurrency(stats.totalCollected)}
-            icon={Banknote}
+            icon="Banknote"
             color="green"
             trend={{ value: 12, positive: true }}
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Pending Payments"
             value={stats.pendingPayments}
-            icon={TrendingUp}
+            icon="TrendingUp"
             color="amber"
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Defaulters"
             value={stats.defaulters}
-            icon={AlertTriangle}
+            icon="AlertTriangle"
             color="rose"
             trend={{ value: 5, positive: false }}
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Active Students"
             value={stats.activeStudents}
-            icon={Users}
+            icon="Users"
             color="omix"
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Recent Payments */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
+      <div
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white">
             Recent Payments
           </h2>
           <button className="flex items-center gap-2 px-4 py-2 text-sm text-omix-400 hover:text-omix-300 border border-omix-500/20 rounded-xl hover:bg-omix-500/10 transition-all">
-            <Download className="w-4 h-4" />
+            <Icon name="Download" className="w-4 h-4" />
             Export
           </button>
         </div>
@@ -288,20 +250,17 @@ export default function BursarDashboardPage() {
           pageSize={5}
           emptyMessage="No payments recorded yet"
         />
-      </motion.div>
+      </div>
 
       {/* Defaulters Section */}
       {defaultersList.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+        <div
           className="glass rounded-2xl p-6 border border-red-500/10"
         >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
-                <AlertTriangle className="w-5 h-5 text-red-400" />
+                <Icon name="AlertTriangle" className="w-5 h-5 text-red-400" />
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-white">
@@ -313,22 +272,19 @@ export default function BursarDashboardPage() {
               </div>
             </div>
             <button className="flex items-center gap-2 px-4 py-2 text-sm text-omix-400 hover:text-omix-300 border border-omix-500/20 rounded-xl hover:bg-omix-500/10 transition-all">
-              <Filter className="w-4 h-4" />
+              <Icon name="Filter" className="w-4 h-4" />
               View All
             </button>
           </div>
           <div className="space-y-3">
             {defaultersList.map((defaulter, idx) => (
-              <motion.div
+              <div
                 key={defaulter.id}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.08 }}
                 className="flex items-center justify-between p-4 rounded-xl bg-surface-2/50 border border-border hover:bg-surface-2 transition-all"
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center">
-                    <Users className="w-5 h-5 text-red-400" />
+                    <Icon name="Users" className="w-5 h-5 text-red-400" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-gray-200">
@@ -347,20 +303,18 @@ export default function BursarDashboardPage() {
                     {defaulter.daysOverdue} days overdue
                   </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* Empty state for when there's no data */}
       {recentPayments.length === 0 && defaultersList.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <div
           className="glass rounded-2xl p-12 text-center"
         >
-          <Banknote className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <Icon name="Banknote" className="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-300 mb-2">
             No financial data yet
           </h3>
@@ -368,7 +322,7 @@ export default function BursarDashboardPage() {
             Payments and fee records will appear here once students start
             making transactions.
           </p>
-        </motion.div>
+        </div>
       )}
     </div>
   );

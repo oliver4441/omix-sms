@@ -1,19 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  Calendar,
-  Clock,
-  Users,
-  MapPin,
-  Plus,
-  Search,
-  Filter,
-  AlertCircle,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
 import DataTable from "@/components/ui/DataTable";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface BoardMeeting {
@@ -134,7 +124,7 @@ export default function BoardMeetingsPage() {
       sortable: true,
       render: (item: BoardMeeting) => (
         <div className="flex items-center gap-2">
-          <Calendar className="w-3.5 h-3.5 text-gray-500" />
+          <Icon name="Calendar" className="w-3.5 h-3.5 text-gray-500" />
           <span className="text-sm">{formatDate(item.date)}</span>
         </div>
       ),
@@ -144,7 +134,7 @@ export default function BoardMeetingsPage() {
       header: "Time",
       render: (item: BoardMeeting) => (
         <div className="flex items-center gap-2">
-          <Clock className="w-3.5 h-3.5 text-gray-500" />
+          <Icon name="Clock" className="w-3.5 h-3.5 text-gray-500" />
           <span className="text-sm text-gray-300">{item.time}</span>
         </div>
       ),
@@ -154,7 +144,7 @@ export default function BoardMeetingsPage() {
       header: "Venue",
       render: (item: BoardMeeting) => (
         <div className="flex items-center gap-2">
-          <MapPin className="w-3.5 h-3.5 text-gray-500" />
+          <Icon name="MapPin" className="w-3.5 h-3.5 text-gray-500" />
           <span className="text-sm text-gray-300">{item.venue}</span>
         </div>
       ),
@@ -171,7 +161,7 @@ export default function BoardMeetingsPage() {
       className: "text-center",
       render: (item: BoardMeeting) => (
         <div className="flex items-center justify-center gap-1">
-          <Users className="w-3.5 h-3.5 text-gray-500" />
+          <Icon name="Users" className="w-3.5 h-3.5 text-gray-500" />
           <span className="text-sm">{item.attendeeCount}</span>
         </div>
       ),
@@ -214,7 +204,7 @@ export default function BoardMeetingsPage() {
   if (error) {
     return (
       <div className="glass rounded-2xl p-8 text-center">
-        <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <Icon name="AlertCircle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
         <p className="text-red-400 mb-4">{error}</p>
         <button
           onClick={fetchMeetings}
@@ -229,9 +219,7 @@ export default function BoardMeetingsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -241,16 +229,13 @@ export default function BoardMeetingsPage() {
           </p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm text-sm">
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Schedule Meeting
         </button>
-      </motion.div>
+      </div>
 
       {/* Meetings Table */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
+      <div
       >
         <DataTable
           columns={columns}
@@ -260,16 +245,14 @@ export default function BoardMeetingsPage() {
           pageSize={10}
           emptyMessage="No meetings scheduled yet"
         />
-      </motion.div>
+      </div>
 
       {/* Empty state */}
       {meetings.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <div
           className="glass rounded-2xl p-12 text-center"
         >
-          <Calendar className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <Icon name="Calendar" className="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-300 mb-2">
             No Board Meetings
           </h3>
@@ -277,7 +260,7 @@ export default function BoardMeetingsPage() {
             Schedule the first board meeting to start tracking attendance,
             agendas, and minutes.
           </p>
-        </motion.div>
+        </div>
       )}
     </div>
   );

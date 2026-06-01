@@ -2,20 +2,9 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { signIn } from "next-auth/react";
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Eye, 
-  EyeOff, 
-  LogIn, 
-  School, 
-  AlertCircle, 
-  Mail, 
-  ArrowRight,
-  ShieldCheck,
-  Chrome
-} from "lucide-react";
 import { useSearchParams, useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 const roleDashboards: Record<string, string> = {
   super_admin: "/admin",
@@ -141,20 +130,16 @@ function LoginForm() {
         <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px]" />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="w-full max-w-md relative z-10"
       >
         {/* Header */}
         <div className="text-center mb-8">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+          <div
             className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-omix-500 to-omix-700 flex items-center justify-center shadow-lg shadow-omix-500/20 ring-1 ring-white/10"
           >
-            <ShieldCheck className="w-8 h-8 text-white" />
-          </motion.div>
+            <Icon name="ShieldCheck" className="w-8 h-8 text-white" />
+          </div>
           <h1 className="text-3xl font-bold tracking-tight text-white mb-1">
             {school ? school.name : "omixsystems"}
           </h1>
@@ -164,15 +149,13 @@ function LoginForm() {
         <div className="glass rounded-3xl p-8 border border-white/5 shadow-2xl backdrop-blur-2xl">
           {errorParam && (
             <div className="mb-6 p-4 rounded-xl bg-rose-500/5 border border-rose-500/10 text-rose-400 text-xs flex items-center gap-3">
-              <AlertCircle className="w-4 h-4 shrink-0" />
+              <Icon name="AlertCircle" className="w-4 h-4 shrink-0" />
               <span>{errorParam === "AccessDenied" ? "Access denied. Insufficient permissions." : "An authentication error occurred."}</span>
             </div>
           )}
 
           {error && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+            <div
               className={cn(
                 "mb-6 p-4 rounded-xl text-xs flex items-center gap-3 border",
                 error.startsWith("success:") 
@@ -180,9 +163,9 @@ function LoginForm() {
                   : "bg-rose-500/5 border-rose-500/10 text-rose-400"
               )}
             >
-              {error.startsWith("success:") ? <ShieldCheck className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
+              {error.startsWith("success:") ? <Icon name="ShieldCheck" className="w-4 h-4" /> : <Icon name="AlertCircle" className="w-4 h-4" />}
               <span>{error.replace("success:", "")}</span>
-            </motion.div>
+            </div>
           )}
 
           <div className="space-y-6">
@@ -192,7 +175,7 @@ function LoginForm() {
                 onClick={() => handleSocialLogin("google")}
                 className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-sm font-medium text-gray-300 hover:bg-white/10 transition-all"
               >
-                <Chrome className="w-4 h-4" />
+                <Icon name="Chrome" className="w-4 h-4" />
                 Google
               </button>
               <button
@@ -231,13 +214,10 @@ function LoginForm() {
               </button>
             </div>
 
-            <AnimatePresence mode="wait">
+            
               {loginMethod === "credentials" ? (
-                <motion.form
+                <form
                   key="credentials"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
                   onSubmit={handleCredentialsLogin}
                   className="space-y-4"
                 >
@@ -265,7 +245,7 @@ function LoginForm() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
                     >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      {showPassword ? <Icon name="EyeOff" className="w-4 h-4" /> : <Icon name="Eye" className="w-4 h-4" />}
                     </button>
                   </div>
                   <button
@@ -273,15 +253,12 @@ function LoginForm() {
                     disabled={loading}
                     className="w-full py-3 bg-omix-500 hover:bg-omix-400 text-white rounded-xl font-semibold shadow-lg shadow-omix-500/20 transition-all flex items-center justify-center gap-2"
                   >
-                    {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><LogIn className="w-4 h-4" /> Sign In</>}
+                    {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><Icon name="LogIn" className="w-4 h-4" /> Sign In</>}
                   </button>
-                </motion.form>
+                </form>
               ) : (
-                <motion.form
+                <form
                   key="magic-link"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
                   onSubmit={handleMagicLinkLogin}
                   className="space-y-4"
                 >
@@ -303,11 +280,11 @@ function LoginForm() {
                     disabled={loading}
                     className="w-full py-3 bg-omix-500 hover:bg-omix-400 text-white rounded-xl font-semibold shadow-lg shadow-omix-500/20 transition-all flex items-center justify-center gap-2"
                   >
-                    {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><Mail className="w-4 h-4" /> Send Link</>}
+                    {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><Icon name="Mail" className="w-4 h-4" /> Send Link</>}
                   </button>
-                </motion.form>
+                </form>
               )}
-            </AnimatePresence>
+            
           </div>
         </div>
 
@@ -316,7 +293,7 @@ function LoginForm() {
           <div className="w-1 h-1 bg-gray-800 rounded-full" />
           <p className="text-[10px] text-gray-600 uppercase tracking-widest font-bold">Privacy Policy</p>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

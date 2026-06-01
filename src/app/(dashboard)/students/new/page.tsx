@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import FormField from "@/components/ui/FormField";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface ClassOption {
   id: string;
@@ -97,7 +96,7 @@ export default function NewStudentPage() {
         onClick={() => router.back()}
         className="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors text-sm"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <Icon name="ArrowLeft" className="w-4 h-4" />
         Back to Students
       </button>
 
@@ -110,9 +109,7 @@ export default function NewStudentPage() {
       </div>
 
       {/* Form */}
-      <motion.form
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <form
         onSubmit={handleSubmit}
         className="glass rounded-2xl p-6 border-border space-y-6"
       >
@@ -272,14 +269,14 @@ export default function NewStudentPage() {
             className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm disabled:opacity-50"
           >
             {saving ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Icon name="Loader2" className="w-4 h-4 animate-spin" />
             ) : (
-              <Save className="w-4 h-4" />
+              <Icon name="Save" className="w-4 h-4" />
             )}
             {saving ? "Saving..." : "Save Student"}
           </button>
         </div>
-      </motion.form>
+      </form>
     </div>
   );
 }

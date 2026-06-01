@@ -1,20 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  User,
-  Building2,
-  Save,
-  Loader2,
-  CheckCircle2,
-  School,
-  Mail,
-  Phone,
-  MapPin,
-  Globe,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface ProfileData {
   name: string;
@@ -167,8 +155,8 @@ export default function SettingsPage() {
   }
 
   const TABS = [
-    { key: "profile", label: "Profile", icon: User },
-    { key: "school", label: "School", icon: Building2 },
+    { key: "profile", label: "Profile", icon: "User" },
+    { key: "school", label: "School", icon: "Building2" },
   ];
 
   return (
@@ -185,7 +173,7 @@ export default function SettingsPage() {
       {success && (
         <div className="glass rounded-2xl p-4 border border-emerald-500/20 bg-emerald-500/5">
           <p className="text-emerald-400 text-sm flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4" />
+            <Icon name="CheckCircle2" className="w-4 h-4" />
             {success}
           </p>
         </div>
@@ -200,7 +188,6 @@ export default function SettingsPage() {
       <div className="glass rounded-2xl overflow-hidden border-border">
         <div className="flex border-b border-border">
           {TABS.map((tab) => {
-            const Icon = tab.icon;
             const isActive = activeTab === tab.key;
             return (
               <button
@@ -213,11 +200,10 @@ export default function SettingsPage() {
                     : "text-gray-500 hover:text-gray-300"
                 )}
               >
-                <Icon className="w-4 h-4" />
+                <Icon name={tab.icon} className="w-4 h-4" />
                 {tab.label}
                 {isActive && (
-                  <motion.div
-                    layoutId="settingsTabIndicator"
+                  <div
                     className="absolute bottom-0 left-0 right-0 h-0.5 bg-omix-500"
                   />
                 )}
@@ -241,7 +227,7 @@ export default function SettingsPage() {
                   {/* Profile Header */}
                   <div className="flex items-center gap-4 pb-6 border-b border-border">
                     <div className="w-16 h-16 rounded-2xl bg-omix-500/10 flex items-center justify-center">
-                      <User className="w-8 h-8 text-omix-400" />
+                      <Icon name="User" className="w-8 h-8 text-omix-400" />
                     </div>
                     <div>
                       <h2 className="text-xl font-semibold text-white">
@@ -274,7 +260,7 @@ export default function SettingsPage() {
                         Email Address
                       </label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Icon name="Mail" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                         <input
                           type="email"
                           value={profile.email}
@@ -310,9 +296,9 @@ export default function SettingsPage() {
                       className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm disabled:opacity-40"
                     >
                       {saving ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <Icon name="Loader2" className="w-4 h-4 animate-spin" />
                       ) : (
-                        <Save className="w-4 h-4" />
+                        <Icon name="Save" className="w-4 h-4" />
                       )}
                       Save Changes
                     </button>
@@ -336,14 +322,14 @@ export default function SettingsPage() {
                   {/* School Header */}
                   <div className="flex items-center gap-4 pb-6 border-b border-border">
                     <div className="w-16 h-16 rounded-2xl bg-omix-500/10 flex items-center justify-center">
-                      <School className="w-8 h-8 text-omix-400" />
+                      <Icon name="School" className="w-8 h-8 text-omix-400" />
                     </div>
                     <div>
                       <h2 className="text-xl font-semibold text-white">
                         {school.name || "School Name"}
                       </h2>
                       <p className="text-sm text-gray-400 flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5" />
+                        <Icon name="MapPin" className="w-3.5 h-3.5" />
                         {school.address || "Address not set"}
                       </p>
                     </div>
@@ -371,7 +357,7 @@ export default function SettingsPage() {
                         Address
                       </label>
                       <div className="relative">
-                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                        <Icon name="MapPin" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                         <input
                           type="text"
                           value={school.address}
@@ -390,7 +376,7 @@ export default function SettingsPage() {
                           Phone
                         </label>
                         <div className="relative">
-                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                          <Icon name="Phone" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                           <input
                             type="text"
                             value={school.phone}
@@ -408,7 +394,7 @@ export default function SettingsPage() {
                           Email
                         </label>
                         <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                          <Icon name="Mail" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                           <input
                             type="email"
                             value={school.email}
@@ -428,7 +414,7 @@ export default function SettingsPage() {
                           Website
                         </label>
                         <div className="relative">
-                          <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                          <Icon name="Globe" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                           <input
                             type="text"
                             value={school.website}
@@ -466,9 +452,9 @@ export default function SettingsPage() {
                       className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm disabled:opacity-40"
                     >
                       {saving ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <Icon name="Loader2" className="w-4 h-4 animate-spin" />
                       ) : (
-                        <Save className="w-4 h-4" />
+                        <Icon name="Save" className="w-4 h-4" />
                       )}
                       Save School Settings
                     </button>

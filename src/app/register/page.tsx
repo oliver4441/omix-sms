@@ -1,18 +1,7 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { motion } from "framer-motion";
-import {
-  Eye,
-  EyeOff,
-  GraduationCap,
-  Sparkles,
-  Building2,
-  User,
-  School,
-  ArrowLeft,
-  CheckCircle,
-} from "lucide-react";
+import { Icon } from "@/components/ui/Icon"
 
 function RegisterForm() {
   // School fields
@@ -88,105 +77,74 @@ function RegisterForm() {
       <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
         {/* Animated background orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
+          <div
             className="absolute -top-40 -right-40 w-96 h-96 rounded-full opacity-10"
             style={{ background: "radial-gradient(circle, #6366f1, transparent)" }}
-            animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           />
-          <motion.div
+          <div
             className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full opacity-10"
             style={{ background: "radial-gradient(circle, #818cf8, transparent)" }}
-            animate={{ scale: [1.2, 1, 1.2], rotate: [90, 0, 90] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        <div
           className="w-full max-w-md relative"
         >
           {/* Logo & Brand */}
           <div className="text-center mb-8">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            <div
               className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-omix-500 to-omix-700 mb-6 glow"
             >
-              <GraduationCap className="w-10 h-10 text-white" />
-            </motion.div>
-            <motion.h1
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
+              <Icon name="GraduationCap" className="w-10 h-10 text-white" />
+            </div>
+            <h1
               className="text-3xl font-bold gradient-text"
             >
               omixsystems
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
+            </h1>
+            <p
               className="text-gray-400 mt-2 text-sm"
             >
               School Management Platform
-            </motion.p>
+            </p>
           </div>
 
           {/* Success Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5 }}
+          <div
             className="glass rounded-2xl p-8 glow text-center"
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.7, type: "spring", stiffness: 200 }}
+            <div
               className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/30 mb-6"
             >
-              <CheckCircle className="w-8 h-8 text-emerald-400" />
-            </motion.div>
+              <Icon name="CheckCircle" className="w-8 h-8 text-emerald-400" />
+            </div>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9 }}
+            <h2
               className="text-xl font-semibold text-gray-100 mb-3"
             >
               Registration Submitted for Approval
-            </motion.h2>
+            </h2>
 
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.1 }}
+            <p
               className="text-gray-400 text-sm mb-8"
             >
               Your school account has been submitted for review. An administrator
               will review your registration and you will be notified once
               approved.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.3 }}
+            <div
             >
               <a
                 href="/login"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <Icon name="ArrowLeft" className="w-4 h-4" />
                 Return to Login
               </a>
-            </motion.div>
-          </motion.div>
-        </motion.div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -195,63 +153,44 @@ function RegisterForm() {
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
+        <div
           className="absolute -top-40 -right-40 w-96 h-96 rounded-full opacity-10"
           style={{ background: "radial-gradient(circle, #6366f1, transparent)" }}
-          animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div
+        <div
           className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full opacity-10"
           style={{ background: "radial-gradient(circle, #818cf8, transparent)" }}
-          animate={{ scale: [1.2, 1, 1.2], rotate: [90, 0, 90] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+      <div
         className="w-full max-w-lg relative"
       >
         {/* Logo & Brand */}
         <div className="text-center mb-8">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          <div
             className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-omix-500 to-omix-700 mb-6 glow"
           >
-            <GraduationCap className="w-10 h-10 text-white" />
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
+            <Icon name="GraduationCap" className="w-10 h-10 text-white" />
+          </div>
+          <h1
             className="text-3xl font-bold gradient-text"
           >
             Register Your School
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
+          </h1>
+          <p
             className="text-gray-400 mt-2 text-sm"
           >
             Create your school&apos;s account on omixsystems
-          </motion.p>
+          </p>
         </div>
 
         {/* Registration Card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
+        <div
           className="glass rounded-2xl p-8 glow"
         >
           <div className="flex items-center gap-2 mb-6">
-            <Sparkles className="w-4 h-4 text-omix-400" />
+            <Icon name="Sparkles" className="w-4 h-4 text-omix-400" />
             <span className="text-sm text-gray-400">
               Fill in your school details
             </span>
@@ -261,7 +200,7 @@ function RegisterForm() {
             {/* School Information Section */}
             <div className="space-y-1">
               <div className="flex items-center gap-2 mb-3">
-                <Building2 className="w-4 h-4 text-omix-400" />
+                <Icon name="Building2" className="w-4 h-4 text-omix-400" />
                 <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">
                   School Information
                 </span>
@@ -327,7 +266,7 @@ function RegisterForm() {
             {/* Admin Information Section */}
             <div className="space-y-1 pt-2">
               <div className="flex items-center gap-2 mb-3">
-                <User className="w-4 h-4 text-omix-400" />
+                <Icon name="User" className="w-4 h-4 text-omix-400" />
                 <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">
                   Admin Information
                 </span>
@@ -380,7 +319,7 @@ function RegisterForm() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200 transition-colors"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPassword ? <Icon name="EyeOff" className="w-4 h-4" /> : <Icon name="Eye" className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
@@ -404,7 +343,7 @@ function RegisterForm() {
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200 transition-colors"
                   >
-                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showConfirmPassword ? <Icon name="EyeOff" className="w-4 h-4" /> : <Icon name="Eye" className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
@@ -412,13 +351,11 @@ function RegisterForm() {
 
             {/* Error Message */}
             {error && (
-              <motion.p
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
+              <p
                 className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2"
               >
                 {error}
-              </motion.p>
+              </p>
             )}
 
             {/* Submit Button */}
@@ -428,14 +365,12 @@ function RegisterForm() {
               className="w-full py-3 px-6 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 glow-sm"
             >
               {loading ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                <div
                   className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                 />
               ) : (
                 <>
-                  <School className="w-4 h-4" />
+                  <Icon name="School" className="w-4 h-4" />
                   Register School
                 </>
               )}
@@ -460,8 +395,8 @@ function RegisterForm() {
               Powered by <span className="text-omix-400">omixsystems</span> AI
             </p>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 }

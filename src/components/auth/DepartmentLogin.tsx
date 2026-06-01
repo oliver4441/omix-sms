@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { motion } from "framer-motion";
-import { Eye, EyeOff, LogIn } from "lucide-react";
+import { Icon } from "@/components/ui/Icon"
 
 interface DepartmentLoginProps {
   department: string;
@@ -66,59 +65,40 @@ export default function DepartmentLogin({
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
+        <div
           className="absolute -top-40 -right-40 w-96 h-96 rounded-full opacity-10"
           style={{ background: "radial-gradient(circle, #6366f1, transparent)" }}
-          animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div
+        <div
           className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full opacity-10"
           style={{ background: "radial-gradient(circle, #818cf8, transparent)" }}
-          animate={{ scale: [1.2, 1, 1.2], rotate: [90, 0, 90] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+      <div
         className="w-full max-w-md relative"
       >
         {/* Logo & Brand */}
         <div className="text-center mb-8">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          <div
             className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-omix-500 to-omix-700 mb-6 glow"
           >
             {icon}
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
+          </div>
+          <h1
             className="text-3xl font-bold gradient-text"
           >
             {departmentName}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
+          </h1>
+          <p
             className="text-gray-400 mt-2 text-sm"
           >
             omixsystems — {department}
-          </motion.p>
+          </p>
         </div>
 
         {/* Login Card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5 }}
+        <div
           className="glass rounded-2xl p-8 glow"
         >
           <div className="flex items-center gap-2 mb-6">
@@ -158,19 +138,17 @@ export default function DepartmentLogin({
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200 transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? <Icon name="EyeOff" className="w-4 h-4" /> : <Icon name="Eye" className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
             {error && (
-              <motion.p
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
+              <p
                 className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2"
               >
                 {error}
-              </motion.p>
+              </p>
             )}
 
             <button
@@ -179,14 +157,12 @@ export default function DepartmentLogin({
               className="w-full py-3 px-6 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 glow-sm"
             >
               {loading ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                <div
                   className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                 />
               ) : (
                 <>
-                  <LogIn className="w-4 h-4" />
+                  <Icon name="LogIn" className="w-4 h-4" />
                   Sign In
                 </>
               )}
@@ -200,8 +176,8 @@ export default function DepartmentLogin({
               </a>
             </p>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 }

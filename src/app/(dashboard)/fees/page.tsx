@@ -1,26 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
-import {
-  DollarSign,
-  Plus,
-  Search,
-  Banknote,
-  CreditCard,
-  Building2,
-  Smartphone,
-  Loader2,
-  CheckCircle2,
-  X,
-  Receipt,
-  PiggyBank,
-  CalendarDays,
-} from "lucide-react";
 import { cn, formatCurrency, formatDate } from "@/lib/utils";
 import DataTable from "@/components/ui/DataTable";
 import Modal from "@/components/ui/Modal";
 import StatCard from "@/components/ui/StatCard";
+import { Icon } from "@/components/ui/Icon"
 
 interface FeeStructure {
   id: string;
@@ -58,11 +43,11 @@ interface Payment {
   };
 }
 
-const METHOD_ICONS: Record<string, React.ElementType> = {
-  cash: Banknote,
-  mpesa: Smartphone,
-  bank: Building2,
-  card: CreditCard,
+const METHOD_ICONS: Record<string, string> = {
+  cash: "Banknote",
+  mpesa: "Smartphone",
+  bank: "Building2",
+  card: "CreditCard",
 };
 
 const METHOD_COLORS: Record<string, string> = {
@@ -235,7 +220,7 @@ export default function FeesPage() {
       key: "method",
       header: "Method",
       render: (p: Payment) => {
-        const Icon = METHOD_ICONS[p.method] || Banknote;
+        const methodIcon = METHOD_ICONS[p.method] || "Banknote";
         return (
           <span
             className={cn(
@@ -243,7 +228,7 @@ export default function FeesPage() {
               METHOD_COLORS[p.method] || "text-gray-400 bg-surface-2"
             )}
           >
-            <Icon className="w-3.5 h-3.5" />
+            <Icon name={methodIcon} className="w-3.5 h-3.5" />
             {p.method.charAt(0).toUpperCase() + p.method.slice(1)}
           </span>
         );
@@ -308,7 +293,7 @@ export default function FeesPage() {
           onClick={openPaymentModal}
           className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm"
         >
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Record Payment
         </button>
       </div>
@@ -318,19 +303,19 @@ export default function FeesPage() {
         <StatCard
           title="Total Collected"
           value={formatCurrency(totalCollected)}
-          icon={DollarSign}
+          icon="DollarSign"
           color="green"
         />
         <StatCard
           title="Fee Structures"
           value={totalStructures}
-          icon={Receipt}
+          icon="Receipt"
           color="omix"
         />
         <StatCard
           title="Total Payments"
           value={payments.length}
-          icon={PiggyBank}
+          icon="PiggyBank"
           color="blue"
         />
       </div>
@@ -339,7 +324,7 @@ export default function FeesPage() {
       {success && (
         <div className="glass rounded-2xl p-4 border border-emerald-500/20 bg-emerald-500/5">
           <p className="text-emerald-400 text-sm flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4" />
+            <Icon name="CheckCircle2" className="w-4 h-4" />
             {success}
           </p>
         </div>
@@ -354,10 +339,9 @@ export default function FeesPage() {
       <div className="glass rounded-2xl overflow-hidden border-border">
         <div className="flex border-b border-border">
           {[
-            { key: "structures", label: "Fee Structures", icon: Receipt },
-            { key: "payments", label: "Payments", icon: DollarSign },
+            { key: "structures", label: "Fee Structures", icon: "Receipt" },
+            { key: "payments", label: "Payments", icon: "DollarSign" },
           ].map((tab) => {
-            const Icon = tab.icon;
             const isActive = activeTab === tab.key;
             return (
               <button
@@ -370,7 +354,7 @@ export default function FeesPage() {
                     : "text-gray-500 hover:text-gray-300"
                 )}
               >
-                <Icon className="w-4 h-4" />
+                <Icon name={tab.icon} className="w-4 h-4" />
                 {tab.label}
                 {tab.key === "structures" && (
                   <span className="text-xs bg-surface-2 px-2 py-0.5 rounded-full text-gray-400">
@@ -378,8 +362,7 @@ export default function FeesPage() {
                   </span>
                 )}
                 {isActive && (
-                  <motion.div
-                    layoutId="feeTabIndicator"
+                  <div
                     className="absolute bottom-0 left-0 right-0 h-0.5 bg-omix-500"
                   />
                 )}
@@ -394,7 +377,7 @@ export default function FeesPage() {
             <div>
               {structures.length === 0 ? (
                 <div className="text-center py-12">
-                  <Receipt className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+                  <Icon name="Receipt" className="w-12 h-12 text-gray-500 mx-auto mb-3" />
                   <p className="text-gray-400 text-sm">
                     No fee structures defined
                   </p>
@@ -402,16 +385,13 @@ export default function FeesPage() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {structures.map((s, idx) => (
-                    <motion.div
+                    <div
                       key={s.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.04 }}
                       className="glass rounded-xl p-5 border-border hover:glow-sm transition-all duration-300"
                     >
                       <div className="flex items-start justify-between mb-3">
                         <div className="w-10 h-10 rounded-lg bg-omix-500/10 flex items-center justify-center">
-                          <Receipt className="w-5 h-5 text-omix-400" />
+                          <Icon name="Receipt" className="w-5 h-5 text-omix-400" />
                         </div>
                         <span className="text-xs font-medium text-gray-500 bg-surface-2 px-2.5 py-1 rounded-full capitalize">
                           {s.frequency}
@@ -434,7 +414,7 @@ export default function FeesPage() {
                           {s.description}
                         </p>
                       )}
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               )}
@@ -478,7 +458,7 @@ export default function FeesPage() {
               Student <span className="text-omix-400">*</span>
             </label>
             <div className="relative mb-2">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+              <Icon name="Search" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
               <input
                 type="text"
                 value={studentSearch}
@@ -655,9 +635,9 @@ export default function FeesPage() {
               className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm disabled:opacity-40"
             >
               {saving ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Icon name="Loader2" className="w-4 h-4 animate-spin" />
               ) : (
-                <DollarSign className="w-4 h-4" />
+                <Icon name="DollarSign" className="w-4 h-4" />
               )}
               Record Payment
             </button>

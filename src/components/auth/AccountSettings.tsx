@@ -2,11 +2,8 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { motion } from "framer-motion";
-import { 
-  User, Mail, Lock, Save, Eye, EyeOff, CheckCircle, AlertCircle 
-} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 export default function AccountSettings() {
   const { data: session, update } = useSession();
@@ -113,31 +110,27 @@ export default function AccountSettings() {
 
       {/* Success / Error messages */}
       {success && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm flex items-start gap-3"
         >
-          <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" />
+          <Icon name="CheckCircle" className="w-5 h-5 shrink-0 mt-0.5" />
           <span>{success}</span>
-        </motion.div>
+        </div>
       )}
 
       {error && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm flex items-start gap-3"
         >
-          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+          <Icon name="AlertCircle" className="w-5 h-5 shrink-0 mt-0.5" />
           <span>{error}</span>
-        </motion.div>
+        </div>
       )}
 
       {/* Account info card */}
       <div className="glass rounded-2xl p-6 border border-border">
         <h2 className="text-lg font-semibold text-gray-200 mb-4 flex items-center gap-2">
-          <User className="w-5 h-5 text-omix-400" />
+          <Icon name="User" className="w-5 h-5 text-omix-400" />
           Account Information
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -163,7 +156,7 @@ export default function AccountSettings() {
       {/* Update Profile */}
       <div className="glass rounded-2xl p-6 border border-border">
         <h2 className="text-lg font-semibold text-gray-200 mb-4 flex items-center gap-2">
-          <Mail className="w-5 h-5 text-omix-400" />
+          <Icon name="Mail" className="w-5 h-5 text-omix-400" />
           Update Profile
         </h2>
         <form onSubmit={handleUpdateProfile} className="space-y-4">
@@ -196,14 +189,12 @@ export default function AccountSettings() {
             )}
           >
             {loading ? (
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+              <div
                 className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
               />
             ) : (
               <>
-                <Save className="w-4 h-4" />
+                <Icon name="Save" className="w-4 h-4" />
                 Save Changes
               </>
             )}
@@ -214,7 +205,7 @@ export default function AccountSettings() {
       {/* Change Password */}
       <div className="glass rounded-2xl p-6 border border-border">
         <h2 className="text-lg font-semibold text-gray-200 mb-4 flex items-center gap-2">
-          <Lock className="w-5 h-5 text-omix-400" />
+          <Icon name="Lock" className="w-5 h-5 text-omix-400" />
           Change Password
         </h2>
         <form onSubmit={handleChangePassword} className="space-y-4">
@@ -233,7 +224,7 @@ export default function AccountSettings() {
                 onClick={() => setShowCurrent(!showCurrent)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
               >
-                {showCurrent ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showCurrent ? <Icon name="EyeOff" className="w-4 h-4" /> : <Icon name="Eye" className="w-4 h-4" />}
               </button>
             </div>
           </div>
@@ -253,7 +244,7 @@ export default function AccountSettings() {
                 onClick={() => setShowNew(!showNew)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
               >
-                {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showNew ? <Icon name="EyeOff" className="w-4 h-4" /> : <Icon name="Eye" className="w-4 h-4" />}
               </button>
             </div>
           </div>
@@ -279,14 +270,12 @@ export default function AccountSettings() {
             )}
           >
             {loading ? (
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+              <div
                 className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
               />
             ) : (
               <>
-                <Lock className="w-4 h-4" />
+                <Icon name="Lock" className="w-4 h-4" />
                 Change Password
               </>
             )}

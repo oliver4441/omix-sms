@@ -2,18 +2,9 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { motion } from "framer-motion";
-import {
-  Bell,
-  Search,
-  LogOut,
-  User,
-  ChevronDown,
-  Settings,
-  Sparkles,
-} from "lucide-react";
 import { cn, getInitials } from "@/lib/utils";
 import { useState, useRef, useEffect, useCallback } from "react";
+import { Icon } from "@/components/ui/Icon"
 
 export default function Header() {
   const { data: session } = useSession();
@@ -56,7 +47,7 @@ export default function Header() {
         {/* Left: Search */}
         <div className="flex items-center flex-1 max-w-md">
           <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <Icon name="Search" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input
               type="text"
               value={searchQuery}
@@ -71,7 +62,7 @@ export default function Header() {
         <div className="flex items-center gap-3">
           {/* Notifications */}
           <button className="relative w-10 h-10 rounded-xl bg-surface-2 border border-border flex items-center justify-center text-gray-400 hover:text-gray-200 hover:border-omix-500/30 transition-all">
-            <Bell className="w-4 h-4" />
+            <Icon name="Bell" className="w-4 h-4" />
             {unreadCount > 0 && (
               <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-omix-500 rounded-full text-[9px] font-bold text-white flex items-center justify-center">
                 {unreadCount > 99 ? "99+" : unreadCount}
@@ -84,7 +75,7 @@ export default function Header() {
             href="/ai"
             className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-omix-600/20 to-omix-500/10 border border-omix-500/20 text-omix-400 text-sm font-medium hover:from-omix-600/30 hover:to-omix-500/20 transition-all"
           >
-            <Sparkles className="w-4 h-4" />
+            <Icon name="Sparkles" className="w-4 h-4" />
             <span>AI Assistant</span>
           </Link>
 
@@ -105,14 +96,11 @@ export default function Header() {
                   {session?.user?.role || "admin"}
                 </p>
               </div>
-              <ChevronDown className="w-4 h-4 text-gray-500" />
+              <Icon name="ChevronDown" className="w-4 h-4 text-gray-500" />
             </button>
 
             {dropdownOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 8 }}
+              <div
                 className="absolute right-0 top-full mt-2 w-56 glass rounded-xl glow-sm overflow-hidden"
               >
                 <div className="p-2 border-b border-border">
@@ -127,18 +115,18 @@ export default function Header() {
                     onClick={() => setDropdownOpen(false)}
                     className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all"
                   >
-                    <Settings className="w-4 h-4" />
+                    <Icon name="Settings" className="w-4 h-4" />
                     Settings
                   </Link>
                   <button
                     onClick={() => signOut({ callbackUrl: "/login" })}
                     className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all"
                   >
-                    <LogOut className="w-4 h-4" />
+                    <Icon name="LogOut" className="w-4 h-4" />
                     Sign Out
                   </button>
                 </div>
-              </motion.div>
+              </div>
             )}
           </div>
         </div>

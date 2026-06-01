@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import DepartmentLogin from "@/components/auth/DepartmentLogin";
-import { BookOpen } from "lucide-react";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 function LibraryLoginPage() {
@@ -10,7 +10,7 @@ function LibraryLoginPage() {
       department="Library"
       departmentName="Library"
       requiredRole="librarian"
-      icon={<BookOpen className="w-10 h-10 text-white" />}
+      icon={<Icon name="BookOpen" className="w-10 h-10 text-white" />}
       dashboardPath="/library/dashboard"
     />
   );

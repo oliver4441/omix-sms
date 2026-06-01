@@ -1,21 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  Bell,
-  Check,
-  CheckCheck,
-  Clock,
-  AlertTriangle,
-  Info,
-  AlertCircle,
-  ArrowUp,
-  Loader2,
-  Inbox,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState, useCallback } from "react";
 import Link from "next/link";
+import { Icon } from "@/components/ui/Icon"
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -75,18 +63,18 @@ function getPriorityColor(priority: string): string {
   }
 }
 
-function getPriorityIcon(priority: string) {
+function getPriorityIcon(priority: string): string {
   switch (priority) {
     case "urgent":
-      return AlertTriangle;
+      return "AlertTriangle";
     case "high":
-      return AlertCircle;
+      return "AlertCircle";
     case "normal":
-      return Bell;
+      return "Bell";
     case "low":
-      return Info;
+      return "Info";
     default:
-      return Info;
+      return "Info";
   }
 }
 
@@ -122,9 +110,7 @@ function NotificationItem({
   const PriorityIcon = getPriorityIcon(notification.priority);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 4 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
       className={cn(
         "relative group flex gap-3 px-4 py-3 transition-all",
         !notification.isRead
@@ -134,17 +120,14 @@ function NotificationItem({
     >
       {/* Unread indicator */}
       {!notification.isRead && (
-        <motion.div
+        <div
           className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-omix-400 to-omix-600"
-          layoutId={`notification-glow-${notification.id}`}
-          animate={{ opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
       )}
 
       {/* Priority icon */}
       <div className="flex-shrink-0 mt-0.5">
-        <PriorityIcon className={cn("w-4 h-4", getPriorityColor(notification.priority))} />
+        <Icon name={PriorityIcon} className={cn("w-4 h-4", getPriorityColor(notification.priority))} />
       </div>
 
       {/* Content */}
@@ -179,9 +162,7 @@ function NotificationItem({
           )}
 
           {!notification.isRead && (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <button
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -189,13 +170,13 @@ function NotificationItem({
               }}
               className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium text-omix-400 bg-omix-500/10 hover:bg-omix-500/20 transition-all"
             >
-              <Check className="w-3 h-3" />
+              <Icon name="Check" className="w-3 h-3" />
               Mark read
-            </motion.button>
+            </button>
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -212,18 +193,14 @@ export default function NotificationPanel({
   const grouped = groupByDate(notifications);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    <div
       className="absolute right-0 top-full mt-2 w-[400px] max-w-[calc(100vw-2rem)] max-h-[70vh] flex flex-col glass rounded-2xl glow-sm overflow-hidden z-50"
       onClick={(e) => e.stopPropagation()}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-border">
         <div className="flex items-center gap-2">
-          <Bell className="w-4 h-4 text-omix-400" />
+          <Icon name="Bell" className="w-4 h-4 text-omix-400" />
           <h3 className="text-sm font-semibold text-gray-200">Notifications</h3>
           {unreadCount > 0 && (
             <span className="px-1.5 py-0.5 text-[10px] font-bold text-white bg-omix-500 rounded-full">
@@ -233,15 +210,13 @@ export default function NotificationPanel({
         </div>
         <div className="flex items-center gap-2">
           {unreadCount > 0 && (
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <button
               onClick={onMarkAllRead}
               className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-medium text-omix-400 bg-omix-500/10 hover:bg-omix-500/20 transition-all"
             >
-              <CheckCheck className="w-3.5 h-3.5" />
+              <Icon name="CheckCheck" className="w-3.5 h-3.5" />
               Mark all read
-            </motion.button>
+            </button>
           )}
           <Link
             href="/notifications"
@@ -257,13 +232,13 @@ export default function NotificationPanel({
       <div className="flex-1 overflow-y-auto">
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-5 h-5 text-omix-400 animate-spin" />
+            <Icon name="Loader2" className="w-5 h-5 text-omix-400 animate-spin" />
             <span className="ml-2 text-sm text-gray-500">Loading notifications...</span>
           </div>
         ) : notifications.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 px-4">
             <div className="w-12 h-12 rounded-xl bg-surface-2 border border-border flex items-center justify-center mb-3">
-              <Inbox className="w-6 h-6 text-gray-500" />
+              <Icon name="Inbox" className="w-6 h-6 text-gray-500" />
             </div>
             <p className="text-sm font-medium text-gray-400">All caught up!</p>
             <p className="text-xs text-gray-600 mt-1">No new notifications yet.</p>
@@ -287,6 +262,6 @@ export default function NotificationPanel({
           ))
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }

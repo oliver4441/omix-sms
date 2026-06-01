@@ -1,20 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  ClipboardList,
-  FileText,
-  Calendar,
-  Users,
-  Download,
-  Eye,
-  Search,
-  AlertCircle,
-  Plus,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
 import DataTable from "@/components/ui/DataTable";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface MeetingMinute {
@@ -125,7 +114,7 @@ export default function BoardMinutesPage() {
       sortable: true,
       render: (item: MeetingMinute) => (
         <div className="flex items-center gap-2">
-          <Calendar className="w-3.5 h-3.5 text-gray-500" />
+          <Icon name="Calendar" className="w-3.5 h-3.5 text-gray-500" />
           <span className="text-sm">{formatDate(item.meetingDate)}</span>
         </div>
       ),
@@ -163,10 +152,10 @@ export default function BoardMinutesPage() {
       render: (item: MeetingMinute) => (
         <div className="flex items-center gap-2">
           <button className="p-1.5 rounded-lg hover:bg-surface-2 text-gray-400 hover:text-omix-400 transition-all">
-            <Eye className="w-4 h-4" />
+            <Icon name="Eye" className="w-4 h-4" />
           </button>
           <button className="p-1.5 rounded-lg hover:bg-surface-2 text-gray-400 hover:text-omix-400 transition-all">
-            <Download className="w-4 h-4" />
+            <Icon name="Download" className="w-4 h-4" />
           </button>
         </div>
       ),
@@ -188,7 +177,7 @@ export default function BoardMinutesPage() {
   if (error) {
     return (
       <div className="glass rounded-2xl p-8 text-center">
-        <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <Icon name="AlertCircle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
         <p className="text-red-400 mb-4">{error}</p>
         <button
           onClick={fetchMinutes}
@@ -203,9 +192,7 @@ export default function BoardMinutesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -217,16 +204,13 @@ export default function BoardMinutesPage() {
           </p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm text-sm">
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           New Minutes
         </button>
-      </motion.div>
+      </div>
 
       {/* Minutes Table */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
+      <div
       >
         <DataTable
           columns={columns}
@@ -236,16 +220,14 @@ export default function BoardMinutesPage() {
           pageSize={10}
           emptyMessage="No meeting minutes found"
         />
-      </motion.div>
+      </div>
 
       {/* Empty state */}
       {minutes.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <div
           className="glass rounded-2xl p-12 text-center"
         >
-          <ClipboardList className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <Icon name="ClipboardList" className="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-300 mb-2">
             No Minutes Recorded
           </h3>
@@ -253,7 +235,7 @@ export default function BoardMinutesPage() {
             Meeting minutes will appear here once board meetings are held
             and the minutes are uploaded.
           </p>
-        </motion.div>
+        </div>
       )}
     </div>
   );

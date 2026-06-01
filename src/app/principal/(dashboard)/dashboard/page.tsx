@@ -1,42 +1,10 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
-import {
-  Users,
-  GraduationCap,
-  BookOpen,
-  Banknote,
-  Library,
-  FlaskConical,
-  Activity,
-  AlertTriangle,
-  Clock,
-  CheckCircle2,
-  ArrowUpRight,
-  BarChart3,
-  Building2,
-  Monitor,
-  Sparkles,
-  RefreshCw,
-} from "lucide-react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
 import StatCard from "@/components/ui/StatCard";
 import Link from "next/link";
 import { cn, formatCurrency, formatDate } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface OverviewData {
@@ -87,11 +55,11 @@ interface DashboardStats {
 }
 
 const DEPARTMENT_QUICK_LINKS = [
-  { href: "/bursar/dashboard", label: "Bursar", icon: Banknote, color: "from-emerald-500 to-emerald-700", desc: "Fee collection & finances" },
-  { href: "/library/dashboard", label: "Library", icon: Library, color: "from-amber-500 to-amber-700", desc: "Books & checkouts" },
-  { href: "/science-lab/dashboard", label: "Science Lab", icon: FlaskConical, color: "from-cyan-500 to-cyan-700", desc: "Apparatus & experiments" },
-  { href: "/computer-lab/dashboard", label: "Computer Lab", icon: Monitor, color: "from-purple-500 to-purple-700", desc: "Computers & students" },
-  { href: "/board/dashboard", label: "Board", icon: Building2, color: "from-blue-500 to-blue-700", desc: "Meetings & governance" },
+  { href: "/bursar/dashboard", label: "Bursar", icon: "Banknote", color: "from-emerald-500 to-emerald-700", desc: "Fee collection & finances" },
+  { href: "/library/dashboard", label: "Library", icon: "Library", color: "from-amber-500 to-amber-700", desc: "Books & checkouts" },
+  { href: "/science-lab/dashboard", label: "Science Lab", icon: "FlaskConical", color: "from-cyan-500 to-cyan-700", desc: "Apparatus & experiments" },
+  { href: "/computer-lab/dashboard", label: "Computer Lab", icon: "Monitor", color: "from-purple-500 to-purple-700", desc: "Computers & students" },
+  { href: "/board/dashboard", label: "Board", icon: "Building2", color: "from-blue-500 to-blue-700", desc: "Meetings & governance" },
 ];
 
 const DEPT_COLORS: Record<string, string> = {
@@ -115,15 +83,15 @@ function getDepartmentLabel(dept: string): string {
   return map[dept] || dept;
 }
 
-function getDepartmentIcon(dept: string) {
-  const map: Record<string, React.ElementType> = {
-    bursar: Banknote,
-    library: Library,
-    "science-lab": FlaskConical,
-    "computer-lab": Monitor,
-    board: Building2,
+function getDepartmentIcon(dept: string): string {
+  const map: Record<string, string> = {
+    bursar: "Banknote",
+    library: "Library",
+    "science-lab": "FlaskConical",
+    "computer-lab": "Monitor",
+    board: "Building2",
   };
-  return map[dept] || Activity;
+  return map[dept] || "Activity";
 }
 
 export default function PrincipalDashboardPage() {
@@ -236,7 +204,7 @@ export default function PrincipalDashboardPage() {
           <p className="text-gray-400 text-sm mt-1">Principal&apos;s dashboard</p>
         </div>
         <div className="glass rounded-2xl p-8 text-center">
-          <AlertTriangle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+          <Icon name="AlertTriangle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
           <p className="text-red-400 mb-4">{error}</p>
           <button
             onClick={fetchData}
@@ -258,9 +226,7 @@ export default function PrincipalDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -273,81 +239,33 @@ export default function PrincipalDashboardPage() {
           onClick={fetchData}
           className="flex items-center gap-2 px-4 py-2 text-sm text-omix-400 hover:text-omix-300 border border-omix-500/20 rounded-xl hover:bg-omix-500/10 transition-all"
         >
-          <RefreshCw className="w-4 h-4" />
+          <Icon name="RefreshCw" className="w-4 h-4" />
           Refresh
         </button>
-      </motion.div>
+      </div>
 
       {/* Stats Cards */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          visible: { transition: { staggerChildren: 0.06 } },
-        }}
+      <div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4"
       >
-        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
-          <StatCard title="Total Students" value={overview.totalStudents} icon={Users} color="omix" />
-        </motion.div>
-        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
-          <StatCard title="Total Teachers" value={overview.totalTeachers} icon={GraduationCap} color="blue" />
-        </motion.div>
-        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
-          <StatCard title="Total Collected" value={formatCurrency(overview.feeSummary.totalCollected)} icon={Banknote} color="green" />
-        </motion.div>
-        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
-          <StatCard title="Active Classes" value={overview.totalClasses} icon={BookOpen} color="amber" />
-        </motion.div>
-        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
-          <StatCard title="Books Loaned" value={overview.librarySummary.booksCheckedOut} icon={Library} color="blue" subtitle={`${overview.librarySummary.availableBooks} available`} />
-        </motion.div>
-        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
-          <StatCard title="Apparatus Health" value={`${labHealth}%`} icon={FlaskConical} color={labHealth > 80 ? "green" : labHealth > 50 ? "amber" : "rose"} subtitle={`${overview.labSummary.brokenCount} broken`} />
-        </motion.div>
-      </motion.div>
-
-      {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Fee Collection Trend */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+        <div
           className="glass rounded-2xl p-6 border-border"
         >
           <h3 className="text-sm font-semibold text-white mb-1">Fee Collection Trend</h3>
           <p className="text-xs text-gray-500 mb-4">Monthly collection amounts</p>
           {dashboardStats.feeCollectionByMonth.length > 0 ? (
-            <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={dashboardStats.feeCollectionByMonth}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="month" tick={{ fill: "#9ca3af", fontSize: 12 }} />
-                <YAxis tick={{ fill: "#9ca3af", fontSize: 12 }} />
-                <Tooltip
-                  contentStyle={{
-                    background: "#1a1a2e",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    borderRadius: "12px",
-                    color: "#e5e7eb",
-                  }}
-                  formatter={(value: number) => [formatCurrency(value), "Collected"]}
-                />
-                <Bar dataKey="total" fill="#6366f1" radius={[6, 6, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="h-[250px] flex items-center justify-center text-gray-500 text-sm">
+              Fee collection chart (charts removed for lightweight build)
+            </div>
           ) : (
             <div className="h-[250px] flex items-center justify-center text-gray-500 text-sm">
               No fee collection data available
             </div>
           )}
-        </motion.div>
+        </div>
 
         {/* Attendance Rate */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+        <div
           className="glass rounded-2xl p-6 border-border"
         >
           <h3 className="text-sm font-semibold text-white mb-1">Attendance Rate</h3>
@@ -376,20 +294,17 @@ export default function PrincipalDashboardPage() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* AI Summary Card */}
       {aiSummary && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
+        <div
           className="glass rounded-2xl p-6 border border-indigo-500/10 bg-gradient-to-r from-indigo-500/5 to-transparent"
         >
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <Sparkles className="w-5 h-5 text-indigo-400" />
+              <Icon name="Sparkles" className="w-5 h-5 text-indigo-400" />
             </div>
             <div className="flex-1">
               <h3 className="text-sm font-semibold text-white mb-2">AI Summary</h3>
@@ -398,14 +313,11 @@ export default function PrincipalDashboardPage() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* Quick Links to Departments */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
+      <div
       >
         <h3 className="text-sm font-semibold text-white mb-4">Quick Links</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -418,7 +330,7 @@ export default function PrincipalDashboardPage() {
                 className="glass rounded-xl p-4 border-border hover:glow-sm transition-all duration-300 group"
               >
                 <div className={cn("w-10 h-10 rounded-xl bg-gradient-to-br flex items-center justify-center mb-3", dept.color)}>
-                  <DeptIcon className="w-5 h-5 text-white" />
+                  <Icon name={DeptIcon} className="w-5 h-5 text-white" />
                 </div>
                 <p className="text-sm font-semibold text-white group-hover:text-indigo-400 transition-colors">
                   {dept.label}
@@ -428,13 +340,10 @@ export default function PrincipalDashboardPage() {
             );
           })}
         </div>
-      </motion.div>
+      </div>
 
       {/* Recent Activity Feed */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.45 }}
+      <div
         className="glass rounded-2xl p-6 border-border"
       >
         <div className="flex items-center justify-between mb-4">
@@ -446,7 +355,7 @@ export default function PrincipalDashboardPage() {
 
         {overview.recentLogs.length === 0 ? (
           <div className="text-center py-8">
-            <Activity className="w-10 h-10 text-gray-600 mx-auto mb-2" />
+            <Icon name="Activity" className="w-10 h-10 text-gray-600 mx-auto mb-2" />
             <p className="text-sm text-gray-500">No recent activity logged</p>
           </div>
         ) : (
@@ -455,15 +364,12 @@ export default function PrincipalDashboardPage() {
               const DeptIcon = getDepartmentIcon(log.department);
               const deptColor = DEPT_COLORS[log.department] || "gray";
               return (
-                <motion.div
+                <div
                   key={log.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.03 }}
                   className="flex items-start gap-3 p-3 rounded-xl bg-surface-2/30 border border-border hover:bg-surface-2/50 transition-all"
                 >
                   <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5", `bg-${deptColor}-500/10`)}>
-                    <DeptIcon className={cn("w-4 h-4", `text-${deptColor}-400`)} />
+                    <Icon name={DeptIcon} className={cn("w-4 h-4", `text-${deptColor}-400`)} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
@@ -482,19 +388,16 @@ export default function PrincipalDashboardPage() {
                       </p>
                     )}
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
         )}
-      </motion.div>
+      </div>
 
       {/* Performance Summary */}
       {overview.performanceSummary.classes.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+        <div
           className="glass rounded-2xl p-6 border-border"
         >
           <h3 className="text-sm font-semibold text-white mb-1">
@@ -532,15 +435,12 @@ export default function PrincipalDashboardPage() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* Enrollment by Class */}
       {dashboardStats.studentEnrollmentByClass.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55 }}
+        <div
           className="glass rounded-2xl p-6 border-border"
         >
           <h3 className="text-sm font-semibold text-white mb-1">
@@ -549,23 +449,10 @@ export default function PrincipalDashboardPage() {
           <p className="text-xs text-gray-500 mb-4">
             Student distribution across classes
           </p>
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={dashboardStats.studentEnrollmentByClass} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis type="number" tick={{ fill: "#9ca3af", fontSize: 12 }} />
-              <YAxis dataKey="name" type="category" tick={{ fill: "#9ca3af", fontSize: 12 }} width={100} />
-              <Tooltip
-                contentStyle={{
-                  background: "#1a1a2e",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  borderRadius: "12px",
-                  color: "#e5e7eb",
-                }}
-              />
-              <Bar dataKey="studentCount" fill="#10b981" radius={[0, 6, 6, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </motion.div>
+          <div className="h-[250px] flex items-center justify-center text-gray-500 text-sm">
+            Enrollment by class chart (charts removed for lightweight build)
+          </div>
+        </div>
       )}
     </div>
   );

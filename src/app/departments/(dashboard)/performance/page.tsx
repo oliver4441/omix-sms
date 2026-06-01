@@ -1,19 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  TrendingUp,
-  Plus,
-  AlertCircle,
-  Download,
-  Save,
-  X,
-  Filter,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
 import DataTable from "@/components/ui/DataTable";
 import Modal from "@/components/ui/Modal";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface PerformanceRecord {
@@ -249,9 +240,7 @@ export default function DepartmentPerformancePage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between flex-wrap gap-4"
       >
         <div>
@@ -267,28 +256,25 @@ export default function DepartmentPerformancePage() {
             onClick={handleExport}
             className="flex items-center gap-2 px-4 py-2.5 bg-surface-2 border border-border rounded-xl text-gray-300 hover:text-gray-100 transition-all text-sm"
           >
-            <Download className="w-4 h-4" />
+            <Icon name="Download" className="w-4 h-4" />
             Export
           </button>
           <button
             onClick={() => setShowForm(true)}
             className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm text-sm"
           >
-            <Plus className="w-4 h-4" />
+            <Icon name="Plus" className="w-4 h-4" />
             Add Record
           </button>
         </div>
-      </motion.div>
+      </div>
 
       {/* Filters */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
+      <div
         className="glass rounded-2xl p-5 border-border"
       >
         <div className="flex items-center gap-2 mb-4">
-          <Filter className="w-4 h-4 text-gray-400" />
+          <Icon name="Filter" className="w-4 h-4 text-gray-400" />
           <span className="text-sm text-gray-400 font-medium">Filters</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -334,17 +320,14 @@ export default function DepartmentPerformancePage() {
             className="w-full px-4 py-2.5 bg-surface-2 border border-border rounded-xl text-sm text-gray-100 placeholder-gray-500 focus:outline-none input-glow transition-all"
           />
         </div>
-      </motion.div>
+      </div>
 
       {/* Data Table */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+      <div
       >
         {error ? (
           <div className="glass rounded-2xl p-8 text-center border-border">
-            <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+            <Icon name="AlertCircle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
             <p className="text-red-400 mb-4">{error}</p>
             <button
               onClick={fetchRecords}
@@ -364,7 +347,7 @@ export default function DepartmentPerformancePage() {
             loading={loading}
           />
         )}
-      </motion.div>
+      </div>
 
       {/* Add Record Modal */}
       <Modal
@@ -537,13 +520,11 @@ export default function DepartmentPerformancePage() {
           </div>
 
           {formError && (
-            <motion.p
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
+            <p
               className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2"
             >
               {formError}
-            </motion.p>
+            </p>
           )}
 
           <div className="flex items-center gap-3 pt-2">
@@ -553,13 +534,11 @@ export default function DepartmentPerformancePage() {
               className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {formSaving ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                <div
                   className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                 />
               ) : (
-                <Save className="w-4 h-4" />
+                <Icon name="Save" className="w-4 h-4" />
               )}
               Save Record
             </button>

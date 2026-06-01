@@ -2,19 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import {
-  ArrowLeft,
-  Mail,
-  Phone,
-  GraduationCap,
-  BookOpen,
-  Award,
-  Briefcase,
-  Calendar,
-  Edit,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface TeacherProfile {
   id: string;
@@ -111,14 +100,12 @@ export default function TeacherProfilePage() {
         onClick={() => router.back()}
         className="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors text-sm"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <Icon name="ArrowLeft" className="w-4 h-4" />
         Back to Teachers
       </button>
 
       {/* Profile Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="glass rounded-2xl p-6 border-border"
       >
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -150,26 +137,26 @@ export default function TeacherProfilePage() {
             <div className="flex items-center gap-4 mt-3 flex-wrap text-sm text-gray-400">
               {teacher.specialization && (
                 <span className="flex items-center gap-1">
-                  <Briefcase className="w-3.5 h-3.5" /> {teacher.specialization}
+                  <Icon name="Briefcase" className="w-3.5 h-3.5" /> {teacher.specialization}
                 </span>
               )}
               {teacher.gender && (
                 <span className="capitalize flex items-center gap-1">
-                  <GraduationCap className="w-3.5 h-3.5" /> {teacher.gender}
+                  <Icon name="GraduationCap" className="w-3.5 h-3.5" /> {teacher.gender}
                 </span>
               )}
               <span className="flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5" /> Joined{" "}
+                <Icon name="Calendar" className="w-3.5 h-3.5" /> Joined{" "}
                 {formatDate(teacher.createdAt)}
               </span>
             </div>
           </div>
           <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-all text-sm">
-            <Edit className="w-4 h-4" />
+            <Icon name="Edit" className="w-4 h-4" />
             Edit
           </button>
         </div>
-      </motion.div>
+      </div>
 
       {/* Info Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -181,7 +168,7 @@ export default function TeacherProfilePage() {
           <div className="space-y-3">
             {teacher.email && (
               <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-gray-500" />
+                <Icon name="Mail" className="w-4 h-4 text-gray-500" />
                 <div>
                   <p className="text-xs text-gray-500">Email</p>
                   <p className="text-sm text-gray-200">{teacher.email}</p>
@@ -190,7 +177,7 @@ export default function TeacherProfilePage() {
             )}
             {teacher.phone && (
               <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-gray-500" />
+                <Icon name="Phone" className="w-4 h-4 text-gray-500" />
                 <div>
                   <p className="text-xs text-gray-500">Phone</p>
                   <p className="text-sm text-gray-200">{teacher.phone}</p>
@@ -211,7 +198,7 @@ export default function TeacherProfilePage() {
           <div className="space-y-3">
             {teacher.qualification && (
               <div className="flex items-center gap-3">
-                <Award className="w-4 h-4 text-gray-500" />
+                <Icon name="Award" className="w-4 h-4 text-gray-500" />
                 <div>
                   <p className="text-xs text-gray-500">Qualification</p>
                   <p className="text-sm text-gray-200">{teacher.qualification}</p>
@@ -220,7 +207,7 @@ export default function TeacherProfilePage() {
             )}
             {teacher.specialization && (
               <div className="flex items-center gap-3">
-                <Briefcase className="w-4 h-4 text-gray-500" />
+                <Icon name="Briefcase" className="w-4 h-4 text-gray-500" />
                 <div>
                   <p className="text-xs text-gray-500">Specialization</p>
                   <p className="text-sm text-gray-200">{teacher.specialization}</p>
@@ -264,7 +251,7 @@ export default function TeacherProfilePage() {
       {/* Classes Taught */}
       <div className="glass rounded-2xl p-6 border-border">
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <BookOpen className="w-5 h-5 text-emerald-400" />
+          <Icon name="BookOpen" className="w-5 h-5 text-emerald-400" />
           Classes Teaching
         </h2>
         {teacher.classes.length === 0 ? (
@@ -297,7 +284,7 @@ export default function TeacherProfilePage() {
       {/* Subjects Assigned */}
       <div className="glass rounded-2xl p-6 border-border">
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <Award className="w-5 h-5 text-omix-400" />
+          <Icon name="Award" className="w-5 h-5 text-omix-400" />
           Subjects Assigned
         </h2>
         {teacher.subjects.length === 0 ? (

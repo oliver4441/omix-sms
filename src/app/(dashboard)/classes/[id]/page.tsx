@@ -2,22 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import {
-  ArrowLeft,
-  Edit,
-  Users,
-  Calendar,
-  BookOpen,
-  GraduationCap,
-  Clock,
-  MapPin,
-  Phone,
-  Mail,
-  User,
-  ChevronDown,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface Teacher {
   id: string;
@@ -98,9 +84,9 @@ const DAYS = [
 ];
 
 const TABS = [
-  { key: "students", label: "Students", icon: Users },
-  { key: "timetable", label: "Timetable", icon: Calendar },
-  { key: "subjects", label: "Subjects", icon: BookOpen },
+  { key: "students", label: "Students", icon: "Users" },
+  { key: "timetable", label: "Timetable", icon: "Calendar" },
+  { key: "subjects", label: "Subjects", icon: "BookOpen" },
 ];
 
 export default function ClassDetailPage() {
@@ -159,7 +145,7 @@ export default function ClassDetailPage() {
           onClick={() => router.back()}
           className="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <Icon name="ArrowLeft" className="w-4 h-4" />
           <span className="text-sm">Back</span>
         </button>
         <div className="glass rounded-2xl p-8 text-center">
@@ -195,14 +181,14 @@ export default function ClassDetailPage() {
           onClick={() => router.back()}
           className="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <Icon name="ArrowLeft" className="w-4 h-4" />
           <span className="text-sm">Back</span>
         </button>
         <button
           onClick={() => router.push(`/classes/new?id=${id}`)}
           className="flex items-center gap-2 px-4 py-2 bg-omix-500/20 border border-omix-500/30 rounded-xl text-omix-400 hover:bg-omix-500/30 transition-all text-sm"
         >
-          <Edit className="w-4 h-4" />
+          <Icon name="Edit" className="w-4 h-4" />
           Edit Class
         </button>
       </div>
@@ -212,7 +198,7 @@ export default function ClassDetailPage() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-start gap-4">
             <div className="w-14 h-14 rounded-2xl bg-omix-500/10 flex items-center justify-center flex-shrink-0">
-              <BookOpen className="w-7 h-7 text-omix-400" />
+              <Icon name="BookOpen" className="w-7 h-7 text-omix-400" />
             </div>
             <div>
               <div className="flex items-center gap-3 mb-1">
@@ -260,7 +246,7 @@ export default function ClassDetailPage() {
             {classData.teacher ? (
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-surface-3 flex items-center justify-center">
-                  <GraduationCap className="w-5 h-5 text-omix-400" />
+                  <Icon name="GraduationCap" className="w-5 h-5 text-omix-400" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-200">
@@ -268,11 +254,11 @@ export default function ClassDetailPage() {
                   </p>
                   <div className="flex items-center gap-3 mt-1">
                     <span className="text-xs text-gray-500 flex items-center gap-1">
-                      <Mail className="w-3 h-3" />
+                      <Icon name="Mail" className="w-3 h-3" />
                       {classData.teacher.email}
                     </span>
                     <span className="text-xs text-gray-500 flex items-center gap-1">
-                      <Phone className="w-3 h-3" />
+                      <Icon name="Phone" className="w-3 h-3" />
                       {classData.teacher.phone}
                     </span>
                   </div>
@@ -289,7 +275,7 @@ export default function ClassDetailPage() {
               Capacity
             </p>
             <div className="flex items-center gap-3">
-              <Users className="w-4 h-4 text-gray-500" />
+              <Icon name="Users" className="w-4 h-4 text-gray-500" />
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm text-gray-300">
@@ -310,10 +296,7 @@ export default function ClassDetailPage() {
                 </div>
                 {classData.capacity && (
                   <div className="w-full h-2 rounded-full bg-surface-3 overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${enrollmentPercent}%` }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
+                    <div
                       className={cn(
                         "h-full rounded-full",
                         isFull
@@ -335,7 +318,6 @@ export default function ClassDetailPage() {
       <div className="glass rounded-2xl overflow-hidden border-border">
         <div className="flex border-b border-border">
           {TABS.map((tab) => {
-            const Icon = tab.icon;
             const isActive = activeTab === tab.key;
             return (
               <button
@@ -348,11 +330,10 @@ export default function ClassDetailPage() {
                     : "text-gray-500 hover:text-gray-300"
                 )}
               >
-                <Icon className="w-4 h-4" />
+                <Icon name={tab.icon} className="w-4 h-4" />
                 {tab.label}
                 {isActive && (
-                  <motion.div
-                    layoutId="activeTabIndicator"
+                  <div
                     className="absolute bottom-0 left-0 right-0 h-0.5 bg-omix-500"
                   />
                 )}
@@ -375,7 +356,7 @@ export default function ClassDetailPage() {
               </div>
               {classData.enrollments.length === 0 ? (
                 <div className="text-center py-12">
-                  <Users className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+                  <Icon name="Users" className="w-12 h-12 text-gray-500 mx-auto mb-3" />
                   <p className="text-gray-400 text-sm">No students enrolled</p>
                 </div>
               ) : (
@@ -401,11 +382,8 @@ export default function ClassDetailPage() {
                       {classData.enrollments.map((enrollment, idx) => {
                         const student = enrollment.student;
                         return (
-                          <motion.tr
+                          <tr
                             key={enrollment.id}
-                            initial={{ opacity: 0, y: 4 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.03 }}
                             className="hover:bg-white/5 cursor-pointer transition-colors"
                             onClick={() =>
                               router.push(`/students/${student.id}`)
@@ -437,7 +415,7 @@ export default function ClassDetailPage() {
                                 {student.status}
                               </span>
                             </td>
-                          </motion.tr>
+                          </tr>
                         );
                       })}
                     </tbody>
@@ -455,7 +433,7 @@ export default function ClassDetailPage() {
               </h3>
               {classData.timetable.length === 0 ? (
                 <div className="text-center py-12">
-                  <Calendar className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+                  <Icon name="Calendar" className="w-12 h-12 text-gray-500 mx-auto mb-3" />
                   <p className="text-gray-400 text-sm">
                     No timetable set up yet
                   </p>
@@ -500,11 +478,8 @@ export default function ClassDetailPage() {
                           );
                         }
                         return dayEntries.map((entry, idx) => (
-                          <motion.tr
+                          <tr
                             key={entry.id}
-                            initial={{ opacity: 0, y: 4 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.03 }}
                             className="hover:bg-white/5 transition-colors"
                           >
                             {idx === 0 && (
@@ -517,7 +492,7 @@ export default function ClassDetailPage() {
                             )}
                             <td className="px-4 py-3">
                               <div className="flex items-center gap-2">
-                                <Clock className="w-3.5 h-3.5 text-gray-500" />
+                                <Icon name="Clock" className="w-3.5 h-3.5 text-gray-500" />
                                 <span className="text-sm text-gray-300">
                                   {entry.startTime} - {entry.endTime}
                                 </span>
@@ -531,7 +506,7 @@ export default function ClassDetailPage() {
                             <td className="px-4 py-3">
                               {entry.room ? (
                                 <div className="flex items-center gap-1.5">
-                                  <MapPin className="w-3.5 h-3.5 text-gray-500" />
+                                  <Icon name="MapPin" className="w-3.5 h-3.5 text-gray-500" />
                                   <span className="text-sm text-gray-400">
                                     {entry.room}
                                   </span>
@@ -542,7 +517,7 @@ export default function ClassDetailPage() {
                                 </span>
                               )}
                             </td>
-                          </motion.tr>
+                          </tr>
                         ));
                       })}
                     </tbody>
@@ -560,7 +535,7 @@ export default function ClassDetailPage() {
               </h3>
               {classData.subjects.length === 0 ? (
                 <div className="text-center py-12">
-                  <BookOpen className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+                  <Icon name="BookOpen" className="w-12 h-12 text-gray-500 mx-auto mb-3" />
                   <p className="text-gray-400 text-sm">
                     No subjects assigned
                   </p>
@@ -568,16 +543,13 @@ export default function ClassDetailPage() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {classData.subjects.map((subject, idx) => (
-                    <motion.div
+                    <div
                       key={subject.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.05 }}
                       className="glass rounded-xl p-4 border-border hover:glow-sm transition-all duration-300"
                     >
                       <div className="flex items-start justify-between mb-3">
                         <div className="w-10 h-10 rounded-lg bg-omix-500/10 flex items-center justify-center">
-                          <BookOpen className="w-5 h-5 text-omix-400" />
+                          <Icon name="BookOpen" className="w-5 h-5 text-omix-400" />
                         </div>
                         <span className="text-xs font-mono text-omix-400 bg-omix-500/10 px-2 py-0.5 rounded-md">
                           {subject.code}
@@ -588,7 +560,7 @@ export default function ClassDetailPage() {
                       </h4>
                       {subject.teacher ? (
                         <div className="flex items-center gap-2">
-                          <User className="w-3.5 h-3.5 text-gray-500" />
+                          <Icon name="User" className="w-3.5 h-3.5 text-gray-500" />
                           <span className="text-xs text-gray-400">
                             {subject.teacher.firstName}{" "}
                             {subject.teacher.lastName}
@@ -599,7 +571,7 @@ export default function ClassDetailPage() {
                           No teacher assigned
                         </p>
                       )}
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               )}

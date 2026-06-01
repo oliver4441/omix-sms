@@ -1,23 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  Lightbulb,
-  Users,
-  MessageSquare,
-  CheckCircle2,
-  XCircle,
-  Clock,
-  Search,
-  AlertCircle,
-  ThumbsUp,
-  ArrowUpRight,
-  Filter,
-  Plus,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
 import DataTable from "@/components/ui/DataTable";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface Suggestion {
@@ -167,7 +153,7 @@ export default function BoardSuggestionsPage() {
       className: "text-center",
       render: (item: Suggestion) => (
         <div className="flex items-center justify-center gap-1">
-          <ThumbsUp className="w-3.5 h-3.5 text-omix-400" />
+          <Icon name="ThumbsUp" className="w-3.5 h-3.5 text-omix-400" />
           <span className="text-sm font-medium">{item.votes}</span>
         </div>
       ),
@@ -210,7 +196,7 @@ export default function BoardSuggestionsPage() {
   if (error) {
     return (
       <div className="glass rounded-2xl p-8 text-center">
-        <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <Icon name="AlertCircle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
         <p className="text-red-400 mb-4">{error}</p>
         <button
           onClick={fetchSuggestions}
@@ -225,9 +211,7 @@ export default function BoardSuggestionsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -239,17 +223,17 @@ export default function BoardSuggestionsPage() {
           </p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm text-sm">
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Add Suggestion
         </button>
-      </motion.div>
+      </div>
 
       {/* Summary cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="glass rounded-2xl p-4 border border-blue-500/10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-              <Lightbulb className="w-5 h-5 text-blue-400" />
+              <Icon name="Lightbulb" className="w-5 h-5 text-blue-400" />
             </div>
             <div>
               <p className="text-2xl font-bold text-white">
@@ -262,7 +246,7 @@ export default function BoardSuggestionsPage() {
         <div className="glass rounded-2xl p-4 border border-amber-500/10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
-              <Clock className="w-5 h-5 text-amber-400" />
+              <Icon name="Clock" className="w-5 h-5 text-amber-400" />
             </div>
             <div>
               <p className="text-2xl font-bold text-white">
@@ -275,7 +259,7 @@ export default function BoardSuggestionsPage() {
         <div className="glass rounded-2xl p-4 border border-emerald-500/10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+              <Icon name="CheckCircle2" className="w-5 h-5 text-emerald-400" />
             </div>
             <div>
               <p className="text-2xl font-bold text-white">
@@ -288,7 +272,7 @@ export default function BoardSuggestionsPage() {
         <div className="glass rounded-2xl p-4 border border-red-500/10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
-              <XCircle className="w-5 h-5 text-red-400" />
+              <Icon name="XCircle" className="w-5 h-5 text-red-400" />
             </div>
             <div>
               <p className="text-2xl font-bold text-white">
@@ -301,10 +285,7 @@ export default function BoardSuggestionsPage() {
       </div>
 
       {/* Suggestions Table */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
+      <div
       >
         <DataTable
           columns={columns}
@@ -320,16 +301,14 @@ export default function BoardSuggestionsPage() {
           pageSize={10}
           emptyMessage="No suggestions submitted yet"
         />
-      </motion.div>
+      </div>
 
       {/* Empty state */}
       {suggestions.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <div
           className="glass rounded-2xl p-12 text-center"
         >
-          <Lightbulb className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <Icon name="Lightbulb" className="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-300 mb-2">
             No Suggestions Yet
           </h3>
@@ -337,7 +316,7 @@ export default function BoardSuggestionsPage() {
             Suggestions from parents, teachers, and students will appear here
             for review and action by the board.
           </p>
-        </motion.div>
+        </div>
       )}
     </div>
   );

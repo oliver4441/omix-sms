@@ -1,27 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  BarChart3,
-  Save,
-  Loader2,
-  CheckCircle2,
-  Users,
-  GraduationCap,
-  BookOpen,
-  ChevronDown,
-} from "lucide-react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface ClassOption {
   id: string;
@@ -367,7 +348,7 @@ export default function GradesPage() {
       {success && (
         <div className="glass rounded-2xl p-4 border border-emerald-500/20 bg-emerald-500/5">
           <p className="text-emerald-400 text-sm flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4" />
+            <Icon name="CheckCircle2" className="w-4 h-4" />
             {success}
           </p>
         </div>
@@ -382,61 +363,11 @@ export default function GradesPage() {
       {chartData.length > 0 && (
         <div className="glass rounded-2xl p-6 border-border">
           <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <BarChart3 className="w-5 h-5 text-omix-400" />
+            <Icon name="BarChart3" className="w-5 h-5 text-omix-400" />
             Grade Distribution
           </h2>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={chartData}
-                margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
-              >
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="rgba(99,102,241,0.1)"
-                />
-                <XAxis
-                  dataKey="grade"
-                  tick={{ fill: "#9ca3af", fontSize: 12 }}
-                  axisLine={{ stroke: "rgba(99,102,241,0.15)" }}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={{ fill: "#9ca3af", fontSize: 12 }}
-                  axisLine={{ stroke: "rgba(99,102,241,0.15)" }}
-                  tickLine={false}
-                  allowDecimals={false}
-                />
-                <Tooltip
-                  contentStyle={{
-                    background: "rgba(18,18,42,0.95)",
-                    border: "1px solid rgba(99,102,241,0.2)",
-                    borderRadius: "12px",
-                    color: "#e2e8f0",
-                    backdropFilter: "blur(12px)",
-                  }}
-                  cursor={{ fill: "rgba(99,102,241,0.1)" }}
-                  formatter={(value: number) => [value, "Students"]}
-                />
-                <Bar
-                  dataKey="count"
-                  radius={[6, 6, 0, 0]}
-                  fill="url(#gradeGradient)"
-                />
-                <defs>
-                  <linearGradient
-                    id="gradeGradient"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop offset="0%" stopColor="#818cf8" />
-                    <stop offset="100%" stopColor="#4f46e5" />
-                  </linearGradient>
-                </defs>
-              </BarChart>
-            </ResponsiveContainer>
+          <div className="h-64 flex items-center justify-center text-gray-500 text-sm">
+            Grade distribution chart (charts removed for lightweight build)
           </div>
         </div>
       )}
@@ -458,7 +389,7 @@ export default function GradesPage() {
 
         {!selectedClass || !selectedExam || !selectedSubject ? (
           <div className="px-6 py-16 text-center">
-            <GraduationCap className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+            <Icon name="GraduationCap" className="w-12 h-12 text-gray-500 mx-auto mb-3" />
             <p className="text-gray-400 text-sm">
               Select a class, exam, and subject to enter grades
             </p>
@@ -474,7 +405,7 @@ export default function GradesPage() {
           </div>
         ) : students.length === 0 ? (
           <div className="px-6 py-16 text-center">
-            <Users className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+            <Icon name="Users" className="w-12 h-12 text-gray-500 mx-auto mb-3" />
             <p className="text-gray-400 text-sm">
               No students found in this class
             </p>
@@ -503,11 +434,8 @@ export default function GradesPage() {
               </thead>
               <tbody className="divide-y divide-border">
                 {students.map((student, idx) => (
-                  <motion.tr
+                  <tr
                     key={student.id}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.02 }}
                     className="hover:bg-white/5 transition-colors"
                   >
                     <td className="px-6 py-3 text-sm text-gray-500">
@@ -550,7 +478,7 @@ export default function GradesPage() {
                         <span className="text-sm text-gray-600">—</span>
                       )}
                     </td>
-                  </motion.tr>
+                  </tr>
                 ))}
               </tbody>
             </table>
@@ -569,9 +497,9 @@ export default function GradesPage() {
               className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm disabled:opacity-40"
             >
               {saving ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Icon name="Loader2" className="w-4 h-4 animate-spin" />
               ) : (
-                <Save className="w-4 h-4" />
+                <Icon name="Save" className="w-4 h-4" />
               )}
               Save Grades
             </button>

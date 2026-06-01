@@ -1,23 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  Monitor,
-  Users,
-  Clock,
-  AlertTriangle,
-  Power,
-  PowerOff,
-  Wifi,
-  HardDrive,
-  ArrowUpRight,
-  Plus,
-  Search,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
 import StatCard from "@/components/ui/StatCard";
 import DataTable from "@/components/ui/DataTable";
+import { Icon } from "@/components/ui/Icon";
 export const dynamic = 'force-dynamic';
 
 interface ComputerStation {
@@ -190,13 +177,13 @@ export default function ComputerLabDashboardPage() {
   const statusIcon = (status: string) => {
     switch (status) {
       case "online":
-        return <Power className="w-4 h-4 text-emerald-400" />;
+        return <Icon name="Power" className="w-4 h-4 text-emerald-400" />;
       case "offline":
-        return <PowerOff className="w-4 h-4 text-gray-500" />;
+        return <Icon name="PowerOff" className="w-4 h-4 text-gray-500" />;
       case "maintenance":
-        return <WrenchIcon className="w-4 h-4 text-amber-400" />;
+        return <Icon name="Wrench" className="w-4 h-4 text-amber-400" />;
       default:
-        return <Monitor className="w-4 h-4 text-gray-400" />;
+        return <Icon name="Monitor" className="w-4 h-4 text-gray-400" />;
     }
   };
 
@@ -224,7 +211,7 @@ export default function ComputerLabDashboardPage() {
   if (error) {
     return (
       <div className="glass rounded-2xl p-8 text-center">
-        <AlertTriangle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <Icon name="AlertTriangle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
         <p className="text-red-400 mb-4">{error}</p>
         <button
           onClick={fetchDashboard}
@@ -241,9 +228,7 @@ export default function ComputerLabDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -255,90 +240,66 @@ export default function ComputerLabDashboardPage() {
           </p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm text-sm">
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Add Station
         </button>
-      </motion.div>
+      </div>
 
       {/* Stats */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          visible: { transition: { staggerChildren: 0.08 } },
-        }}
+      <div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        <div
         >
           <StatCard
             title="Total Computers"
             value={stats.totalComputers}
-            icon={Monitor}
+            icon="Monitor"
             color="omix"
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Online"
             value={stats.online}
-            icon={Wifi}
+            icon="Wifi"
             color="green"
             trend={{
               value: Math.round((stats.online / stats.totalComputers) * 100),
               positive: true,
             }}
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Currently In Use"
             value={stats.inUse}
-            icon={HardDrive}
+            icon="HardDrive"
             color="blue"
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Total Students"
             value={stats.totalStudents}
-            icon={Users}
+            icon="Users"
             color="amber"
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Today's Sessions */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25 }}
+      <div
       >
         <h2 className="text-lg font-semibold text-white mb-4">
           Today&apos;s Lab Sessions
         </h2>
         {sessions.length === 0 ? (
           <div className="glass rounded-2xl p-8 text-center">
-            <Clock className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+            <Icon name="Clock" className="w-12 h-12 text-gray-600 mx-auto mb-3" />
             <p className="text-gray-500 text-sm">
               No sessions scheduled for today
             </p>
@@ -346,11 +307,8 @@ export default function ComputerLabDashboardPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {sessions.map((session, idx) => (
-              <motion.div
+              <div
                 key={session.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.08 }}
                 className="glass rounded-2xl p-5 border-border hover:glow transition-all"
               >
                 <div className="flex items-start justify-between mb-3">
@@ -368,7 +326,7 @@ export default function ComputerLabDashboardPage() {
                   {session.teacher}
                 </p>
                 <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <Clock className="w-3.5 h-3.5" />
+                  <Icon name="Clock" className="w-3.5 h-3.5" />
                   <span>
                     {new Date(session.startTime).toLocaleTimeString("en-KE", {
                       hour: "2-digit",
@@ -381,24 +339,21 @@ export default function ComputerLabDashboardPage() {
                     })}
                   </span>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
-      </motion.div>
+      </div>
 
       {/* Computer Stations */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.35 }}
+      <div
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white">
             Lab Stations
           </h2>
           <button className="flex items-center gap-1 text-sm text-omix-400 hover:text-omix-300 transition-colors">
-            View All <ArrowUpRight className="w-3 h-3" />
+            View All <Icon name="ArrowUpRight" className="w-3 h-3" />
           </button>
         </div>
         <DataTable
@@ -409,16 +364,14 @@ export default function ComputerLabDashboardPage() {
           pageSize={5}
           emptyMessage="No computer stations registered"
         />
-      </motion.div>
+      </div>
 
       {/* Empty state */}
       {stations.length === 0 && sessions.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <div
           className="glass rounded-2xl p-12 text-center"
         >
-          <Monitor className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <Icon name="Monitor" className="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-300 mb-2">
             Computer Lab Not Set Up
           </h3>
@@ -426,7 +379,7 @@ export default function ComputerLabDashboardPage() {
             Register computer stations and schedule lab sessions to start
             tracking usage.
           </p>
-        </motion.div>
+        </div>
       )}
     </div>
   );
@@ -434,7 +387,7 @@ export default function ComputerLabDashboardPage() {
 
 // WrenchIcon used above in statusIcon
 function WrenchIcon({ className }: { className?: string }) {
-  // Simple inline to avoid extra import — it's already used via lucide-react
+  // Simple inline to avoid extra import
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

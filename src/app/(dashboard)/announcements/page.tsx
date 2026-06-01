@@ -1,23 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
-import {
-  Bell,
-  Plus,
-  Send,
-  Loader2,
-  CheckCircle2,
-  AlertTriangle,
-  Info,
-  AlertCircle,
-  Megaphone,
-  Users,
-  CalendarDays,
-  User,
-  ChevronDown,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
+import { Icon, IconName } from "@/components/ui/Icon"
 
 interface Announcement {
   id: string;
@@ -34,28 +19,28 @@ interface Announcement {
   };
 }
 
-const PRIORITY_CONFIG = {
+const PRIORITY_CONFIG: Record<string, { label: string; icon: IconName; color: string; badge: string }> = {
   low: {
     label: "Low",
-    icon: Info,
+    icon: "Info",
     color: "bg-gray-500/10 text-gray-400 border-gray-500/20",
     badge: "gray",
   },
   normal: {
     label: "Normal",
-    icon: Bell,
+    icon: "Bell",
     color: "bg-blue-500/10 text-blue-400 border-blue-500/20",
     badge: "blue",
   },
   high: {
     label: "High",
-    icon: AlertTriangle,
+    icon: "AlertTriangle",
     color: "bg-amber-500/10 text-amber-400 border-amber-500/20",
     badge: "amber",
   },
   urgent: {
     label: "Urgent",
-    icon: AlertCircle,
+    icon: "AlertCircle",
     color: "bg-red-500/10 text-red-400 border-red-500/20",
     badge: "red",
   },
@@ -155,7 +140,7 @@ export default function AnnouncementsPage() {
       {success && (
         <div className="glass rounded-2xl p-4 border border-emerald-500/20 bg-emerald-500/5">
           <p className="text-emerald-400 text-sm flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4" />
+            <Icon name="CheckCircle2" className="w-4 h-4" />
             {success}
           </p>
         </div>
@@ -170,7 +155,7 @@ export default function AnnouncementsPage() {
       <div className="glass rounded-2xl p-6 border-border">
         <div className="flex items-center gap-3 mb-5">
           <div className="w-10 h-10 rounded-xl bg-omix-500/10 flex items-center justify-center">
-            <Megaphone className="w-5 h-5 text-omix-400" />
+            <Icon name="Megaphone" className="w-5 h-5 text-omix-400" />
           </div>
           <div>
             <h2 className="text-lg font-semibold text-white">
@@ -257,9 +242,9 @@ export default function AnnouncementsPage() {
               className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm disabled:opacity-40"
             >
               {saving ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Icon name="Loader2" className="w-4 h-4 animate-spin" />
               ) : (
-                <Send className="w-4 h-4" />
+                <Icon name="Send" className="w-4 h-4" />
               )}
               Publish Announcement
             </button>
@@ -271,7 +256,7 @@ export default function AnnouncementsPage() {
       <div className="glass rounded-2xl overflow-hidden border-border">
         <div className="px-6 py-4 border-b border-border flex items-center justify-between">
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-            <Bell className="w-5 h-5 text-omix-400" />
+            <Icon name="Bell" className="w-5 h-5 text-omix-400" />
             Recent Announcements
           </h2>
           <span className="text-xs text-gray-500 bg-surface-2 px-2.5 py-1 rounded-lg">
@@ -287,7 +272,7 @@ export default function AnnouncementsPage() {
           </div>
         ) : announcements.length === 0 ? (
           <div className="px-6 py-16 text-center">
-            <Megaphone className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+            <Icon name="Megaphone" className="w-12 h-12 text-gray-500 mx-auto mb-3" />
             <p className="text-gray-400 text-sm">
               No announcements yet
             </p>
@@ -299,20 +284,17 @@ export default function AnnouncementsPage() {
           <div className="divide-y divide-border">
             {announcements.map((announcement, idx) => {
               const priorityConfig = PRIORITY_CONFIG[announcement.priority];
-              const PriorityIcon = priorityConfig.icon;
-              const TargetIcon =
+              const PriorityIcon: IconName = priorityConfig.icon;
+              const TargetIcon: IconName =
                 announcement.target === "all"
-                  ? Users
+                  ? "Users"
                   : announcement.target === "students"
-                  ? Users
-                  : User;
+                  ? "Users"
+                  : "User";
 
               return (
-                <motion.div
+                <div
                   key={announcement.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.05 }}
                   className="px-6 py-5 hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-start gap-4">
@@ -323,12 +305,11 @@ export default function AnnouncementsPage() {
                         priorityConfig.color.split(" ")[0]
                       )}
                     >
-                      <PriorityIcon
+                      <Icon name={PriorityIcon}
                         className={cn(
                           "w-5 h-5",
                           priorityConfig.color.split(" ")[1]
-                        )}
-                      />
+                        )} />
                     </div>
 
                     <div className="flex-1 min-w-0">
@@ -358,21 +339,21 @@ export default function AnnouncementsPage() {
                       {/* Meta */}
                       <div className="flex items-center gap-4 text-xs text-gray-500">
                         <span className="flex items-center gap-1.5">
-                          <User className="w-3.5 h-3.5" />
+                          <Icon name="User" className="w-3.5 h-3.5" />
                           {announcement.author?.name || "System"}
                         </span>
                         <span className="flex items-center gap-1.5">
-                          <CalendarDays className="w-3.5 h-3.5" />
+                          <Icon name="CalendarDays" className="w-3.5 h-3.5" />
                           {formatDate(announcement.createdAt)}
                         </span>
                         <span className="capitalize flex items-center gap-1.5">
-                          <TargetIcon className="w-3.5 h-3.5" />
+                          <Icon name={TargetIcon} className="w-3.5 h-3.5" />
                           {TARGET_LABELS[announcement.target]}
                         </span>
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>

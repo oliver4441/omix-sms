@@ -1,24 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Bell,
-  Check,
-  CheckCheck,
-  Clock,
-  AlertTriangle,
-  Info,
-  AlertCircle,
-  ArrowUp,
-  Loader2,
-  Inbox,
-  ArrowLeft,
-  Filter,
-  ChevronDown,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Icon } from "@/components/ui/Icon"
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -65,13 +50,13 @@ function getPriorityColor(priority: string): string {
   }
 }
 
-function getPriorityIcon(priority: string) {
+function getPriorityIcon(priority: string): string {
   switch (priority) {
-    case "urgent": return AlertTriangle;
-    case "high": return AlertCircle;
-    case "normal": return Bell;
-    case "low": return Info;
-    default: return Info;
+    case "urgent": return "AlertTriangle";
+    case "high": return "AlertCircle";
+    case "normal": return "Bell";
+    case "low": return "Info";
+    default: return "Info";
   }
 }
 
@@ -113,12 +98,7 @@ function NotificationCard({
   };
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12, height: 0, marginBottom: 0 }}
-      transition={{ type: "spring", stiffness: 300, damping: 28 }}
+    <div
       className={cn(
         "glass rounded-xl border transition-all overflow-hidden",
         !notification.isRead
@@ -137,12 +117,11 @@ function NotificationCard({
                 : "bg-surface-2"
             )}
           >
-            <PriorityIcon
+            <Icon name={PriorityIcon}
               className={cn(
                 "w-4 h-4",
                 getPriorityColor(notification.priority)
-              )}
-            />
+              )} />
           </div>
 
           {/* Content */}
@@ -186,20 +165,18 @@ function NotificationCard({
               {/* Actions */}
               <div className="flex items-center gap-2 flex-shrink-0">
                 {!notification.isRead && (
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
                     onClick={handleMarkRead}
                     disabled={isAnimating}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-omix-400 bg-omix-500/10 hover:bg-omix-500/20 transition-all"
                   >
-                    <Check className="w-3.5 h-3.5" />
+                    <Icon name="Check" className="w-3.5 h-3.5" />
                     Read
-                  </motion.button>
+                  </button>
                 )}
                 {notification.isRead && (
                   <span className="flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] text-gray-500">
-                    <Check className="w-3 h-3" />
+                    <Icon name="Check" className="w-3 h-3" />
                     Read
                   </span>
                 )}
@@ -209,7 +186,7 @@ function NotificationCard({
             {/* Meta */}
             <div className="flex items-center gap-3 mt-2 text-[11px] text-gray-500">
               <span className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
+                <Icon name="Clock" className="w-3 h-3" />
                 {getTimeAgo(notification.createdAt)}
               </span>
               <span>·</span>
@@ -229,13 +206,11 @@ function NotificationCard({
 
       {/* Unread indicator bar */}
       {!notification.isRead && (
-        <motion.div
+        <div
           className="h-0.5 bg-gradient-to-r from-omix-500 to-omix-400"
-          animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         />
       )}
-    </motion.div>
+    </div>
   );
 }
 
@@ -270,10 +245,8 @@ function FilterTabs({
           )}
         >
           {current === tab.key && (
-            <motion.div
-              layoutId="notification-filter-bg"
+            <div
               className="absolute inset-0 bg-omix-500/10 rounded-lg border border-omix-500/20"
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
             />
           )}
           <span className="relative z-10 flex items-center gap-2">
@@ -408,7 +381,7 @@ export default function NotificationsPage() {
                 href="/"
                 className="w-9 h-9 rounded-xl bg-surface-2 border border-border flex items-center justify-center text-gray-400 hover:text-gray-200 transition-all"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <Icon name="ArrowLeft" className="w-4 h-4" />
               </Link>
               <div>
                 <h1 className="text-lg font-bold gradient-text">Notifications</h1>
@@ -421,15 +394,13 @@ export default function NotificationsPage() {
             </div>
 
             {hasUnread && (
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+              <button
                 onClick={handleMarkAllRead}
                 className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-omix-400 bg-omix-500/10 hover:bg-omix-500/20 transition-all"
               >
-                <CheckCheck className="w-4 h-4" />
+                <Icon name="CheckCheck" className="w-4 h-4" />
                 Mark all read
-              </motion.button>
+              </button>
             )}
           </div>
 
@@ -442,13 +413,13 @@ export default function NotificationsPage() {
       <div className="max-w-4xl mx-auto px-4 py-6 space-y-3">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-24">
-            <Loader2 className="w-8 h-8 text-omix-400 animate-spin" />
+            <Icon name="Loader2" className="w-8 h-8 text-omix-400 animate-spin" />
             <p className="text-sm text-gray-500 mt-3">Loading notifications...</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24">
             <div className="w-16 h-16 rounded-2xl bg-surface-2 border border-border flex items-center justify-center mb-4">
-              <Inbox className="w-8 h-8 text-gray-500" />
+              <Icon name="Inbox" className="w-8 h-8 text-gray-500" />
             </div>
             <h3 className="text-base font-semibold text-gray-300">
               {filter === "all"
@@ -464,7 +435,7 @@ export default function NotificationsPage() {
             </p>
           </div>
         ) : (
-          <AnimatePresence mode="popLayout">
+          <div className="space-y-3">
             {filtered.map((notification) => (
               <NotificationCard
                 key={notification.id}
@@ -472,26 +443,22 @@ export default function NotificationsPage() {
                 onMarkRead={handleMarkRead}
               />
             ))}
-          </AnimatePresence>
+          </div>
         )}
-
-        {/* Load more */}
         {!loading && hasMore && filtered.length > 0 && (
           <div className="flex justify-center py-6">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <button
               onClick={handleLoadMore}
               disabled={loadingMore}
               className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium text-gray-400 bg-surface-2 border border-border hover:border-omix-500/20 hover:text-omix-400 transition-all"
             >
               {loadingMore ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Icon name="Loader2" className="w-4 h-4 animate-spin" />
               ) : (
-                <ChevronDown className="w-4 h-4" />
+                <Icon name="ChevronDown" className="w-4 h-4" />
               )}
               {loadingMore ? "Loading..." : "Load more"}
-            </motion.button>
+            </button>
           </div>
         )}
 

@@ -1,13 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
+import { Icon } from "@/components/ui/Icon"
 
 interface StatCardProps {
   title: string;
   value: string | number;
-  icon: LucideIcon;
+  icon: string;
   trend?: { value: number; positive: boolean };
   color?: "omix" | "green" | "blue" | "amber" | "rose";
   subtitle?: string;
@@ -46,18 +45,16 @@ const colorVariants = {
   },
 };
 
-export default function StatCard({ title, value, icon: Icon, trend, color = "omix", subtitle }: StatCardProps) {
+export default function StatCard({ title, value, icon, trend, color = "omix", subtitle }: StatCardProps) {
   const colors = colorVariants[color];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
       className={cn("glass rounded-2xl p-5 glow-sm hover:glow transition-all duration-300", colors.border)}
     >
       <div className="flex items-start justify-between mb-4">
         <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center", colors.bg)}>
-          <Icon className={cn("w-6 h-6", colors.icon)} />
+          <Icon name={icon} className={cn("w-6 h-6", colors.icon)} />
         </div>
         {trend && (
           <span
@@ -75,6 +72,6 @@ export default function StatCard({ title, value, icon: Icon, trend, color = "omi
       <h3 className="text-2xl font-bold text-white mb-1">{value}</h3>
       <p className="text-sm text-gray-400">{title}</p>
       {subtitle && <p className="text-xs text-gray-500 mt-2">{subtitle}</p>}
-    </motion.div>
+    </div>
   );
 }

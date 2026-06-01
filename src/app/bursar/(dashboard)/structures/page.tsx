@@ -1,20 +1,10 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
-import {
-  Receipt,
-  Plus,
-  Loader2,
-  CheckCircle2,
-  AlertTriangle,
-  X,
-  DollarSign,
-  CalendarDays,
-} from "lucide-react";
 import { cn, formatCurrency } from "@/lib/utils";
 import Modal from "@/components/ui/Modal";
 import { z } from "zod";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface FeeStructure {
@@ -162,7 +152,7 @@ export default function BursarStructuresPage() {
           </p>
         </div>
         <div className="glass rounded-2xl p-8 text-center">
-          <AlertTriangle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+          <Icon name="AlertTriangle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
           <p className="text-red-400 mb-4">{error}</p>
           <button
             onClick={fetchStructures}
@@ -178,9 +168,7 @@ export default function BursarStructuresPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -193,16 +181,16 @@ export default function BursarStructuresPage() {
           onClick={openCreateModal}
           className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm"
         >
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           New Structure
         </button>
-      </motion.div>
+      </div>
 
       {/* Success / Error */}
       {success && (
         <div className="glass rounded-2xl p-4 border border-emerald-500/20 bg-emerald-500/5">
           <p className="text-emerald-400 text-sm flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4" />
+            <Icon name="CheckCircle2" className="w-4 h-4" />
             {success}
           </p>
         </div>
@@ -215,12 +203,10 @@ export default function BursarStructuresPage() {
 
       {/* Structures Grid */}
       {structures.length === 0 ? (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <div
           className="glass rounded-2xl p-12 text-center"
         >
-          <Receipt className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <Icon name="Receipt" className="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-300 mb-2">
             No fee structures yet
           </h3>
@@ -233,28 +219,19 @@ export default function BursarStructuresPage() {
           >
             Create Fee Structure
           </button>
-        </motion.div>
+        </div>
       ) : (
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={{
-            visible: { transition: { staggerChildren: 0.05 } },
-          }}
+        <div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
           {structures.map((s) => (
-            <motion.div
+            <div
               key={s.id}
-              variants={{
-                hidden: { opacity: 0, y: 15 },
-                visible: { opacity: 1, y: 0 },
-              }}
               className="glass rounded-xl p-5 border-border hover:glow-sm transition-all duration-300"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="w-10 h-10 rounded-lg bg-omix-500/10 flex items-center justify-center">
-                  <Receipt className="w-5 h-5 text-omix-400" />
+                  <Icon name="Receipt" className="w-5 h-5 text-omix-400" />
                 </div>
                 <span className="text-xs font-medium text-gray-500 bg-surface-2 px-2.5 py-1 rounded-full capitalize">
                   {s.frequency}
@@ -268,7 +245,7 @@ export default function BursarStructuresPage() {
               </p>
               <div className="flex items-center justify-between text-xs text-gray-500">
                 <span className="flex items-center gap-1">
-                  <CalendarDays className="w-3 h-3" />
+                  <Icon name="CalendarDays" className="w-3 h-3" />
                   {s.academicYear}
                 </span>
                 {s._count && (
@@ -280,9 +257,9 @@ export default function BursarStructuresPage() {
                   {s.description}
                 </p>
               )}
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       )}
 
       {/* Create Fee Structure Modal */}
@@ -407,9 +384,9 @@ export default function BursarStructuresPage() {
               className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm disabled:opacity-40"
             >
               {saving ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Icon name="Loader2" className="w-4 h-4 animate-spin" />
               ) : (
-                <DollarSign className="w-4 h-4" />
+                <Icon name="DollarSign" className="w-4 h-4" />
               )}
               Create Structure
             </button>

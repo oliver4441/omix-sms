@@ -1,40 +1,13 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
-import AzureAD from "next-auth/providers/azure-ad";
-import Nodemailer from "next-auth/providers/nodemailer";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  trustHost: true,
   providers: [
-    ...(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET
-      ? [
-          Google({
-            clientId: process.env.AUTH_GOOGLE_ID,
-            clientSecret: process.env.AUTH_GOOGLE_SECRET,
-          }),
-        ]
-      : []),
-    ...(process.env.AUTH_AZURE_AD_CLIENT_ID && process.env.AUTH_AZURE_AD_CLIENT_SECRET
-      ? [
-          AzureAD({
-            clientId: process.env.AUTH_AZURE_AD_CLIENT_ID,
-            clientSecret: process.env.AUTH_AZURE_AD_CLIENT_SECRET,
-            issuer: `https://login.microsoftonline.com/${process.env.AUTH_AZURE_AD_TENANT_ID}/v2.0`,
-          }),
-        ]
-      : []),
-    ...(process.env.EMAIL_SERVER && process.env.EMAIL_FROM
-      ? [
-          Nodemailer({
-            server: process.env.EMAIL_SERVER,
-            from: process.env.EMAIL_FROM,
-          }),
-        ]
-      : []),
     Credentials({
       name: "credentials",
       credentials: {

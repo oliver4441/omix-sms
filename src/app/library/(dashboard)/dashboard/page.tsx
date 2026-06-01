@@ -1,21 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  BookOpen,
-  BookMarked,
-  Clock,
-  AlertTriangle,
-  TrendingUp,
-  ArrowUpRight,
-  Plus,
-  Search,
-  Users,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
 import StatCard from "@/components/ui/StatCard";
 import DataTable from "@/components/ui/DataTable";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface BookCheckout {
@@ -202,10 +191,10 @@ export default function LibraryDashboardPage() {
   ];
 
   const activityIcons: Record<string, React.ReactNode> = {
-    checkout: <BookOpen className="w-4 h-4 text-blue-400" />,
-    return: <BookMarked className="w-4 h-4 text-emerald-400" />,
-    new_book: <Plus className="w-4 h-4 text-omix-400" />,
-    fine: <AlertTriangle className="w-4 h-4 text-amber-400" />,
+    checkout: <Icon name="BookOpen" className="w-4 h-4 text-blue-400" />,
+    return: <Icon name="BookMarked" className="w-4 h-4 text-emerald-400" />,
+    new_book: <Icon name="Plus" className="w-4 h-4 text-omix-400" />,
+    fine: <Icon name="AlertTriangle" className="w-4 h-4 text-amber-400" />,
   };
 
   if (loading) {
@@ -232,7 +221,7 @@ export default function LibraryDashboardPage() {
   if (error) {
     return (
       <div className="glass rounded-2xl p-8 text-center">
-        <AlertTriangle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <Icon name="AlertTriangle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
         <p className="text-red-400 mb-4">{error}</p>
         <button
           onClick={fetchDashboard}
@@ -249,9 +238,7 @@ export default function LibraryDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -263,90 +250,66 @@ export default function LibraryDashboardPage() {
           </p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm text-sm">
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Add Book
         </button>
-      </motion.div>
+      </div>
 
       {/* Stats */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          visible: { transition: { staggerChildren: 0.08 } },
-        }}
+      <div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        <div
         >
           <StatCard
             title="Total Books"
             value={stats.totalBooks.toLocaleString()}
-            icon={BookOpen}
+            icon="BookOpen"
             color="omix"
             trend={{ value: 3, positive: true }}
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Checked Out"
             value={stats.checkedOut}
-            icon={BookMarked}
+            icon="BookMarked"
             color="blue"
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Overdue"
             value={stats.overdue}
-            icon={Clock}
+            icon="Clock"
             color="rose"
             trend={{ value: 8, positive: false }}
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Active Members"
             value={stats.activeMembers}
-            icon={Users}
+            icon="Users"
             color="green"
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Recent Checkouts & Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Checkouts */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+        <div
         >
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white">
               Recent Checkouts
             </h2>
             <button className="flex items-center gap-1 text-sm text-omix-400 hover:text-omix-300 transition-colors">
-              View All <ArrowUpRight className="w-3 h-3" />
+              View All <Icon name="ArrowUpRight" className="w-3 h-3" />
             </button>
           </div>
           <DataTable
@@ -357,13 +320,10 @@ export default function LibraryDashboardPage() {
             pageSize={5}
             emptyMessage="No books currently checked out"
           />
-        </motion.div>
+        </div>
 
         {/* Recent Activity */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
+        <div
         >
           <h2 className="text-lg font-semibold text-white mb-4">
             Recent Activity
@@ -371,22 +331,19 @@ export default function LibraryDashboardPage() {
           <div className="glass rounded-2xl p-6 border-border">
             {activities.length === 0 ? (
               <div className="text-center py-8">
-                <BookOpen className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+                <Icon name="BookOpen" className="w-12 h-12 text-gray-600 mx-auto mb-3" />
                 <p className="text-gray-500 text-sm">No recent activity</p>
               </div>
             ) : (
               <div className="space-y-4">
                 {activities.map((activity, idx) => (
-                  <motion.div
+                  <div
                     key={activity.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.05 }}
                     className="flex items-start gap-3"
                   >
                     <div className="w-8 h-8 rounded-lg bg-surface-2 flex items-center justify-center flex-shrink-0 mt-0.5">
                       {activityIcons[activity.type] || (
-                        <BookOpen className="w-4 h-4 text-gray-400" />
+                        <Icon name="BookOpen" className="w-4 h-4 text-gray-400" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -397,22 +354,20 @@ export default function LibraryDashboardPage() {
                         {formatDate(activity.timestamp)}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             )}
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Empty state */}
       {recentCheckouts.length === 0 && activities.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <div
           className="glass rounded-2xl p-12 text-center"
         >
-          <BookOpen className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <Icon name="BookOpen" className="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-300 mb-2">
             Welcome to the Library
           </h3>
@@ -420,7 +375,7 @@ export default function LibraryDashboardPage() {
             Start by adding books to the collection. Checkout and activity
             records will appear here.
           </p>
-        </motion.div>
+        </div>
       )}
     </div>
   );

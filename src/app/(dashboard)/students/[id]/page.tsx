@@ -2,22 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import {
-  ArrowLeft,
-  Mail,
-  Phone,
-  MapPin,
-  Calendar,
-  User,
-  Shield,
-  Users,
-  BookOpen,
-  DollarSign,
-  Edit,
-  FileSpreadsheet,
-} from "lucide-react";
 import { cn, formatDate, formatCurrency } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface StudentProfile {
   id: string;
@@ -135,14 +121,12 @@ export default function StudentProfilePage() {
         onClick={() => router.back()}
         className="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors text-sm"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <Icon name="ArrowLeft" className="w-4 h-4" />
         Back to Students
       </button>
 
       {/* Profile Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="glass rounded-2xl p-6 border-border"
       >
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -171,26 +155,26 @@ export default function StudentProfilePage() {
             </p>
             <div className="flex items-center gap-4 mt-3 flex-wrap text-sm text-gray-400">
               <span className="capitalize flex items-center gap-1">
-                <User className="w-3.5 h-3.5" /> {student.gender}
+                <Icon name="User" className="w-3.5 h-3.5" /> {student.gender}
               </span>
               <span className="flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5" />{" "}
+                <Icon name="Calendar" className="w-3.5 h-3.5" />{" "}
                 {formatDate(student.createdAt)}
               </span>
               {student.enrollments?.find((e) => e.status === "active") && (
                 <span className="flex items-center gap-1">
-                  <BookOpen className="w-3.5 h-3.5" />{" "}
+                  <Icon name="BookOpen" className="w-3.5 h-3.5" />{" "}
                   {student.enrollments.find((e) => e.status === "active")!.class.name}
                 </span>
               )}
             </div>
           </div>
           <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-omix-500/10 border border-omix-500/20 text-omix-400 hover:bg-omix-500/20 transition-all text-sm">
-            <Edit className="w-4 h-4" />
+            <Icon name="Edit" className="w-4 h-4" />
             Edit
           </button>
         </div>
-      </motion.div>
+      </div>
 
       {/* Info Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -201,7 +185,7 @@ export default function StudentProfilePage() {
           </h2>
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <Calendar className="w-4 h-4 text-gray-500" />
+              <Icon name="Calendar" className="w-4 h-4 text-gray-500" />
               <div>
                 <p className="text-xs text-gray-500">Date of Birth</p>
                 <p className="text-sm text-gray-200">
@@ -212,7 +196,7 @@ export default function StudentProfilePage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <MapPin className="w-4 h-4 text-gray-500" />
+              <Icon name="MapPin" className="w-4 h-4 text-gray-500" />
               <div>
                 <p className="text-xs text-gray-500">Address</p>
                 <p className="text-sm text-gray-200">
@@ -221,7 +205,7 @@ export default function StudentProfilePage() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Shield className="w-4 h-4 text-gray-500" />
+              <Icon name="Shield" className="w-4 h-4 text-gray-500" />
               <div>
                 <p className="text-xs text-gray-500">Status</p>
                 <p className="text-sm capitalize text-gray-200">
@@ -240,7 +224,7 @@ export default function StudentProfilePage() {
           <div className="space-y-3">
             {student.guardianName && (
               <div className="flex items-center gap-3">
-                <Users className="w-4 h-4 text-gray-500" />
+                <Icon name="Users" className="w-4 h-4 text-gray-500" />
                 <div>
                   <p className="text-xs text-gray-500">Name</p>
                   <p className="text-sm text-gray-200">{student.guardianName}</p>
@@ -249,7 +233,7 @@ export default function StudentProfilePage() {
             )}
             {student.guardianPhone && (
               <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-gray-500" />
+                <Icon name="Phone" className="w-4 h-4 text-gray-500" />
                 <div>
                   <p className="text-xs text-gray-500">Phone</p>
                   <p className="text-sm text-gray-200">{student.guardianPhone}</p>
@@ -258,7 +242,7 @@ export default function StudentProfilePage() {
             )}
             {student.guardianEmail && (
               <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-gray-500" />
+                <Icon name="Mail" className="w-4 h-4 text-gray-500" />
                 <div>
                   <p className="text-xs text-gray-500">Email</p>
                   <p className="text-sm text-gray-200">{student.guardianEmail}</p>
@@ -304,7 +288,7 @@ export default function StudentProfilePage() {
       {/* Enrollment History */}
       <div className="glass rounded-2xl p-6 border-border">
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <BookOpen className="w-5 h-5 text-omix-400" />
+          <Icon name="BookOpen" className="w-5 h-5 text-omix-400" />
           Enrollment History
         </h2>
         {student.enrollments.length === 0 ? (
@@ -365,7 +349,7 @@ export default function StudentProfilePage() {
       {/* Grades Table */}
       <div className="glass rounded-2xl p-6 border-border">
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <FileSpreadsheet className="w-5 h-5 text-emerald-400" />
+          <Icon name="FileSpreadsheet" className="w-5 h-5 text-emerald-400" />
           Grade Records
         </h2>
         {student.grades.length === 0 ? (
@@ -436,7 +420,7 @@ export default function StudentProfilePage() {
       {/* Fee Payments */}
       <div className="glass rounded-2xl p-6 border-border">
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <DollarSign className="w-5 h-5 text-amber-400" />
+          <Icon name="DollarSign" className="w-5 h-5 text-amber-400" />
           Fee Payments
         </h2>
         {student.feePayments.length === 0 ? (

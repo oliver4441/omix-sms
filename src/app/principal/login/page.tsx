@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import DepartmentLogin from "@/components/auth/DepartmentLogin";
-import { GraduationCap } from "lucide-react";
+import { Icon } from "@/components/ui/Icon"
 
 function PrincipalLoginPage() {
   return (
@@ -9,7 +9,7 @@ function PrincipalLoginPage() {
       department="Principal's Office"
       departmentName="Principal"
       requiredRole="school_admin"
-      icon={<GraduationCap className="w-10 h-10 text-white" />}
+      icon={<Icon name="GraduationCap" className="w-10 h-10 text-white" />}
       dashboardPath="/principal/dashboard"
     />
   );

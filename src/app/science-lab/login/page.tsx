@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import DepartmentLogin from "@/components/auth/DepartmentLogin";
-import { FlaskConical } from "lucide-react";
+import { Icon } from "@/components/ui/Icon"
 
 function ScienceLabLoginPage() {
   return (
@@ -9,7 +9,7 @@ function ScienceLabLoginPage() {
       department="Science Laboratory"
       departmentName="Science Lab"
       requiredRole="lab_technician"
-      icon={<FlaskConical className="w-10 h-10 text-white" />}
+      icon={<Icon name="FlaskConical" className="w-10 h-10 text-white" />}
       dashboardPath="/science-lab/dashboard"
     />
   );

@@ -4,21 +4,12 @@ import { useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import {
-  LayoutDashboard,
-  GraduationCap,
-  Building2,
-  Shield,
-  Sparkles,
-  Menu,
-  X,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { Icon } from "@/components/ui/Icon"
 
 const sidebarItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin", label: "Dashboard", icon: "LayoutDashboard" },
 ];
 
 export default function AdminLayout({
@@ -42,9 +33,7 @@ export default function AdminLayout({
   if (status === "loading") {
     return (
       <div className="min-h-screen bg-surface flex items-center justify-center">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        <div
           className="w-8 h-8 border-2 border-omix-500/30 border-t-omix-500 rounded-full"
         />
       </div>
@@ -66,23 +55,20 @@ export default function AdminLayout({
       <div className="flex items-center gap-3 px-6 py-6">
         <Link href="/admin" className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-omix-500 to-omix-700 flex items-center justify-center glow-sm flex-shrink-0">
-            <Building2 className="w-5 h-5 text-white" />
+            <Icon name="Building2" className="w-5 h-5 text-white" />
           </div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div
           >
             <h1 className="text-sm font-bold gradient-text leading-tight">omixsystems</h1>
             <p className="text-[10px] text-gray-500">Admin Panel</p>
-          </motion.div>
+          </div>
         </Link>
       </div>
 
       {/* Super Admin Badge */}
       <div className="mx-3 mb-4 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500/10 to-omix-500/10 border border-amber-500/20">
         <div className="flex items-center gap-2">
-          <Shield className="w-3.5 h-3.5 text-amber-400" />
+          <Icon name="Shield" className="w-3.5 h-3.5 text-amber-400" />
           <span className="text-xs font-medium text-amber-400">Super Admin</span>
         </div>
       </div>
@@ -104,19 +90,15 @@ export default function AdminLayout({
               )}
             >
               {active && (
-                <motion.div
-                  layoutId="admin-sidebar-active"
+                <div
                   className="absolute inset-0 bg-gradient-to-r from-omix-500/10 to-transparent rounded-xl"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
-              <item.icon className={cn("w-5 h-5 flex-shrink-0 relative z-10", active && "text-omix-400")} />
+              <Icon name={item.icon} className={cn("w-5 h-5 flex-shrink-0 relative z-10", active && "text-omix-400")} />
               <span className="text-sm font-medium relative z-10">{item.label}</span>
               {active && (
-                <motion.div
-                  layoutId="admin-active-indicator"
+                <div
                   className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-omix-500 rounded-r-full"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
             </Link>
@@ -133,35 +115,29 @@ export default function AdminLayout({
         onClick={() => setMobileOpen(true)}
         className="lg:hidden fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-surface-2 border border-border flex items-center justify-center text-gray-400 hover:text-gray-200"
       >
-        <Menu className="w-5 h-5" />
+        <Icon name="Menu" className="w-5 h-5" />
       </button>
 
       {/* Mobile overlay */}
       {mobileOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+        <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       {/* Mobile sidebar */}
-      <motion.aside
-        initial={{ x: -320 }}
-        animate={mobileOpen ? { x: 0 } : { x: -320 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      <aside
         className="lg:hidden fixed left-0 top-0 bottom-0 w-72 z-50 bg-surface border-r border-border"
       >
         <button
           onClick={() => setMobileOpen(false)}
           className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-gray-400 hover:text-gray-200"
         >
-          <X className="w-4 h-4" />
+          <Icon name="X" className="w-4 h-4" />
         </button>
         {sidebarContent}
-      </motion.aside>
+      </aside>
 
       {/* Desktop sidebar - non-collapsible */}
       <aside className="hidden lg:flex flex-col fixed left-0 top-0 bottom-0 w-64 bg-surface/80 backdrop-blur-xl border-r border-border z-30">
@@ -175,7 +151,7 @@ export default function AdminLayout({
           <div className="flex items-center justify-between h-16 px-4 lg:px-6">
             <div className="flex items-center gap-3">
               <div className="hidden lg:flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-omix-400" />
+                <Icon name="Sparkles" className="w-4 h-4 text-omix-400" />
                 <span className="text-sm text-gray-400">
                   Super Admin Dashboard
                 </span>
@@ -197,7 +173,7 @@ export default function AdminLayout({
                 href="/dashboard"
                 className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent hover:border-white/5 transition-all text-sm"
               >
-                <GraduationCap className="w-4 h-4" />
+                <Icon name="GraduationCap" className="w-4 h-4" />
                 <span>Main App</span>
               </Link>
             </div>

@@ -2,10 +2,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { Plus, Users, Filter } from "lucide-react";
 import DataTable from "@/components/ui/DataTable";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface Enrollment {
   id: string;
@@ -147,7 +146,7 @@ export default function StudentsPage() {
           onClick={() => router.push("/students/new")}
           className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm"
         >
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Add Student
         </button>
       </div>
@@ -166,7 +165,7 @@ export default function StudentsPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-gray-500" />
+            <Icon name="Filter" className="w-4 h-4 text-gray-500" />
             <select
               value={classFilter}
               onChange={(e) => setClassFilter(e.target.value)}

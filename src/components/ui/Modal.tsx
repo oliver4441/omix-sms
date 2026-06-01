@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface ModalProps {
   isOpen: boolean;
@@ -29,25 +28,16 @@ export default function Modal({
   size = "md",
   showClose = true,
 }: ModalProps) {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+  return isOpen ? (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           {/* Overlay */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+          <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={onClose}
           />
 
           {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          <div
             className={cn(
               "relative w-full glass rounded-2xl glow-sm overflow-hidden",
               sizeClasses[size]
@@ -64,7 +54,7 @@ export default function Modal({
                     onClick={onClose}
                     className="w-8 h-8 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-gray-400 hover:text-gray-200 transition-all ml-auto"
                   >
-                    <X className="w-4 h-4" />
+                    <Icon name="X" className="w-4 h-4" />
                   </button>
                 )}
               </div>
@@ -72,9 +62,7 @@ export default function Modal({
 
             {/* Content */}
             <div className="p-6 max-h-[70vh] overflow-y-auto">{children}</div>
-          </motion.div>
+          </div>
         </div>
-      )}
-    </AnimatePresence>
-  );
+      ) : null;
 }

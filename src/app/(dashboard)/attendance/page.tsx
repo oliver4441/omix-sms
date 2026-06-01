@@ -1,20 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  ClipboardCheck,
-  Users,
-  CalendarDays,
-  CheckCircle2,
-  XCircle,
-  Clock,
-  HelpCircle,
-  Save,
-  Loader2,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
 import StatCard from "@/components/ui/StatCard";
+import { Icon } from "@/components/ui/Icon"
 
 interface ClassOption {
   id: string;
@@ -40,11 +29,11 @@ interface AttendanceRecord {
 
 type AttendanceStatus = "present" | "absent" | "late" | "excused";
 
-const STATUS_OPTIONS: { value: AttendanceStatus; label: string; icon: React.ElementType; color: string }[] = [
-  { value: "present", label: "Present", icon: CheckCircle2, color: "emerald" },
-  { value: "absent", label: "Absent", icon: XCircle, color: "red" },
-  { value: "late", label: "Late", icon: Clock, color: "amber" },
-  { value: "excused", label: "Excused", icon: HelpCircle, color: "blue" },
+const STATUS_OPTIONS: { value: AttendanceStatus; label: string; icon: string; color: string }[] = [
+  { value: "present", label: "Present", icon: "CheckCircle2", color: "emerald" },
+  { value: "absent", label: "Absent", icon: "XCircle", color: "red" },
+  { value: "late", label: "Late", icon: "Clock", color: "amber" },
+  { value: "excused", label: "Excused", icon: "HelpCircle", color: "blue" },
 ];
 
 const STATUS_COLORS: Record<AttendanceStatus, string> = {
@@ -204,19 +193,19 @@ export default function AttendancePage() {
         <StatCard
           title="Total Students"
           value={totalRecords}
-          icon={Users}
+          icon="Users"
           color="omix"
         />
         <StatCard
           title="Present Today"
           value={presentCount}
-          icon={CheckCircle2}
+          icon="CheckCircle2"
           color="green"
         />
         <StatCard
           title="Attendance Rate"
           value={`${attendanceRate}%`}
-          icon={ClipboardCheck}
+          icon="ClipboardCheck"
           color="amber"
         />
       </div>
@@ -261,7 +250,7 @@ export default function AttendancePage() {
               className="px-5 py-2.5 bg-surface-2 border border-border rounded-xl text-sm text-gray-300 hover:text-gray-200 hover:bg-surface-3 disabled:opacity-40 transition-all"
             >
               {studentsLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Icon name="Loader2" className="w-4 h-4 animate-spin" />
               ) : (
                 "Refresh"
               )}
@@ -272,9 +261,9 @@ export default function AttendancePage() {
               className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm disabled:opacity-40"
             >
               {saving ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Icon name="Loader2" className="w-4 h-4 animate-spin" />
               ) : (
-                <Save className="w-4 h-4" />
+                <Icon name="Save" className="w-4 h-4" />
               )}
               Save Attendance
             </button>
@@ -286,7 +275,7 @@ export default function AttendancePage() {
       {success && (
         <div className="glass rounded-2xl p-4 border border-emerald-500/20 bg-emerald-500/5">
           <p className="text-emerald-400 text-sm flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4" />
+            <Icon name="CheckCircle2" className="w-4 h-4" />
             {success}
           </p>
         </div>
@@ -323,7 +312,7 @@ export default function AttendancePage() {
 
         {!selectedClass ? (
           <div className="px-6 py-16 text-center">
-            <CalendarDays className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+            <Icon name="CalendarDays" className="w-12 h-12 text-gray-500 mx-auto mb-3" />
             <p className="text-gray-400 text-sm">
               Select a class and date to start recording attendance
             </p>
@@ -339,7 +328,7 @@ export default function AttendancePage() {
           </div>
         ) : students.length === 0 ? (
           <div className="px-6 py-16 text-center">
-            <Users className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+            <Icon name="Users" className="w-12 h-12 text-gray-500 mx-auto mb-3" />
             <p className="text-gray-400 text-sm">
               No students found in this class
             </p>
@@ -370,11 +359,8 @@ export default function AttendancePage() {
                 {students.map((student, idx) => {
                   const currentStatus = getStatus(student.id);
                   return (
-                    <motion.tr
+                    <tr
                       key={student.id}
-                      initial={{ opacity: 0, y: 4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.02 }}
                       className="hover:bg-white/5 transition-colors"
                     >
                       <td className="px-6 py-3 text-sm text-gray-500">
@@ -415,13 +401,13 @@ export default function AttendancePage() {
                                 )}
                                 title={opt.label}
                               >
-                                <opt.icon className="w-3.5 h-3.5" />
+                                <Icon name={opt.icon} className="w-3.5 h-3.5" />
                               </button>
                             );
                           })}
                         </div>
                       </td>
-                    </motion.tr>
+                    </tr>
                   );
                 })}
               </tbody>

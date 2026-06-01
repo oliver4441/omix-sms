@@ -1,24 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  Building2,
-  Calendar,
-  ClipboardList,
-  Users,
-  Lightbulb,
-  ArrowUpRight,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
-  Plus,
-  FileText,
-  MessageSquare,
-} from "lucide-react";
 import { cn, formatDate } from "@/lib/utils";
 import StatCard from "@/components/ui/StatCard";
 import DataTable from "@/components/ui/DataTable";
+import { Icon } from "@/components/ui/Icon"
 export const dynamic = 'force-dynamic';
 
 interface Meeting {
@@ -173,7 +159,7 @@ export default function BoardDashboardPage() {
   if (error) {
     return (
       <div className="glass rounded-2xl p-8 text-center">
-        <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <Icon name="AlertCircle" className="w-12 h-12 text-red-400 mx-auto mb-4" />
         <p className="text-red-400 mb-4">{error}</p>
         <button
           onClick={fetchDashboard}
@@ -190,9 +176,7 @@ export default function BoardDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex items-center justify-between"
       >
         <div>
@@ -204,82 +188,58 @@ export default function BoardDashboardPage() {
           </p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 text-white font-medium rounded-xl transition-all duration-300 glow-sm text-sm">
-          <Plus className="w-4 h-4" />
+          <Icon name="Plus" className="w-4 h-4" />
           Schedule Meeting
         </button>
-      </motion.div>
+      </div>
 
       {/* Stats */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          visible: { transition: { staggerChildren: 0.08 } },
-        }}
+      <div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        <div
         >
           <StatCard
             title="Upcoming Meetings"
             value={stats.upcomingMeetings}
-            icon={Calendar}
+            icon="Calendar"
             color="omix"
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Meeting Minutes"
             value={stats.totalMinutes}
-            icon={ClipboardList}
+            icon="ClipboardList"
             color="blue"
             trend={{ value: 4, positive: true }}
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="New Suggestions"
             value={stats.newSuggestions}
-            icon={Lightbulb}
+            icon="Lightbulb"
             color="amber"
           />
-        </motion.div>
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
+        </div>
+        <div
         >
           <StatCard
             title="Board Members"
             value={stats.boardMembers}
-            icon={Users}
+            icon="Users"
             color="green"
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Upcoming Meetings & Recent Suggestions */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Upcoming Meetings */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+        <div
         >
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white">
@@ -289,13 +249,13 @@ export default function BoardDashboardPage() {
               href="/board/dashboard/meetings"
               className="flex items-center gap-1 text-sm text-omix-400 hover:text-omix-300 transition-colors"
             >
-              View All <ArrowUpRight className="w-3 h-3" />
+              View All <Icon name="ArrowUpRight" className="w-3 h-3" />
             </a>
           </div>
           <div className="glass rounded-2xl p-6 border-border">
             {upcomingMeetings.length === 0 ? (
               <div className="text-center py-8">
-                <Calendar className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+                <Icon name="Calendar" className="w-12 h-12 text-gray-600 mx-auto mb-3" />
                 <p className="text-gray-500 text-sm">
                   No upcoming meetings scheduled
                 </p>
@@ -303,11 +263,8 @@ export default function BoardDashboardPage() {
             ) : (
               <div className="space-y-4">
                 {upcomingMeetings.map((meeting, idx) => (
-                  <motion.div
+                  <div
                     key={meeting.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.08 }}
                     className="flex items-start gap-4 p-4 rounded-xl bg-surface-2/50 border border-border hover:bg-surface-2 transition-all"
                   >
                     <div className="w-12 h-12 rounded-xl bg-omix-500/10 flex flex-col items-center justify-center flex-shrink-0">
@@ -326,11 +283,11 @@ export default function BoardDashboardPage() {
                       </h3>
                       <div className="flex items-center gap-3 mt-1.5">
                         <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <Clock className="w-3 h-3" />
+                          <Icon name="Clock" className="w-3 h-3" />
                           <span>{meeting.time}</span>
                         </div>
                         <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <Users className="w-3 h-3" />
+                          <Icon name="Users" className="w-3 h-3" />
                           <span>{meeting.attendeeCount} attendees</span>
                         </div>
                       </div>
@@ -344,18 +301,15 @@ export default function BoardDashboardPage() {
                       {meeting.status.charAt(0).toUpperCase() +
                         meeting.status.slice(1)}
                     </span>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             )}
           </div>
-        </motion.div>
+        </div>
 
         {/* Recent Suggestions */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
+        <div
         >
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white">
@@ -365,13 +319,13 @@ export default function BoardDashboardPage() {
               href="/board/dashboard/suggestions"
               className="flex items-center gap-1 text-sm text-omix-400 hover:text-omix-300 transition-colors"
             >
-              View All <ArrowUpRight className="w-3 h-3" />
+              View All <Icon name="ArrowUpRight" className="w-3 h-3" />
             </a>
           </div>
           <div className="glass rounded-2xl p-6 border-border">
             {recentSuggestions.length === 0 ? (
               <div className="text-center py-8">
-                <Lightbulb className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+                <Icon name="Lightbulb" className="w-12 h-12 text-gray-600 mx-auto mb-3" />
                 <p className="text-gray-500 text-sm">
                   No suggestions submitted yet
                 </p>
@@ -379,15 +333,12 @@ export default function BoardDashboardPage() {
             ) : (
               <div className="space-y-4">
                 {recentSuggestions.map((suggestion, idx) => (
-                  <motion.div
+                  <div
                     key={suggestion.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.08 }}
                     className="flex items-start gap-3 p-4 rounded-xl bg-surface-2/50 border border-border hover:bg-surface-2 transition-all"
                   >
                     <div className="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Lightbulb className="w-5 h-5 text-amber-400" />
+                      <Icon name="Lightbulb" className="w-5 h-5 text-amber-400" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm font-medium text-gray-200">
@@ -412,22 +363,20 @@ export default function BoardDashboardPage() {
                         </span>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             )}
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Empty state */}
       {upcomingMeetings.length === 0 && recentSuggestions.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+        <div
           className="glass rounded-2xl p-12 text-center"
         >
-          <Building2 className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+          <Icon name="Building2" className="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-300 mb-2">
             Welcome to the Board Portal
           </h3>
@@ -435,7 +384,7 @@ export default function BoardDashboardPage() {
             Schedule your first meeting and start tracking board activities,
             minutes, and suggestions from stakeholders.
           </p>
-        </motion.div>
+        </div>
       )}
     </div>
   );

@@ -1,17 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Send,
-  Bot,
-  User,
-  Loader2,
-  Sparkles,
-  RefreshCw,
-  AlertCircle,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon"
 
 interface Message {
   id: string;
@@ -119,7 +110,7 @@ export default function AIPage() {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="text-2xl font-bold gradient-text flex items-center gap-3">
-            <Sparkles className="w-6 h-6 text-omix-400" />
+            <Icon name="Sparkles" className="w-6 h-6 text-omix-400" />
             AI Assistant
           </h1>
           <p className="text-gray-400 text-sm mt-1">
@@ -130,7 +121,7 @@ export default function AIPage() {
           onClick={clearChat}
           className="flex items-center gap-2 px-4 py-2 bg-surface-2 border border-border rounded-xl text-sm text-gray-400 hover:text-gray-200 transition-all"
         >
-          <RefreshCw className="w-4 h-4" />
+          <Icon name="RefreshCw" className="w-4 h-4" />
           New Chat
         </button>
       </div>
@@ -138,13 +129,10 @@ export default function AIPage() {
       {/* Messages Container */}
       <div className="flex-1 glass rounded-2xl border-border overflow-hidden flex flex-col">
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          <AnimatePresence initial={false}>
+          
             {messages.map((msg) => (
-              <motion.div
+              <div
                 key={msg.id}
-                initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
                 className={cn(
                   "flex gap-3",
                   msg.role === "user" ? "justify-end" : "justify-start"
@@ -153,7 +141,7 @@ export default function AIPage() {
                 {/* Assistant Avatar */}
                 {msg.role === "assistant" && (
                   <div className="w-9 h-9 rounded-xl bg-omix-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Bot className="w-5 h-5 text-omix-400" />
+                    <Icon name="Bot" className="w-5 h-5 text-omix-400" />
                   </div>
                 )}
 
@@ -191,63 +179,45 @@ export default function AIPage() {
                 {/* User Avatar */}
                 {msg.role === "user" && (
                   <div className="w-9 h-9 rounded-xl bg-surface-3 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <User className="w-5 h-5 text-gray-400" />
+                    <Icon name="User" className="w-5 h-5 text-gray-400" />
                   </div>
                 )}
-              </motion.div>
+              </div>
             ))}
-          </AnimatePresence>
+          
 
           {/* Typing Indicator */}
           {loading && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+            <div
               className="flex gap-3"
             >
               <div className="w-9 h-9 rounded-xl bg-omix-500/10 flex items-center justify-center flex-shrink-0">
-                <Bot className="w-5 h-5 text-omix-400" />
+                <Icon name="Bot" className="w-5 h-5 text-omix-400" />
               </div>
               <div className="glass rounded-2xl rounded-tl-md px-5 py-4 border border-border">
                 <div className="flex items-center gap-1.5">
-                  <motion.span
-                    animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{ duration: 1.2, repeat: Infinity }}
+                  <span
                     className="w-2 h-2 rounded-full bg-omix-400"
                   />
-                  <motion.span
-                    animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{
-                      duration: 1.2,
-                      repeat: Infinity,
-                      delay: 0.2,
-                    }}
+                  <span
                     className="w-2 h-2 rounded-full bg-omix-400"
                   />
-                  <motion.span
-                    animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{
-                      duration: 1.2,
-                      repeat: Infinity,
-                      delay: 0.4,
-                    }}
+                  <span
                     className="w-2 h-2 rounded-full bg-omix-400"
                   />
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {/* Error */}
           {error && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+            <div
               className="flex items-center justify-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20"
             >
-              <AlertCircle className="w-4 h-4 text-red-400" />
+              <Icon name="AlertCircle" className="w-4 h-4 text-red-400" />
               <span className="text-sm text-red-400">{error}</span>
-            </motion.div>
+            </div>
           )}
 
           <div ref={messagesEndRef} />
@@ -274,9 +244,9 @@ export default function AIPage() {
               className="w-11 h-11 rounded-xl bg-gradient-to-r from-omix-600 to-omix-500 hover:from-omix-500 hover:to-omix-400 flex items-center justify-center transition-all duration-300 glow-sm disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {loading ? (
-                <Loader2 className="w-5 h-5 text-white animate-spin" />
+                <Icon name="Loader2" className="w-5 h-5 text-white animate-spin" />
               ) : (
-                <Send className="w-5 h-5 text-white" />
+                <Icon name="Send" className="w-5 h-5 text-white" />
               )}
             </button>
           </form>
